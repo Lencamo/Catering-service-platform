@@ -1,28 +1,46 @@
 const { orderRequest } = require('../../index.js')
 
 class fileService {
-  async upload(filename, mimetype, size, user_id) {
-    const statement = 'INSERT INTO t_avatar(filename, mimetype, size, user_id) VALUES (?, ?, ?, ?);'
+  async storeAvatar(filename, mimetype, size, avatar_url, user_id) {
+    const statement = `db.collection("c_user").where({
+      _id: "${user_id}"
+    }).update({data: {
+      avatar: {
+        avatar_url: "${avatar_url}",
+        filename: "${filename}",
+        mimetype: "${mimetype}",
+        size: "${size}",
+      }
+    }})`
 
-    const [result] = await connection.execute(statement, [filename, mimetype, size, user_id])
+    const { data: result } = await orderRequest.post({
+      url: '/databaseupdate',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
 
     return result
   }
 
   async show(user_id) {
-    const statement = 'SELECT * FROM t_avatar WHERE user_id = ?;'
+    const statement = `db.collection("c_user").where({
+      _id: "${user_id}"
+    })
+    .field({
+      avatar: true,
+    }).get()`
 
-    const [result] = await connection.execute(statement, [user_id])
+    const { data: result } = await orderRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
 
-    return result.pop()
-  }
-
-  async storeAvatarUrl(avatar_url, user_id) {
-    const statement = 'UPDATE t_user SET avatar_url = ? WHERE id = ?;'
-
-    const [result] = await connection.execute(statement, [avatar_url, user_id])
-
-    return result
+    return JSON.parse(result.data)
   }
 }
 

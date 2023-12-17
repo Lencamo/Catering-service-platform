@@ -9,7 +9,7 @@ const fileRouter = new Router({
 })
 
 // 上传头像
-fileRouter.post('/avatar', verifyAuth, uploadFileHandle, fileController.upload)
+fileRouter.post('/avatar', verifyAuth, uploadFileHandle, fileController.storeAvatar)
 
 // 获取头像
 fileRouter.get('/:userId/avatar', fileController.show)
