@@ -7,7 +7,13 @@ class userService {
     const statement = `db.collection("c_user").add({
       data: [{
         username: "${username}",
-        password: "${password}"
+        password: "${password}",
+        avatar: {
+          avatar_url: null,
+          filename: null,
+          mimetype: null,
+          size: null,
+        }
       }]
     })`
 
