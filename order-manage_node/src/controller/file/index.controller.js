@@ -1,6 +1,6 @@
 const { createReadStream } = require('node:fs')
 const { UPLOAD_PATH, APP_HOST, APP_PORT } = require('../../config/dotenv.js')
-const fileService = require('../../service/file/index.service.js')
+const fileService = require('../../service/modules/file/index.service.js')
 
 class fileController {
   async upload(ctx, next) {

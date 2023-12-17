@@ -1,7 +1,7 @@
 const { md5Password } = require('../../utils/handle-password.js')
 
 const { NAME_OR_PASSWORD_IS_REQUIRED, NAME_ALREADY_EXISTS } = require('../../config/constants.js')
-const userService = require('../../service/user/index.service.js')
+const userService = require('../../service/modules/user/index.service.js')
 
 const verifyUser = async (ctx, next) => {
   const { username, password } = ctx.request.body

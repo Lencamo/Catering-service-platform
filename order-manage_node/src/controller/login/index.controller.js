@@ -3,7 +3,7 @@ const { tokenSign } = require('../../app/jwt.js')
 class loginController {
   async sign(ctx, next) {
     // 1、接收数据
-    const { id, username } = ctx.user
+    const { _id: id, username } = ctx.user
 
     // 2、颁发token令牌
     const payload = { id, username }
