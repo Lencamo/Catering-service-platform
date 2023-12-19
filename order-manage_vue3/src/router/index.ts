@@ -15,8 +15,15 @@ const router = createRouter({
     },
     {
       path: '/home',
+      name: 'main',
       component: () => import('../view/home/home.vue')
     },
+
+    // 模块开发部分
+
+    // ……
+
+    //
     {
       path: '/demo',
       component: () => import('../view/demo/demo.vue')
