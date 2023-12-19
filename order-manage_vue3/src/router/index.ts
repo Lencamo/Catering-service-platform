@@ -41,8 +41,14 @@ router.beforeEach((to, from) => {
   const token = localCache.getCache(LOGIN_TOKEN)
 
   // 进入后台token判断
-  if (to.path.startsWith('/home') && !token) {
+  if (/^\/(home|main)/.test(to.path) && !token) {
     return '/login'
+  }
+
+  // 设置初次进入pages
+  if (to.path === '/home' && token) {
+    // 默认重定向到第一个菜单
+    return '/main/analysis'
   }
 })
 

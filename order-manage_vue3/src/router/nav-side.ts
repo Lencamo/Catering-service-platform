@@ -1,7 +1,7 @@
 export default [
   {
-    path: '/analysis',
-    component: () => import('../view/login/login.vue'),
+    path: '/main/analysis',
+    component: () => import('@/pages/analysis/analysis.vue'),
     meta: {
       id: 1,
       title: '数据分析',
@@ -9,8 +9,8 @@ export default [
     }
   },
   {
-    path: '/order',
-    component: () => import('../view/login/login.vue'),
+    path: '/main/order',
+    component: () => import('@/pages/order/order.vue'),
     meta: {
       id: 2,
       title: '订单管理',
@@ -18,8 +18,8 @@ export default [
     }
   },
   {
-    path: '/food',
-    component: () => import('../view/login/login.vue'),
+    path: '/main/food',
+    component: () => import('@/pages/food/food.vue'),
     meta: {
       id: 3,
       title: '菜品管理',
@@ -27,8 +27,8 @@ export default [
     }
   },
   {
-    path: '/category',
-    component: () => import('../view/login/login.vue'),
+    path: '/main/category',
+    component: () => import('@/pages/category/category.vue'),
     meta: {
       id: 4,
       title: '菜品类目',
@@ -36,8 +36,8 @@ export default [
     }
   },
   {
-    path: '/table',
-    component: () => import('../view/login/login.vue'),
+    path: '/main/table',
+    component: () => import('@/pages/table/table.vue'),
     meta: {
       id: 5,
       title: '桌号管理',
@@ -45,8 +45,8 @@ export default [
     }
   },
   {
-    path: '/setting',
-    component: () => import('../view/login/login.vue'),
+    path: '/main/setting',
+    component: () => import('@/pages/setting/setting.vue'),
     meta: {
       id: 6,
       title: '店铺设置',

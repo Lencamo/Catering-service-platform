@@ -13,7 +13,9 @@ const useloginStore = defineStore('login', {
   state: () => ({
     id: '',
     username: '',
-    token: localCache.getCache(LOGIN_TOKEN) ?? ''
+    token: localCache.getCache(LOGIN_TOKEN) ?? '',
+    localRoutes: [] as RouteRecordRaw[],
+    routeMetas: [] as IMeta[]
   }),
   getters: {
     //
@@ -33,9 +35,11 @@ const useloginStore = defineStore('login', {
         // 2、token缓存
         localCache.setCache(LOGIN_TOKEN, this.token)
 
-        // 3、本地路由 批量注册
-        const localRoutes: RouteRecordRaw[] = []
-        const routeMetas: IMeta[] = []
+        // =======
+
+        // 1、获取 nav-side 数据
+        let localRoutes: RouteRecordRaw[] = []
+
         const modules: Record<string, any> = import.meta.glob('../../router/nav-side.ts', {
           eager: true,
           import: 'default'
@@ -43,20 +47,23 @@ const useloginStore = defineStore('login', {
 
         for (const key in modules) {
           // console.log(modules[key])
-
           localRoutes.push(...modules[key])
         }
+        this.localRoutes = localRoutes
+
+        // 2、本地路由注册、视图渲染
+        let routeMetas: IMeta[] = []
 
         localRoutes.forEach((route) => {
           // console.log(route)
           // 视图数据
-          routeMetas.push(route.meta as unknown as IMeta)
+          const meta = { ...(route.meta as unknown as IMeta), url: route.path }
+          routeMetas.push(meta)
 
-          // 路由注册
+          // 批量注册
           router.addRoute('main', route)
         })
-
-        console.log(routeMetas)
+        this.routeMetas = routeMetas
       } else {
         ElMessage.error(res.message)
       }
