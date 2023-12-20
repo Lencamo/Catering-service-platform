@@ -13,11 +13,11 @@
       >
         <template v-for="item in routeMetas" :key="item.id">
           <el-menu-item :index="item.id + ''" @click="handleMenuItemClick(item)">
+            <el-icon>
+              <!-- 动态图标组件 -->
+              <component :is="item.icon" />
+            </el-icon>
             <template #title>
-              <el-icon>
-                <!-- 动态图标组件 -->
-                <component :is="item.icon" />
-              </el-icon>
               <span>{{ item.title }}</span>
             </template>
           </el-menu-item>
