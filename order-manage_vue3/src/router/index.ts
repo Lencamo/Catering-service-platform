@@ -1,6 +1,7 @@
 import { LOGIN_TOKEN } from '@/config/constants'
 import { localCache } from '@/utils/cache'
 import { createRouter, createWebHistory } from 'vue-router'
+import { firstMenuItem } from '@/utils/initStaticRoutes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,11 +17,7 @@ const router = createRouter({
     {
       path: '/home',
       name: 'main',
-      component: () => import('../view/home/home.vue'),
-
-      redirect: '/main/analysis',
-      // 后续通过addRoute批量注册
-      children: []
+      component: () => import('../view/home/home.vue')
     },
 
     // 模块开发部分
@@ -50,10 +47,11 @@ router.beforeEach((to, from) => {
   }
 
   // 设置初次进入pages
-  // if (to.path === '/home' && token) {
-  //   // 默认重定向到第一个菜单
-  //   return '/main/analysis'
-  // }
+  if (to.path === '/home' && token) {
+    // 默认重定向到第一个菜单
+    // console.log(firstMenuItem)
+    return firstMenuItem.path
+  }
 })
 
 export default router
