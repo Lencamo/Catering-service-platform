@@ -21,3 +21,11 @@ export function phoneLoginApi(account: any) {
     data: account
   })
 }
+
+// =========
+
+export function getUserInfoApi(userId: number) {
+  return tingRequest.get({
+    url: `/user/${userId}`
+  })
+}

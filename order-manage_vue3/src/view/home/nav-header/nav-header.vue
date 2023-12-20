@@ -13,8 +13,8 @@
     <div class="right">
       <el-dropdown>
         <div class="drop">
-          <img src="@/assets/imgs/default.png" alt="" />
-          <span>{{ loginStore.username }} &ensp;</span>
+          <img :src="userInfo.avatar.avatar_url || defalultImg" alt="" />
+          <span>{{ userInfo.username }} &ensp;</span>
           <el-icon><arrow-down /></el-icon>
         </div>
         <template #dropdown>
@@ -31,14 +31,17 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import defalultImg from '@/assets/imgs/default.png'
 
 import { LOGIN_TOKEN } from '@/config/constants.ts'
 import { localCache } from '@/utils/cache'
 import { useRouter, useRoute } from 'vue-router'
 import useloginStore from '@/stores/login/login'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const loginStore = useloginStore()
+const { userInfo } = storeToRefs(loginStore)
 
 // 退出登录
 const handleLogoutBtn = () => {

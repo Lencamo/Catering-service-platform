@@ -1,17 +1,16 @@
 import { defineStore } from 'pinia'
 
-import { pwdLoginApi } from '../../services/modules/login/login.ts'
+import { getUserInfoApi, pwdLoginApi } from '../../services/modules/login/login.ts'
 
 import type { IAccount, IMeta } from '@/types/login/login.ts'
 import { localCache } from '@/utils/cache.ts'
-import { LOGIN_TOKEN } from '@/config/constants.ts'
+import { LOGIN_TOKEN, LOGIN_USERINFO } from '@/config/constants.ts'
 import { initStaticRoutes } from '@/utils/initStaticRoutes.ts'
 
 const useloginStore = defineStore('login', {
   state: () => ({
-    id: '',
-    username: '',
     token: '',
+    userInfo: null as any,
     routeMetas: [] as IMeta[]
   }),
   getters: {
@@ -25,8 +24,8 @@ const useloginStore = defineStore('login', {
       // console.log(res)
 
       if (!res.code) {
-        this.id = res.data.id
-        this.username = res.data.username
+        const userId = res.data.id
+        const username = res.data.username
         this.token = res.data.token
 
         // 2、token缓存
@@ -34,7 +33,15 @@ const useloginStore = defineStore('login', {
 
         // =====
 
-        // 3、本地静态路由-批量注册
+        // 1、获取用户
+        const { data: res2 } = await getUserInfoApi(userId)
+        const userInfo = res2.data
+        this.userInfo = userInfo
+
+        // 缓存用户信息
+        localCache.setCache(LOGIN_USERINFO, this.userInfo)
+
+        // 2、本地静态路由-批量注册
         const routeMetas = initStaticRoutes()
         this.routeMetas = routeMetas
       } else {
@@ -44,11 +51,13 @@ const useloginStore = defineStore('login', {
 
     routesCacheAction() {
       const token = localCache.getCache(LOGIN_TOKEN)
+      const userInfo = localCache.getCache(LOGIN_USERINFO)
 
       // 确保当前已经login
       if (token) {
         // 使用缓存数据
         this.token = token
+        this.userInfo = userInfo
 
         // 根据缓存-复原路由
         const routeMetas = initStaticRoutes()
