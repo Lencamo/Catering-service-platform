@@ -34,7 +34,7 @@ const routeMetas = loginStore.routeMetas
 // 路由跳转
 const router = useRouter()
 const handleMenuItemClick = (item: any) => {
-  router.replace(item.url)
+  router.push(item.url)
 }
 
 // aside折叠功能

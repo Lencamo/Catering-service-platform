@@ -16,7 +16,11 @@ const router = createRouter({
     {
       path: '/home',
       name: 'main',
-      component: () => import('../view/home/home.vue')
+      component: () => import('../view/home/home.vue'),
+
+      redirect: '/main/analysis',
+      // 后续通过addRoute批量注册
+      children: []
     },
 
     // 模块开发部分
@@ -46,10 +50,10 @@ router.beforeEach((to, from) => {
   }
 
   // 设置初次进入pages
-  if (to.path === '/home' && token) {
-    // 默认重定向到第一个菜单
-    return '/main/analysis'
-  }
+  // if (to.path === '/home' && token) {
+  //   // 默认重定向到第一个菜单
+  //   return '/main/analysis'
+  // }
 })
 
 export default router

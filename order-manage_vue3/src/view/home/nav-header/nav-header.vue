@@ -14,7 +14,7 @@
       <el-dropdown>
         <div class="drop">
           <img src="@/assets/imgs/default.png" alt="" />
-          <span>admin &ensp;</span>
+          <span>{{ loginStore.username }} &ensp;</span>
           <el-icon><arrow-down /></el-icon>
         </div>
         <template #dropdown>
@@ -35,8 +35,10 @@ import { ref, computed } from 'vue'
 import { LOGIN_TOKEN } from '@/config/constants.ts'
 import { localCache } from '@/utils/cache'
 import { useRouter, useRoute } from 'vue-router'
+import useloginStore from '@/stores/login/login'
 
 const router = useRouter()
+const loginStore = useloginStore()
 
 // 退出登录
 const handleLogoutBtn = () => {
