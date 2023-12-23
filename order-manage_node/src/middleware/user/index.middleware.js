@@ -1,15 +1,14 @@
 const { md5Password } = require('../../utils/handle-password.js')
+const { userSchema } = require('../../schema/user.schema.js')
 
-const { NAME_OR_PASSWORD_IS_REQUIRED, NAME_ALREADY_EXISTS } = require('../../config/constants.js')
+const { NAME_ALREADY_EXISTS } = require('../../config/constants.js')
 const userService = require('../../service/modules/user/index.service.js')
 
 const verifyUser = async (ctx, next) => {
   const { username, password } = ctx.request.body
 
-  // 1、验证是否为空
-  if (!username || !password) {
-    return ctx.app.emit('error', NAME_OR_PASSWORD_IS_REQUIRED, ctx)
-  }
+  // 1、数据合法性校验
+  const joiResult = await userSchema.validateAsync({ username, password })
 
   // 2、验证用户名是否占用
   const users = await userService.findUserByName(username)

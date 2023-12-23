@@ -1,5 +1,4 @@
 const {
-  NAME_OR_PASSWORD_IS_REQUIRED,
   NAME_ALREADY_EXISTS,
   NAME_NOT_EXISTS,
   PASSWORD_IS_INCORRENT,
@@ -12,10 +11,6 @@ const errorHandle = (err, ctx) => {
   let message = ''
 
   switch (err) {
-    case NAME_OR_PASSWORD_IS_REQUIRED:
-      code = -1001
-      message = '用户名或者密码不能为空~~'
-      break
     case NAME_ALREADY_EXISTS:
       code = -1002
       message = '用户名已被注册，请输入新的用户名~~'
