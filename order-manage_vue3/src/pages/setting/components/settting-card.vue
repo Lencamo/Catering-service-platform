@@ -10,13 +10,13 @@
       <div class="body-box">
         <template v-for="item in cardData.heads">
           <!--  -->
-          <span v-if="item.type === 'text'">
-            <el-text tag="b">{{ item.name }}：</el-text>
-            <el-text tag="ins">{{ item.value }}</el-text>
-          </span>
           <span v-if="item.type === 'image'">
             <el-text tag="b">{{ item.name }}：</el-text>
-            <el-avatar shape="square" :size="100" fit="fill" :src="item.value" />
+            <el-avatar shape="square" :size="100" fit="cover" :src="item.value" />
+          </span>
+          <span v-else>
+            <el-text tag="b">{{ item.name }}：</el-text>
+            <el-text tag="ins">{{ item.value }}</el-text>
           </span>
         </template>
       </div>
@@ -25,7 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import type { ICardData } from '@/types/main/setting.d.ts'
 
 interface IProps {
@@ -45,7 +44,6 @@ const handleEditBtn = (title: string) => {
 <style lang="scss" scoped>
 .setting-card {
   padding: 18px;
-  flex: 1;
 
   .top-box {
     display: flex;

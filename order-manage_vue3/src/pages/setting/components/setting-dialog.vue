@@ -1,17 +1,28 @@
 <template>
   <div class="settting-dialog">
-    <el-dialog v-model="dialogVisible" :title="cardData.title" width="30%" draggable>
-      <el-form :model="FormData" label-position="top" label-width="100px" style="max-width: 460px">
+    <el-dialog v-model="dialogVisible" :title="cardData.title" width="400px" draggable>
+      <el-form :model="cardForm" label-position="top" label-width="100px" style="max-width: 460px">
         <template v-for="item in cardData.heads">
           <!--  -->
           <span v-if="item.type === 'text'">
             <el-form-item :label="item.name">
-              <el-input v-model="FormData[item.variable]" />
+              <el-input v-model="cardForm[item.variable]" />
+            </el-form-item>
+          </span>
+          <span v-if="item.type === 'password'">
+            <el-form-item :label="item.name">
+              <el-input type="password" show-password v-model="cardForm[item.variable]" />
             </el-form-item>
           </span>
           <span v-if="item.type === 'image'">
             <div style="padding-bottom: 12px">{{ item.name }}</div>
-            <el-upload v-model:file-list="fileList" list-type="picture-card">
+            <el-upload
+              ref="uploadRef"
+              v-model:file-list="FileList"
+              list-type="picture-card"
+              :limit="1"
+              :auto-upload="false"
+            >
               <el-icon><Plus /></el-icon>
             </el-upload>
           </span>
@@ -32,21 +43,34 @@
 import { ref, reactive } from 'vue'
 import type { ICardData } from '@/types/main/setting.d.ts'
 import { Plus } from '@element-plus/icons-vue'
-import type { UploadProps, UploadUserFile } from 'element-plus'
+import type { UploadUserFile } from 'element-plus'
 
 const dialogVisible = ref(false)
 
 // 卡片数据
 let cardData: ICardData = reactive({
   title: '',
-  heads: []
+  heads: [],
+  formData: {}
 })
 
 // 表单数据
-let FormData: any = reactive({})
+let cardForm = reactive<any>({})
 
 // 图片数据
-const fileList = ref<UploadUserFile[]>([])
+const FileList = ref<UploadUserFile[]>([
+  {
+    name: 'file',
+    url: ''
+  }
+])
+
+// upload组件
+// - 覆盖前一个图片
+// 略
+
+// - 预览选中的图片
+// 略
 
 // 显示弹窗
 const setSettingDialogVisible = (payload: ICardData) => {
@@ -55,11 +79,20 @@ const setSettingDialogVisible = (payload: ICardData) => {
   // 移除表单验证
   // 交给后端算了😂
 
-  // 更新FormData属性
-  FormData = {}
+  // 更新cardForm属性
+  cardData = {
+    title: '',
+    heads: [],
+    formData: {}
+  }
+  cardForm = null
 
   // 初始化数据
+  const { formData } = payload
   cardData = payload
+  cardForm = formData
+
+  FileList.value[0].url = cardForm.image[Object.keys(cardForm.image)[1]]
 }
 
 defineExpose({ setSettingDialogVisible })
