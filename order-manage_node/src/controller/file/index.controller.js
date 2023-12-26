@@ -28,12 +28,12 @@ class fileController {
 
     // 2、数据库交互
     const result = await fileService.show(user_id)
-    const { filename, mimetype } = result.avatar
+    const { name, mimetype } = result.avatar
 
     // 3、发送响应信息
     // - 图片处理🤔
     ctx.type = mimetype
-    ctx.body = createReadStream(`${UPLOAD_PATH}/${filename}`)
+    ctx.body = createReadStream(`${UPLOAD_PATH}/${name}`)
   }
 }
 

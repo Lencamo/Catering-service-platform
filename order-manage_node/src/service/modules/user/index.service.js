@@ -9,8 +9,8 @@ class userService {
         username: "${username}",
         password: "${password}",
         avatar: {
-          avatar_url: null,
-          filename: null,
+          name: null,
+          url: null,
           mimetype: null,
           size: null,
         }

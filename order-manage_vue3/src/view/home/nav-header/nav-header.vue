@@ -13,7 +13,7 @@
     <div class="right">
       <el-dropdown>
         <div class="drop">
-          <img :src="userInfo.avatar.avatar_url || defalultImg" alt="" />
+          <img :src="userInfo.avatar.url || defalultImg" alt="" />
           <span>{{ userInfo.username }} &ensp;</span>
           <el-icon><arrow-down /></el-icon>
         </div>

@@ -3,7 +3,6 @@
     <el-dialog v-model="dialogVisible" :title="cardData.title" width="400px" draggable>
       <el-form :model="cardForm" label-position="top" label-width="100px" style="max-width: 460px">
         <template v-for="item in cardData.heads">
-          <!--  -->
           <span v-if="item.type === 'text'">
             <el-form-item :label="item.name">
               <el-input v-model="cardForm[item.variable]" />
@@ -11,7 +10,7 @@
           </span>
           <span v-if="item.type === 'password'">
             <el-form-item :label="item.name">
-              <el-input type="password" show-password v-model="cardForm[item.variable]" />
+              <el-input disabled type="password" show-password v-model="cardForm[item.variable]" />
             </el-form-item>
           </span>
           <span v-if="item.type === 'image'">
@@ -88,11 +87,14 @@ const setSettingDialogVisible = (payload: ICardData) => {
   cardForm = null
 
   // 初始化数据
-  const { formData } = payload
   cardData = payload
-  cardForm = formData
+  cardForm = payload.formData
 
-  FileList.value[0].url = cardForm.image[Object.keys(cardForm.image)[1]]
+  let lastkey = Object.keys(payload.formData).find((item) => {
+    return item === 'avatar' || item === 'logo'
+  }) as string
+
+  FileList.value[0].url = payload.formData[lastkey].url
 }
 
 defineExpose({ setSettingDialogVisible })

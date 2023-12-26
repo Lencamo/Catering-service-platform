@@ -6,8 +6,8 @@ class fileService {
       _id: "${user_id}"
     }).update({data: {
       avatar: {
-        avatar_url: "${avatar_url}",
-        filename: "${filename}",
+        name: "${filename}",
+        url: "${avatar_url}",
         mimetype: "${mimetype}",
         size: "${size}",
       }

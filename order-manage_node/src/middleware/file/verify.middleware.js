@@ -7,7 +7,7 @@ const verifyAvatar = async (ctx, next) => {
 
   // 验证当前用户是否存在avatar
   const users = await userService.findUserByName(username)
-  const fileName = JSON.parse(users[0]).avatar.filename
+  const fileName = JSON.parse(users[0]).avatar.name
 
   if (fileName !== null) {
     fs.unlink(UPLOAD_PATH + fileName, (err) => {

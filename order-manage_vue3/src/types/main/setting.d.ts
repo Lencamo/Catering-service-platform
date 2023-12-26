@@ -6,5 +6,7 @@ export interface ICardData {
     value: string
     variable: string
   }[]
-  formData: object
+  formData: {
+    [key: string]: any
+  }
 }
