@@ -43,6 +43,7 @@ import { ref, reactive } from 'vue'
 import type { ICardData } from '@/types/main/setting.d.ts'
 import { Plus } from '@element-plus/icons-vue'
 import type { UploadUserFile } from 'element-plus'
+// import useSettingStore from '@/stores/main/setting'
 
 const dialogVisible = ref(false)
 
@@ -105,6 +106,12 @@ defineExpose({ setSettingDialogVisible })
 // 确认按钮
 const handleConfirmBtn = () => {
   dialogVisible.value = false
+
+  console.log(cardForm)
+  console.log(FileList.value)
+  if (cardData.title === '用户管理') {
+    // useSettingStore.edit
+  }
 }
 </script>
 

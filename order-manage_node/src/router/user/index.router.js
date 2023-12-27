@@ -13,7 +13,10 @@ const userRouter = new Router({
 // 用户注册
 userRouter.post('/', verifyUser, handlePassword, userController.create)
 
-// 单个用户详情
+// 查看用户信息
 userRouter.get('/:userId', userController.show)
+
+// 更改用户信息
+userRouter.post('/', userController.update)
 
 module.exports = userRouter

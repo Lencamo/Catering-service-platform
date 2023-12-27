@@ -58,6 +58,10 @@ class userService {
 
     return JSON.parse(result.data)
   }
+
+  async update(user_id, username, avatar) {
+    //
+  }
 }
 
 module.exports = new userService()
