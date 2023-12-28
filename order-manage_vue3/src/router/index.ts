@@ -24,11 +24,6 @@ const router = createRouter({
 
     // ……
 
-    //
-    {
-      path: '/demo',
-      component: () => import('../view/demo/demo.vue')
-    },
     // 含有通配符的路由应该放在最后 !!!
     {
       path: '/:pathMatch(.*)',

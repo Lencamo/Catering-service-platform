@@ -19,8 +19,11 @@
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item divided>
-              <el-button type="primary" size="default" @click="handleLogoutBtn">退出系统</el-button>
+            <el-dropdown-item @click="userCardBtn">
+              <el-icon><User /></el-icon>用户信息
+            </el-dropdown-item>
+            <el-dropdown-item divided @click="handleLogoutBtn">
+              <el-icon><SwitchButton /></el-icon>退出系统
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -42,6 +45,11 @@ import { storeToRefs } from 'pinia'
 const router = useRouter()
 const loginStore = useloginStore()
 const { userInfo } = storeToRefs(loginStore)
+
+// 用户信息
+const userCardBtn = () => {
+  router.push({ path: '/main/setting', query: { activeCard: 'userCard' } })
+}
 
 // 退出登录
 const handleLogoutBtn = () => {

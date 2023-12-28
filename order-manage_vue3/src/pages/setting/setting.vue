@@ -1,50 +1,47 @@
 <template>
   <div class="setting">
-    <div class="setting-body">
-      <settingCard :cardData="storeCard" @editClick="handleEditClick"></settingCard>
-      <settingCard :cardData="userCard" @editClick="handleEditClick"></settingCard>
-    </div>
-    <settingDialog ref="settingDialogRef"></settingDialog>
+    <el-tabs v-model="activeCard" @tab-click="handleClick">
+      <el-tab-pane label="店铺信息" name="storeCard">
+        <storeCard></storeCard>
+      </el-tab-pane>
+      <el-tab-pane label="用户信息" name="userCard">
+        <userCard></userCard>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
-import settingCard from './components/settting-card.vue'
-import settingDialog from './components/setting-dialog.vue'
+import userCard from '@/components/userCard/userCard.vue'
+import storeCard from '@/components/storeCard/storeCard.vue'
 
-import { ref, reactive } from 'vue'
-import { dataToCard } from '@/utils/dataToCard.ts'
+import { ref, watch } from 'vue'
+import type { TabsPaneContext } from 'element-plus'
+import { useRoute, useRouter } from 'vue-router'
 
-import { storeToRefs } from 'pinia'
-import useloginStore from '@/stores/login/login'
+const route = useRoute()
+const router = useRouter()
 
-// 卡片信息
-import userCard from './cards/userCard.ts'
-import storeCard from './cards/storeCard.ts'
+const activeCard = ref('storeCard')
 
-// 显示用户信息
-const loginStore = useloginStore()
-const { userInfo } = storeToRefs(loginStore)
-dataToCard(userCard, userInfo.value)
+// 监听路由变化
+watch(
+  () => route.query.activeCard,
+  (newVal) => {
+    if (newVal) activeCard.value = newVal as string
+  },
+  { immediate: true }
+)
 
-// 显示店铺信息
-
-// 修改按钮处理
-const settingDialogRef = ref<InstanceType<typeof settingDialog>>()
-
-const handleEditClick = (title: string) => {
-  const cardData = title === storeCard.title ? storeCard : userCard
-  const temp = { ...cardData }
-
-  settingDialogRef.value?.setSettingDialogVisible(temp)
+// tabs栏切换
+const handleClick = (tab: TabsPaneContext, event: Event) => {
+  router.push(`/main/setting`) // 路由复原
 }
 </script>
 
 <style lang="scss" scoped>
 .setting {
-  .setting-body {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
+  background-color: #ffffff;
+  padding: 30px;
 }
 </style>
