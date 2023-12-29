@@ -7,6 +7,9 @@
       <el-tab-pane label="用户信息" name="userCard">
         <userCard></userCard>
       </el-tab-pane>
+      <el-tab-pane label="修改密码" name="pwdCard">
+        <pwdCard></pwdCard>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -14,6 +17,7 @@
 <script setup lang="ts">
 import userCard from '@/components/userCard/userCard.vue'
 import storeCard from '@/components/storeCard/storeCard.vue'
+import pwdCard from '@/components/pwdCard/pwdCard.vue'
 
 import { ref, watch } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
@@ -28,7 +32,7 @@ const activeCard = ref('storeCard')
 watch(
   () => route.query.activeCard,
   (newVal) => {
-    if (newVal) activeCard.value = newVal as string
+    if (newVal === 'userCard') activeCard.value = newVal as string
   },
   { immediate: true }
 )

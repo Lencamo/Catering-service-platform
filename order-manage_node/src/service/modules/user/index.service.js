@@ -59,8 +59,22 @@ class userService {
     return JSON.parse(result.data)
   }
 
-  async update(user_id, username, avatar) {
-    //
+  async update(userId, username) {
+    const statement = `db.collection("c_user").where({
+      _id: "${userId}"
+    }).update({data: {
+      username: "${username}"
+    }})`
+
+    const { data: result } = await orderRequest.post({
+      url: '/databaseupdate',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
   }
 }
 

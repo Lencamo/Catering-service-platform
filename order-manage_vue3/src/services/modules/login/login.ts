@@ -24,7 +24,7 @@ export function phoneLoginApi(account: any) {
 
 // =========
 
-export function getUserInfoApi(userId: number) {
+export function getUserInfoApi(userId: string) {
   return orderRequest.get({
     url: `/user/${userId}`
   })

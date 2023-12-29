@@ -39,15 +39,14 @@ class userController {
 
   async update(ctx, next) {
     // 1、接收body数据
-    console.log(ctx.request.body)
-    const { _id: user_id, username, avatar } = ctx.request.body
-    // const { userId: user_id } = ctx.params
+    const { username } = ctx.request.body
+    const { userId } = ctx.params
+
     const joiResult = await userSchema.validateAsync({ username })
 
     // 2、数据库交互
-    // - 更新头像
-    //
-    const result = await userService.update(user_id, username)
+    // - 更新用户名称
+    const result = await userService.update(userId, username)
 
     // 3、发送响应信息
     ctx.body = {

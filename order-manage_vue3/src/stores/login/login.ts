@@ -10,7 +10,7 @@ import { initStaticRoutes } from '@/utils/initStaticRoutes.ts'
 const useloginStore = defineStore('login', {
   state: () => ({
     token: '',
-    userInfo: null as any,
+    userInfo: localCache.getCache(LOGIN_USERINFO) ?? null,
     routeMetas: [] as IMeta[]
   }),
   getters: {

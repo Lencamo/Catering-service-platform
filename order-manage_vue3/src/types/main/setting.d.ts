@@ -14,11 +14,13 @@
 export interface IUserData {
   username: string
   password: string
-  avatar: {
-    name: string
-    url: string
-    [key: string]: any
-  }
+  avatarList?: [
+    {
+      name: string
+      url: string
+      [key: string]: any
+    }
+  ]
   [key: string]: any
 }
 
