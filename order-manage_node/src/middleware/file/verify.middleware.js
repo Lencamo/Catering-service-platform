@@ -10,7 +10,7 @@ const verifyAvatar = async (ctx, next) => {
   const fileName = JSON.parse(users[0]).avatar.name
 
   if (fileName !== null) {
-    fs.unlink(UPLOAD_PATH + fileName, (err) => {
+    fs.unlink(UPLOAD_PATH + '/' + fileName, (err) => {
       if (err) throw err
       // console.log('文件已删除')
     })

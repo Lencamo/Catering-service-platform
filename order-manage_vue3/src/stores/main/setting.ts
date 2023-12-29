@@ -15,8 +15,6 @@ const useSettingStore = defineStore('Setting', {
     async updataUsernameAction(userId: string, data: any) {
       const { data: res } = await updataUsernameApi(userId, data)
 
-      console.log(!0)
-
       if (!res.code) {
         // 更新setting中的userInfo
         const { data: res2 } = await getUserInfoApi(userId)

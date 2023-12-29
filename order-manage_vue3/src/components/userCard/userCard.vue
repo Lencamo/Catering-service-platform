@@ -32,20 +32,23 @@
         <el-form-item label="用户密码">
           <el-input disabled type="password" v-model="cardForm.password" />
         </el-form-item>
-        <!-- <el-form-item label="用户头像">
+        <el-form-item label="用户头像">
           <el-upload
             ref="uploadRef"
-            v-model:file-list="avatarList"
-            action="/your/upload/api"
+            :action="avatarUploadAction"
+            :headers="uploadActionHeaders"
             name="avatar"
             :before-upload="beforeAvatarUpload"
-            list-type="picture-card"
+            :on-success="handleUploadSuccess"
+            :on-error="handleUploadError"
+            v-model:file-list="avatarList"
             :limit="1"
+            list-type="picture-card"
             :auto-upload="false"
           >
             <el-icon><Plus /></el-icon>
           </el-upload>
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
 
       <template #footer>
@@ -63,7 +66,10 @@ import { ref, reactive } from 'vue'
 import type { IUserData } from '@/types/main/setting'
 import useSettingStore from '@/stores/main/setting'
 import { storeToRefs } from 'pinia'
-import type { UploadUserFile, UploadProps, UploadInstance } from 'element-plus'
+import type { UploadUserFile, UploadProps, UploadInstance, UploadFile } from 'element-plus'
+import { computed } from 'vue'
+import { localCache } from '@/utils/cache'
+import { LOGIN_TOKEN } from '@/config/constants'
 
 // 表单数据
 let cardForm = reactive<IUserData>({
@@ -73,12 +79,12 @@ let cardForm = reactive<IUserData>({
 // 图片数据
 let avatarList = ref<UploadUserFile[]>([
   {
-    name: 'file',
+    name: '',
     url: ''
   }
 ])
 
-// ============
+// =================
 
 // 显示用户信息
 const settingStore = useSettingStore()
@@ -93,15 +99,31 @@ const handleEditBtn = async () => {
   avatarList.value[0] = userInfo.value.avatar
 }
 
+// =================
+
 // 文件上传处理
 const uploadRef = ref<UploadInstance>()
+let BASE_URL = import.meta.env.VITE_BASE_API
+let token = localCache.getCache(LOGIN_TOKEN)
 
+// - 请求url
+const avatarUploadAction = computed(() => {
+  return `${BASE_URL}/file/avatar`
+})
+// - 携带token
+const uploadActionHeaders = computed(() => {
+  return {
+    Authorization: `Bearer ${token}`
+  }
+})
+
+// - 文件限制
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   const isJPGorPNG = rawFile.type === 'image/jpeg' || rawFile.type === 'image/png'
   const isLt2M = rawFile.size / 1024 / 1024 < 2
 
   if (!isJPGorPNG) {
-    ElMessage.error('上传文件只能是 JPG/PNG 格式!')
+    ElMessage.error('上传文件只能是 JPG/PNG 格式!') // 也可以使用el-upload组件的accept属性
     return false
   }
 
@@ -111,6 +133,8 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   }
   return isJPGorPNG && isLt2M
 }
+
+// =================
 
 // Dialog弹窗
 const dialogVisible = ref(false)
@@ -126,7 +150,22 @@ const handleConfirmBtn = async () => {
   await settingStore.updataUsernameAction(useId, data)
 
   // 更新用户头像
-  // uploadRef.value!.submit()
+  // - 手动启动
+  uploadRef.value!.submit()
+}
+
+// 头像上传-成功回调
+const handleUploadSuccess = (response: any, uploadFile: UploadFile) => {
+  ElMessage.success('用户头像上传成功')
+  // 处理上传成功后的逻辑，比如更新表单中的某个字段
+  // form.imageUrl = response.data.url;
+  // avatarList.value[0].url = response.data.url
+}
+const handleUploadError = (response: any, uploadFile: UploadFile) => {
+  ElMessage.error('用户头像上传失败')
+  // 处理上传成功后的逻辑，比如更新表单中的某个字段
+  // form.imageUrl = response.data.url;
+  // avatarList.value[0].url = response.data.url
 }
 </script>
 
