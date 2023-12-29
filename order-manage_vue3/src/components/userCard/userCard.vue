@@ -155,17 +155,13 @@ const handleConfirmBtn = async () => {
 }
 
 // 头像上传-成功回调
-const handleUploadSuccess = (response: any, uploadFile: UploadFile) => {
+const handleUploadSuccess = async (response: any, uploadFile: UploadFile) => {
   ElMessage.success('用户头像上传成功')
-  // 处理上传成功后的逻辑，比如更新表单中的某个字段
-  // form.imageUrl = response.data.url;
-  // avatarList.value[0].url = response.data.url
+
+  userInfo.value.avatar.url = URL.createObjectURL(uploadFile.raw!)
 }
 const handleUploadError = (response: any, uploadFile: UploadFile) => {
   ElMessage.error('用户头像上传失败')
-  // 处理上传成功后的逻辑，比如更新表单中的某个字段
-  // form.imageUrl = response.data.url;
-  // avatarList.value[0].url = response.data.url
 }
 </script>
 
