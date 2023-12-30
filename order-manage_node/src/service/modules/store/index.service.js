@@ -1,9 +1,10 @@
 const { orderRequest } = require('../..')
 
 class storeService {
-  async create(storename, storelocal) {
+  async create(user_id, storename, storelocal) {
     const statement = `db.collection("c_store").add({
       data: [{
+        user_id: "${user_id}",
         storename: "${storename}",
         storelocal: "${storelocal}",
         storephone: null,
@@ -41,6 +42,22 @@ class storeService {
     // console.log(result)
 
     return result.data
+  }
+
+  async show(user_id) {
+    const statement = `db.collection("c_store").where({
+      user_id: "${user_id}"
+    }).get()`
+
+    const { data: result } = await orderRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return JSON.parse(result.data)
   }
 }
 

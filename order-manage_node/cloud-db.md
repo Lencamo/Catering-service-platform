@@ -27,6 +27,7 @@
 ```json
 {
   "_id": "b751f280658a7b5d04d2d82d77fdc0c3",
+  "user_id": "09e78768657ebdac039bb45d7f11b487",
   "storename": "仙之源饭店",
   "storelocal": "上海市徐汇区中山南路789号",
   "storephone": "19273261352",
