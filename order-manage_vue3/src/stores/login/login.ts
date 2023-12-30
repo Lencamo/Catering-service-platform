@@ -1,16 +1,17 @@
 import { defineStore } from 'pinia'
 
-import { getUserInfoApi, pwdLoginApi } from '../../services/modules/login/login.ts'
+import { getStoreInfoApi, getUserInfoApi, pwdLoginApi } from '../../services/modules/login/login.ts'
 
 import type { IAccount, IMeta } from '@/types/login/login.ts'
 import { localCache } from '@/utils/cache.ts'
-import { LOGIN_TOKEN, LOGIN_USERINFO } from '@/config/constants.ts'
+import { LOGIN_TOKEN, LOGIN_USERINFO, LOGIN_STOREINFO } from '@/config/constants.ts'
 import { initStaticRoutes } from '@/utils/initStaticRoutes.ts'
 
 const useloginStore = defineStore('login', {
   state: () => ({
     token: '',
     userInfo: localCache.getCache(LOGIN_USERINFO) ?? null,
+    storeInfo: localCache.getCache(LOGIN_STOREINFO) ?? null,
     routeMetas: [] as IMeta[]
   }),
   getters: {
@@ -33,7 +34,7 @@ const useloginStore = defineStore('login', {
 
         // =====
 
-        // 1、获取用户
+        // 1、获取用户信息
         const { data: res2 } = await getUserInfoApi(userId)
         const userInfo = res2.data
         this.userInfo = userInfo
@@ -41,7 +42,15 @@ const useloginStore = defineStore('login', {
         // 缓存用户信息
         localCache.setCache(LOGIN_USERINFO, this.userInfo)
 
-        // 2、本地静态路由-批量注册
+        // 2、获取店铺信息
+        const { data: res3 } = await getStoreInfoApi(userId)
+        const storeInfo = res3.data
+        this.storeInfo = storeInfo
+
+        // 缓存店铺信息
+        localCache.setCache(LOGIN_STOREINFO, this.storeInfo)
+
+        // 3、本地静态路由-批量注册
         const routeMetas = initStaticRoutes()
         this.routeMetas = routeMetas
       } else {

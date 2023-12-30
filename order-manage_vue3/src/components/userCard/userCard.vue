@@ -19,7 +19,12 @@
         </span>
         <span>
           <el-text tag="b">用户头像：</el-text>
-          <el-avatar shape="square" :size="100" fit="cover" :src="userInfo.avatar.url" />
+          <el-avatar
+            shape="square"
+            :size="100"
+            fit="cover"
+            :src="userInfo.avatar.url ?? defaultAvatar"
+          />
         </span>
       </div>
     </el-card>
@@ -70,6 +75,7 @@ import type { UploadUserFile, UploadProps, UploadInstance, UploadFile } from 'el
 import { computed } from 'vue'
 import { localCache } from '@/utils/cache'
 import { LOGIN_TOKEN } from '@/config/constants'
+import defaultAvatar from '@/assets/imgs/default.png'
 
 // 表单数据
 let cardForm = reactive<IUserData>({
@@ -86,7 +92,7 @@ let avatarList = ref<UploadUserFile[]>([
 
 // =================
 
-// 显示用户信息
+// 显示用户信息（首次使用LOGIN_USERINFO数据）
 const settingStore = useSettingStore()
 const { userInfo } = storeToRefs(settingStore)
 

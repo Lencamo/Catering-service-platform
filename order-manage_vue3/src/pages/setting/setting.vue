@@ -32,7 +32,7 @@ const activeCard = ref('storeCard')
 watch(
   () => route.query.activeCard,
   (newVal) => {
-    if (newVal === 'userCard') activeCard.value = newVal as string
+    if (newVal === 'userCard' || newVal === 'storeCard') activeCard.value = newVal as string
   },
   { immediate: true }
 )

@@ -10,15 +10,28 @@
       <div class="body-box">
         <span>
           <el-text tag="b">店铺名称：</el-text>
-          <el-text tag="ins">{{ storeCard.storename }}</el-text>
+          <el-text tag="ins">{{ storeInfo.storename }}</el-text>
         </span>
         <span>
           <el-text tag="b">店铺地址：</el-text>
-          <el-text tag="ins">{{ storeCard.address }}</el-text>
+          <el-text tag="ins">{{ storeInfo.storelocal }}</el-text>
+        </span>
+        <span>
+          <el-text tag="b">联系电话：</el-text>
+          <el-text tag="ins">{{ storeInfo.storephone ?? '无' }}</el-text>
+        </span>
+        <span>
+          <el-text tag="b">经营范围：</el-text>
+          <el-text tag="ins">{{ storeInfo.storeintro ?? '无' }}</el-text>
         </span>
         <span>
           <el-text tag="b">店铺Login：</el-text>
-          <el-avatar shape="square" :size="100" fit="cover" :src="storeCard.logo.url" />
+          <el-avatar
+            shape="square"
+            :size="100"
+            fit="cover"
+            :src="storeInfo.logo.url ?? defaultLogo"
+          />
         </span>
       </div>
     </el-card>
@@ -26,24 +39,41 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import type { IStoreData } from '@/types/main/setting'
+import type { UploadUserFile } from 'element-plus'
+import useSettingStore from '@/stores/main/setting'
+import { storeToRefs } from 'pinia'
+import defaultLogo from '@/assets/imgs/default.jpg'
 
+// 表单数据
 const storeCard = reactive<IStoreData>({
-  storename: '',
-  address: '',
-  logo: {
-    name: 'logo',
+  storename: '仙之源饭店',
+  storelocal: '上海市徐汇区中山南路789号',
+  storephone: '',
+  storeintro: ''
+})
+// 图片数据
+let logoList = ref<UploadUserFile[]>([
+  {
+    name: '',
     url: ''
   }
-})
+])
 
-// 显示用户信息
+// =================
+
+// 显示用户信息（首次使用LOGIN_USERINFO数据）
+// 显示用户信息（首次使用LOGIN_USERINFO数据）
+const settingStore = useSettingStore()
+const { storeInfo } = storeToRefs(settingStore)
 
 // 修改用户信息
 const handleEditBtn = () => {
   //
 }
+
+// =================
 </script>
 
 <style lang="scss" scoped>

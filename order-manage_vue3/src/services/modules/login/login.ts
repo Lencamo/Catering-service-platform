@@ -29,3 +29,9 @@ export function getUserInfoApi(userId: string) {
     url: `/user/${userId}`
   })
 }
+
+export function getStoreInfoApi(userId: string) {
+  return orderRequest.get({
+    url: `/store/${userId}`
+  })
+}

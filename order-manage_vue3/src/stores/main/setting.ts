@@ -1,15 +1,16 @@
 import { defineStore } from 'pinia'
 import { updataUsernameApi } from '@/services/modules/main/setting'
-import { getUserInfoApi } from '@/services/modules/login/login'
+import { getStoreInfoApi, getUserInfoApi } from '@/services/modules/login/login'
 import { localCache } from '@/utils/cache'
-import { LOGIN_USERINFO } from '@/config/constants'
+import { LOGIN_STOREINFO, LOGIN_USERINFO } from '@/config/constants'
 
 import useloginStore from '../login/login'
 const loginStore = useloginStore()
 
 const useSettingStore = defineStore('Setting', {
   state: () => ({
-    userInfo: localCache.getCache(LOGIN_USERINFO) ?? null
+    userInfo: localCache.getCache(LOGIN_USERINFO) ?? null,
+    storeInfo: localCache.getCache(LOGIN_STOREINFO) ?? null
   }),
   getters: {
     //

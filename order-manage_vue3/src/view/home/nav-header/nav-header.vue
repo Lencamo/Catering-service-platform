@@ -8,19 +8,22 @@
       </div>
     </div>
     <div class="restaurant">
-      <h3>仙之源饭店</h3>
+      <h3>{{ storeInfo.storename }}</h3>
     </div>
     <div class="right">
       <el-dropdown>
         <div class="drop">
-          <img :src="userInfo.avatar.url || defalultImg" alt="" />
+          <img :src="userInfo.avatar.url || defaultAvatar" alt="" />
           <span>{{ userInfo.username }} &ensp;</span>
           <el-icon><arrow-down /></el-icon>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="userCardBtn">
+            <el-dropdown-item @click="jumpToCardBtn('userCard')">
               <el-icon><User /></el-icon>用户信息
+            </el-dropdown-item>
+            <el-dropdown-item @click="jumpToCardBtn('storeCard')">
+              <el-icon><Edit /></el-icon>店铺信息
             </el-dropdown-item>
             <el-dropdown-item divided @click="handleLogoutBtn">
               <el-icon><SwitchButton /></el-icon>退出系统
@@ -34,7 +37,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import defalultImg from '@/assets/imgs/default.png'
+import defaultAvatar from '@/assets/imgs/default.png'
 
 import { LOGIN_TOKEN } from '@/config/constants.ts'
 import { localCache } from '@/utils/cache'
@@ -44,12 +47,20 @@ import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const loginStore = useloginStore()
-const { userInfo } = storeToRefs(loginStore)
+const { userInfo, storeInfo } = storeToRefs(loginStore)
 
-// 用户信息
-const userCardBtn = () => {
-  router.push({ path: '/main/setting', query: { activeCard: 'userCard' } })
+// 跳转到信息页
+const jumpToCardBtn = (cardNname: string) => {
+  router.push({ path: '/main/setting', query: { activeCard: cardNname } })
 }
+// const userCardBtn = () => {
+//   router.push({ path: '/main/setting', query: { activeCard: 'userCard' } })
+// }
+
+// // 店铺信息
+// const storeCardBtn = () => {
+//   router.push({ path: '/main/setting', query: { activeCard: 'storeCard' } })
+// }
 
 // 退出登录
 const handleLogoutBtn = () => {
