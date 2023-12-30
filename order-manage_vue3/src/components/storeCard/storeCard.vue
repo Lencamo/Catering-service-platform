@@ -1,5 +1,6 @@
 <template>
   <div class="storeCard">
+    <!-- 内容显示 -->
     <el-card class="box-card" shadow="hover">
       <template #header>
         <div class="top-box">
@@ -35,19 +36,49 @@
         </span>
       </div>
     </el-card>
+    <!-- 修改弹窗 -->
+    <el-dialog v-model="dialogVisible" title="店铺信息" width="400px" draggable>
+      <el-form :model="cardForm" label-position="top" label-width="100px" style="max-width: 460px">
+        <el-form-item label="店铺名称" required>
+          <el-input v-model="cardForm.storename" minlength="2" maxlength="12" />
+        </el-form-item>
+        <el-form-item label="店铺地址" required>
+          <el-input v-model="cardForm.storelocal" minlength="2" maxlength="12" />
+        </el-form-item>
+        <el-form-item label="联系电话" required>
+          <el-input v-model="cardForm.storephone" minlength="2" maxlength="12" />
+        </el-form-item>
+        <el-form-item label="经营范围" required>
+          <el-input
+            v-model="cardForm.storeintro"
+            type="textarea"
+            maxlength="50"
+            show-word-limit
+            :autosize="{ minRows: 2, maxRows: 4 }"
+          />
+        </el-form-item>
+      </el-form>
+
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="handleConfirmBtn">确认</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import type { IStoreData } from '@/types/main/setting'
-import type { UploadUserFile } from 'element-plus'
+import type { UploadUserFile, UploadProps, UploadInstance, UploadFile } from 'element-plus'
 import useSettingStore from '@/stores/main/setting'
 import { storeToRefs } from 'pinia'
 import defaultLogo from '@/assets/imgs/default.jpg'
 
 // 表单数据
-const storeCard = reactive<IStoreData>({
+const cardForm = reactive<IStoreData>({
   storename: '仙之源饭店',
   storelocal: '上海市徐汇区中山南路789号',
   storephone: '',
@@ -56,24 +87,39 @@ const storeCard = reactive<IStoreData>({
 // 图片数据
 let logoList = ref<UploadUserFile[]>([
   {
-    name: '',
-    url: ''
+    name: 'logo',
+    url: defaultLogo
   }
 ])
 
 // =================
 
-// 显示用户信息（首次使用LOGIN_USERINFO数据）
-// 显示用户信息（首次使用LOGIN_USERINFO数据）
+// 显示店铺信息（首次使用LOGIN_STOREINFO数据）
 const settingStore = useSettingStore()
 const { storeInfo } = storeToRefs(settingStore)
 
-// 修改用户信息
+// 修改店铺信息
 const handleEditBtn = () => {
-  //
+  dialogVisible.value = true
+
+  for (const key in cardForm) {
+    cardForm[key] = storeInfo.value[key]
+  }
 }
 
 // =================
+
+// Dialog弹窗
+const dialogVisible = ref(false)
+
+const handleConfirmBtn = async () => {
+  dialogVisible.value = false
+
+  // 更新店铺信息
+  const storeId = storeInfo.value._id
+  const data = cardForm
+  await settingStore.updataStoreInfoAction(storeId, data)
+}
 </script>
 
 <style lang="scss" scoped>

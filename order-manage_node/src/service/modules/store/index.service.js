@@ -59,6 +59,27 @@ class storeService {
 
     return JSON.parse(result.data)
   }
+
+  async update(storeId, storename, storelocal, storephone, storeintro) {
+    const statement = `db.collection("c_store").where({
+      _id: "${storeId}"
+    }).update({data: {
+      storename: "${storename}",
+      storelocal: "${storelocal}",
+      storephone: "${storephone}",
+      storeintro: "${storeintro}"
+    }})`
+
+    const { data: result } = await orderRequest.post({
+      url: '/databaseupdate',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new storeService()

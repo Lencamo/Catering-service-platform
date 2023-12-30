@@ -6,3 +6,10 @@ export function updataUsernameApi(userId: string, data: any) {
     data
   })
 }
+
+export function updataStoreInfoApi(storeId: string, data: any) {
+  return orderRequest.post({
+    url: `/store/${storeId}`,
+    data
+  })
+}

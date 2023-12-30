@@ -53,14 +53,6 @@ const { userInfo, storeInfo } = storeToRefs(loginStore)
 const jumpToCardBtn = (cardNname: string) => {
   router.push({ path: '/main/setting', query: { activeCard: cardNname } })
 }
-// const userCardBtn = () => {
-//   router.push({ path: '/main/setting', query: { activeCard: 'userCard' } })
-// }
-
-// // 店铺信息
-// const storeCardBtn = () => {
-//   router.push({ path: '/main/setting', query: { activeCard: 'storeCard' } })
-// }
 
 // 退出登录
 const handleLogoutBtn = () => {

@@ -13,4 +13,7 @@ storeRouter.post('/', verifyAuth, verifyStore, storeController.create)
 // 查看店铺信息
 storeRouter.get('/:userId', storeController.show)
 
+// 更改店铺信息
+storeRouter.post('/:storeId', verifyAuth, storeController.update)
+
 module.exports = storeRouter

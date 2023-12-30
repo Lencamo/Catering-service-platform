@@ -22,4 +22,5 @@ export interface IStoreData {
       [key: string]: any
     }
   ]
+  [key: string]: any
 }

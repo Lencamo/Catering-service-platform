@@ -67,12 +67,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import type { IUserData } from '@/types/main/setting'
 import useSettingStore from '@/stores/main/setting'
 import { storeToRefs } from 'pinia'
 import type { UploadUserFile, UploadProps, UploadInstance, UploadFile } from 'element-plus'
-import { computed } from 'vue'
 import { localCache } from '@/utils/cache'
 import { LOGIN_TOKEN } from '@/config/constants'
 import defaultAvatar from '@/assets/imgs/default.png'
@@ -85,8 +84,8 @@ let cardForm = reactive<IUserData>({
 // 图片数据
 let avatarList = ref<UploadUserFile[]>([
   {
-    name: '',
-    url: ''
+    name: 'avatar',
+    url: defaultAvatar
   }
 ])
 
