@@ -26,6 +26,22 @@ class storeService {
 
     return result
   }
+
+  async findStoreByName(storename) {
+    const statement = `db.collection("c_store").where({
+      storename: "${storename}"
+    }).get()`
+
+    const { data: result } = await orderRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result.data
+  }
 }
 
 module.exports = new storeService()

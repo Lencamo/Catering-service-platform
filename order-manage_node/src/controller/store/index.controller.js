@@ -4,7 +4,7 @@ class storeController {
   async create(ctx, next) {
     // 1、接收数据
     const { storename, storelocal } = ctx.request.body
-    console.log(storename, storelocal)
+    // console.log(storename, storelocal)
 
     // 2、数据库交互
     const result = await storeService.create(storename, storelocal)

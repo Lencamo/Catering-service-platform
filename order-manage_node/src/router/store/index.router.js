@@ -1,13 +1,13 @@
 const Router = require('@koa/router')
-const { verifyAuth } = require('../../middleware/auth.middleware')
 const storeController = require('../../controller/store/index.controller')
+const { verifyStore } = require('../../middleware/store/index.middleware')
 
 const storeRouter = new Router({
   prefix: '/store'
 })
 
 // 店铺注册
-storeRouter.post('/', verifyAuth, storeController.create)
+storeRouter.post('/', verifyStore, storeController.create)
 
 // 查看店铺信息
 storeRouter.get('/:storeId')
