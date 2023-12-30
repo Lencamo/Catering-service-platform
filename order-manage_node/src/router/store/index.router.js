@@ -1,6 +1,6 @@
 const Router = require('@koa/router')
 const storeController = require('../../controller/store/index.controller')
-const { verifyStore } = require('../../middleware/store/index.middleware')
+const { verifyStore, verifyStoreInfo } = require('../../middleware/store/index.middleware')
 const { verifyAuth } = require('../../middleware/auth.middleware.js')
 
 const storeRouter = new Router({
@@ -14,6 +14,6 @@ storeRouter.post('/', verifyAuth, verifyStore, storeController.create)
 storeRouter.get('/:userId', storeController.show)
 
 // 更改店铺信息
-storeRouter.post('/:storeId', verifyAuth, storeController.update)
+storeRouter.post('/:storeId', verifyStoreInfo, verifyAuth, storeController.update)
 
 module.exports = storeRouter

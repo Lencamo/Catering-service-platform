@@ -1,5 +1,4 @@
 const storeService = require('../../service/modules/store/index.service')
-const { storeSchema } = require('../../schema/store.schema')
 
 class storeController {
   async create(ctx, next) {
@@ -39,13 +38,6 @@ class storeController {
     // 1、接收body数据
     const { storename, storelocal, storephone, storeintro } = ctx.request.body
     const { storeId } = ctx.params
-
-    const joiResult = await storeSchema.validateAsync({
-      storename,
-      storelocal,
-      storephone,
-      storeintro
-    })
 
     // 2、数据库交互
     // - 更新用户名称

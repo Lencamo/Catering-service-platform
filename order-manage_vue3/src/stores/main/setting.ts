@@ -28,7 +28,10 @@ const useSettingStore = defineStore('Setting', {
         // 是否与loginStore中的UserInfo信息同步？（看个人）
         // loginStore.userInfo = res2.data
       } else {
-        ElMessage.warning(res.message)
+        ElMessage({
+          message: res.message,
+          type: 'error'
+        })
       }
     },
 
@@ -37,7 +40,6 @@ const useSettingStore = defineStore('Setting', {
 
       if (!res.code) {
         const userId = this.userInfo._id
-        console.log(this.userInfo._id)
 
         // 更新setting中的userInfo
         const { data: res2 } = await getStoreInfoApi(userId)
@@ -47,7 +49,10 @@ const useSettingStore = defineStore('Setting', {
         // 是否与loginStore中的StoreInfo信息同步？（看个人）
         // loginStore.storeInfo = res2.data
       } else {
-        ElMessage.warning(res.message)
+        ElMessage({
+          message: res.message,
+          type: 'error'
+        })
       }
     }
   }

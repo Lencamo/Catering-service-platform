@@ -1,7 +1,11 @@
 const Router = require('@koa/router')
 
 // body数据校验
-const { verifyUser, handlePassword } = require('../../middleware/user/index.middleware.js')
+const {
+  verifyUser,
+  handlePassword,
+  verifyUserInfo
+} = require('../../middleware/user/index.middleware.js')
 const { verifyAuth } = require('../../middleware/auth.middleware.js')
 
 // controller引入
@@ -18,6 +22,6 @@ userRouter.post('/', verifyUser, handlePassword, userController.create)
 userRouter.get('/:userId', userController.show)
 
 // 更改用户信息
-userRouter.post('/:userId', verifyAuth, userController.update)
+userRouter.post('/:userId', verifyUserInfo, verifyAuth, userController.update)
 
 module.exports = userRouter

@@ -17,6 +17,21 @@ const verifyStore = async (ctx, next) => {
   await next()
 }
 
+const verifyStoreInfo = async (ctx, next) => {
+  const { storename, storelocal, storephone, storeintro } = ctx.request.body
+
+  // 数据合法性校验
+  const joiResult = await storeSchema.validateAsync({
+    storename,
+    storelocal,
+    storephone,
+    storeintro
+  })
+
+  await next()
+}
+
 module.exports = {
-  verifyStore
+  verifyStore,
+  verifyStoreInfo
 }

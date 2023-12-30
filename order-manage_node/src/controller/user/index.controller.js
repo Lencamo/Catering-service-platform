@@ -1,5 +1,4 @@
 const userService = require('../../service/modules/user/index.service.js')
-const { userSchema } = require('../../schema/user.schema.js')
 
 class userController {
   async create(ctx, next) {
@@ -41,8 +40,6 @@ class userController {
     // 1、接收body数据
     const { username } = ctx.request.body
     const { userId } = ctx.params
-
-    const joiResult = await userSchema.validateAsync({ username })
 
     // 2、数据库交互
     // - 更新用户名称

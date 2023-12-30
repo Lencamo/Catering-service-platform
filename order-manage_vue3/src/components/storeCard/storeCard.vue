@@ -39,16 +39,16 @@
     <!-- 修改弹窗 -->
     <el-dialog v-model="dialogVisible" title="店铺信息" width="400px" draggable>
       <el-form :model="cardForm" label-position="top" label-width="100px" style="max-width: 460px">
-        <el-form-item label="店铺名称" required>
+        <el-form-item label="店铺名称">
           <el-input v-model="cardForm.storename" minlength="2" maxlength="12" />
         </el-form-item>
-        <el-form-item label="店铺地址" required>
+        <el-form-item label="店铺地址">
           <el-input v-model="cardForm.storelocal" minlength="2" maxlength="12" />
         </el-form-item>
-        <el-form-item label="联系电话" required>
+        <el-form-item label="联系电话">
           <el-input v-model="cardForm.storephone" minlength="2" maxlength="12" />
         </el-form-item>
-        <el-form-item label="经营范围" required>
+        <el-form-item label="经营范围">
           <el-input
             v-model="cardForm.storeintro"
             type="textarea"
