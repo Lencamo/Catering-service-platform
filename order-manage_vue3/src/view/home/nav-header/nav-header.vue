@@ -39,11 +39,10 @@
 import { ref, computed } from 'vue'
 import defaultAvatar from '@/assets/imgs/default.png'
 
-import { LOGIN_TOKEN } from '@/config/constants.ts'
-import { localCache } from '@/utils/cache'
 import { useRouter, useRoute } from 'vue-router'
 import useloginStore from '@/stores/login/login'
 import { storeToRefs } from 'pinia'
+import { logoutAction } from '@/utils/handle-logout'
 
 const router = useRouter()
 const loginStore = useloginStore()
@@ -56,11 +55,7 @@ const jumpToCardBtn = (cardNname: string) => {
 
 // 退出登录
 const handleLogoutBtn = () => {
-  // 1、删除token
-  localCache.removeCache(LOGIN_TOKEN)
-
-  // 2、页面跳转
-  router.push('/login')
+  logoutAction(router)
 }
 
 // aside折叠功能

@@ -2,10 +2,7 @@ import { defineStore } from 'pinia'
 import { updataStoreInfoApi, updataUsernameApi } from '@/services/modules/main/setting'
 import { getStoreInfoApi, getUserInfoApi } from '@/services/modules/login/login'
 import { localCache } from '@/utils/cache'
-import { LOGIN_STOREINFO, LOGIN_USERINFO } from '@/config/constants'
-
-import useloginStore from '../login/login'
-const loginStore = useloginStore()
+import { LOGIN_STOREINFO, LOGIN_USERINFO, LOGIN_TOKEN } from '@/config/constants'
 
 const useSettingStore = defineStore('Setting', {
   state: () => ({
@@ -20,13 +17,18 @@ const useSettingStore = defineStore('Setting', {
       const { data: res } = await updataUsernameApi(userId, data)
 
       if (!res.code) {
-        // 更新setting中的userInfo
+        // - 更新setting中的userInfo
         const { data: res2 } = await getUserInfoApi(userId)
         this.userInfo = res2.data
-        localCache.setCache(LOGIN_USERINFO, this.userInfo)
 
-        // 是否与loginStore中的UserInfo信息同步？（看个人）
+        // 一、方案1
+        // - 是否使用新用户名称重新登录？（看个人）
+        return res.code
+
+        // 二、方案2
+        // - 是否与loginStore中的UserInfo信息同步？（看个人）
         // loginStore.userInfo = res2.data
+        //
       } else {
         ElMessage({
           message: res.message,
@@ -44,7 +46,6 @@ const useSettingStore = defineStore('Setting', {
         // 更新setting中的userInfo
         const { data: res2 } = await getStoreInfoApi(userId)
         this.storeInfo = res2.data
-        localCache.setCache(LOGIN_STOREINFO, this.storeInfo)
 
         // 是否与loginStore中的StoreInfo信息同步？（看个人）
         // loginStore.storeInfo = res2.data

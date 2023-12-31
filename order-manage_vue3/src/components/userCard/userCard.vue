@@ -75,6 +75,10 @@ import type { UploadUserFile, UploadProps, UploadInstance, UploadFile } from 'el
 import { localCache } from '@/utils/cache'
 import { LOGIN_TOKEN } from '@/config/constants'
 import defaultAvatar from '@/assets/imgs/default.png'
+import { logoutAction } from '@/utils/handle-logout'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 // 表单数据
 let cardForm = reactive<IUserData>({
@@ -147,16 +151,22 @@ const dialogVisible = ref(false)
 const handleConfirmBtn = async () => {
   dialogVisible.value = false
 
-  // 更新用户名称
-  const useId = userInfo.value._id
-  const data = {
-    username: cardForm.username
-  }
-  await settingStore.updataUsernameAction(useId, data)
-
   // 更新用户头像
   // - 手动启动
   uploadRef.value!.submit()
+
+  // 更新用户名称
+  if (cardForm.username !== userInfo.value.username) {
+    const useId = userInfo.value._id
+    const data = {
+      username: cardForm.username
+    }
+
+    const code = await settingStore.updataUsernameAction(useId, data)
+    if (!code) {
+      logoutAction(router)
+    }
+  }
 }
 
 // 头像上传-成功回调
