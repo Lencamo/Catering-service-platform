@@ -1,5 +1,5 @@
 const { md5Password } = require('../../utils/handle-password.js')
-const { loginSchema } = require('../../schema/user.schema.js')
+const { userSchema } = require('../../schema/user.schema.js')
 
 const { NAME_NOT_EXISTS, PASSWORD_IS_INCORRENT } = require('../../config/constants.js')
 const userService = require('../../service/modules/user/index.service.js')
@@ -8,7 +8,7 @@ const verifyLogin = async (ctx, next) => {
   const { username, password } = ctx.request.body
 
   // 1、数据合法性校验
-  const joiResult = await loginSchema.validateAsync({ username, password })
+  const joiResult = await userSchema.validateAsync({ username, password })
 
   // 2、验证用户是否存在
   const users = await userService.findUserByName(username)
