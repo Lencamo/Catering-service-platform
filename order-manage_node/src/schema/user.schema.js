@@ -3,7 +3,7 @@ const Joi = require('joi')
 const userSchema = Joi.object({
   username: Joi.string().min(2).max(12).alphanum(),
   password: Joi.string()
-    .min(2)
+    .min(6)
     .max(12)
     .pattern(/^(?=.*[a-zA-Z])(?=.*\d).+$/)
 })

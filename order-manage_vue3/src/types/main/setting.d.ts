@@ -24,3 +24,9 @@ export interface IStoreData {
   ]
   [key: string]: any
 }
+
+export interface IPwdData {
+  oldPwd: string
+  newPwd: string
+  checkPass: string
+}

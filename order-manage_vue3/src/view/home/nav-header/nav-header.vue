@@ -23,7 +23,10 @@
               <el-icon><User /></el-icon>用户信息
             </el-dropdown-item>
             <el-dropdown-item @click="jumpToCardBtn('storeCard')">
-              <el-icon><Edit /></el-icon>店铺信息
+              <el-icon><EditPen /></el-icon>店铺信息
+            </el-dropdown-item>
+            <el-dropdown-item @click="jumpToCardBtn('pwdCard')">
+              <el-icon><Key /></el-icon>更改密码
             </el-dropdown-item>
             <el-dropdown-item divided @click="handleLogoutBtn">
               <el-icon><SwitchButton /></el-icon>退出系统
