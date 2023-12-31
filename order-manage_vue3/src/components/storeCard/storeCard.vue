@@ -57,6 +57,23 @@
             :autosize="{ minRows: 2, maxRows: 4 }"
           />
         </el-form-item>
+        <el-form-item label="店铺logo">
+          <el-upload
+            ref="uploadRef"
+            :action="logoUploadAction"
+            :headers="uploadActionHeaders"
+            name="logo"
+            :before-upload="beforeLogoUpload"
+            :on-success="handleUploadSuccess"
+            :on-error="handleUploadError"
+            v-model:file-list="logoList"
+            :limit="1"
+            list-type="picture-card"
+            :auto-upload="false"
+          >
+            <el-icon><Plus /></el-icon>
+          </el-upload>
+        </el-form-item>
       </el-form>
 
       <template #footer>
@@ -79,8 +96,8 @@ import defaultLogo from '@/assets/imgs/default.jpg'
 
 // 表单数据
 const cardForm = reactive<IStoreData>({
-  storename: '仙之源饭店',
-  storelocal: '上海市徐汇区中山南路789号',
+  storename: '',
+  storelocal: '',
   storephone: '',
   storeintro: ''
 })
@@ -105,6 +122,44 @@ const handleEditBtn = () => {
   for (const key in cardForm) {
     cardForm[key] = storeInfo.value[key]
   }
+  logoList.value[0] = storeInfo.value.logo
+}
+
+// =================
+
+// 文件上传处理
+const uploadRef = ref<UploadInstance>()
+let BASE_URL = import.meta.env.VITE_BASE_API
+let token = localCache.getCache(LOGIN_TOKEN)
+import { localCache } from '@/utils/cache'
+import { LOGIN_TOKEN } from '@/config/constants'
+
+// - 请求url
+const logoUploadAction = computed(() => {
+  return `${BASE_URL}/file/logo`
+})
+// - 携带token
+const uploadActionHeaders = computed(() => {
+  return {
+    Authorization: `Bearer ${token}`
+  }
+})
+
+// - 文件限制
+const beforeLogoUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  const isJPGorPNG = rawFile.type === 'image/jpeg' || rawFile.type === 'image/png'
+  const isLt2M = rawFile.size / 1024 / 1024 < 2
+
+  if (!isJPGorPNG) {
+    ElMessage.error('上传文件只能是 JPG/PNG 格式!') // 也可以使用el-upload组件的accept属性
+    return false
+  }
+
+  if (!isLt2M) {
+    ElMessage.error('上传文件大小不能超过 2MB!')
+    return false
+  }
+  return isJPGorPNG && isLt2M
 }
 
 // =================
@@ -119,6 +174,20 @@ const handleConfirmBtn = async () => {
   const storeId = storeInfo.value._id
   const data = cardForm
   await settingStore.updataStoreInfoAction(storeId, data)
+
+  // 更新店铺logo
+  // - 手动启动
+  uploadRef.value!.submit()
+}
+
+// logo上传-成功回调
+const handleUploadSuccess = async (response: any, uploadFile: UploadFile) => {
+  ElMessage.success('店铺logo上传成功')
+
+  storeInfo.value.logo.url = URL.createObjectURL(uploadFile.raw!)
+}
+const handleUploadError = (response: any, uploadFile: UploadFile) => {
+  ElMessage.error('店铺logo上传失败')
 }
 </script>
 
