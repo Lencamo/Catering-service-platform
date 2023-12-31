@@ -80,6 +80,22 @@ class storeService {
 
     return result
   }
+
+  async findStoreByUserId(user_id) {
+    const statement = `db.collection("c_store").where({
+      user_id: "${user_id}"
+    }).get()`
+
+    const { data: result } = await orderRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result.data
+  }
 }
 
 module.exports = new storeService()
