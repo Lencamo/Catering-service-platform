@@ -175,9 +175,8 @@ const handleConfirmBtn = async () => {
   dialogVisible.value = false
 
   // 更新店铺信息
-  const storeId = storeInfo.value._id
   const data = cardForm
-  await settingStore.updataStoreInfoAction(storeId, data)
+  await settingStore.updataStoreInfoAction(data)
 
   // 更新店铺logo
   // - 手动启动

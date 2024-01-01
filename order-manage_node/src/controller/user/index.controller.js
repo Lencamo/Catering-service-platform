@@ -52,6 +52,23 @@ class userController {
       data: result
     }
   }
+
+  async updatePwd(ctx, next) {
+    // 1、接收body数据
+    const { password } = ctx.request.body
+    const { id: user_id, username } = ctx.user
+
+    // 2、数据库交互
+    // - 更新用户名称
+    const result = await userService.updatePwd(user_id, password)
+
+    // 3、发送响应信息
+    ctx.body = {
+      code: 0,
+      msssage: '用户密码修改成功！',
+      data: result
+    }
+  }
 }
 
 module.exports = new userController()

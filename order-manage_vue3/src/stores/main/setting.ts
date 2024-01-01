@@ -14,11 +14,16 @@ const useSettingStore = defineStore('Setting', {
     storeInfo: localCache.getCache(LOGIN_STOREINFO) ?? null
   }),
   getters: {
-    //
+    USER_ID(state) {
+      return state.userInfo._id
+    },
+    STORE_ID(state) {
+      return state.storeInfo._id
+    }
   },
   actions: {
-    async getUserInfoAction(userId: string) {
-      const { data: res } = await getUserInfoApi(userId)
+    async getUserInfoAction() {
+      const { data: res } = await getUserInfoApi(this.USER_ID)
       this.userInfo = res.data
 
       // 防刷新处理
@@ -32,16 +37,16 @@ const useSettingStore = defineStore('Setting', {
       }
     },
 
-    async updataUsernameAction(userId: string, data: any) {
-      const { data: res } = await updataUsernameApi(userId, data)
+    async updataUsernameAction(data: any) {
+      const { data: res } = await updataUsernameApi(this.USER_ID, data)
 
       if (!res.code) {
         // - 更新setting中的userInfo
-        this.getUserInfoAction(userId)
+        this.getUserInfoAction()
 
         // 一、方案1
         // - 是否使用新用户名称重新登录？（看个人）
-        return res.code
+        // return res.code
 
         // 二、方案2
         // - 是否与loginStore中的UserInfo信息同步？（看个人）
@@ -53,12 +58,14 @@ const useSettingStore = defineStore('Setting', {
           type: 'error'
         })
       }
+
+      return res
     },
 
     // ==============
 
-    async getStoreInfoAction(userId: string) {
-      const { data: res } = await getStoreInfoApi(userId)
+    async getStoreInfoAction() {
+      const { data: res } = await getStoreInfoApi(this.USER_ID)
       this.storeInfo = res.data
 
       // 防刷新处理
@@ -72,14 +79,12 @@ const useSettingStore = defineStore('Setting', {
       }
     },
 
-    async updataStoreInfoAction(storeId: string, data: any) {
-      const { data: res } = await updataStoreInfoApi(storeId, data)
+    async updataStoreInfoAction(data: any) {
+      const { data: res } = await updataStoreInfoApi(this.STORE_ID, data)
 
       if (!res.code) {
-        const userId = this.userInfo._id
-
         // 更新setting中的storeInfo
-        this.getStoreInfoAction(storeId)
+        this.getStoreInfoAction()
 
         // 是否与loginStore中的storeInfo信息同步？（看个人）
         // loginStore.storeInfo = res2.data
@@ -89,6 +94,22 @@ const useSettingStore = defineStore('Setting', {
           type: 'error'
         })
       }
+    },
+
+    // ==============
+
+    async updataUserPwdAction(data: any) {
+      const { data: res } = await updataUserPwdApi(data)
+
+      if (res.code) {
+        ElMessage({
+          message: res.message,
+          type: 'error'
+        })
+      }
+
+      // - 是否使用新用户名称重新登录？（看个人）
+      return res
     }
   }
 })

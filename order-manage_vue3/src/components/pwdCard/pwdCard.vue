@@ -52,7 +52,11 @@
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import type { IPwdData } from '@/types/main/setting'
+import useSettingStore from '@/stores/main/setting'
+import { useRouter } from 'vue-router'
+import { logoutAction } from '@/utils/handle-logout'
 
+const router = useRouter()
 const pwdFormRef = ref<FormInstance>()
 
 // 表单数据
@@ -99,8 +103,19 @@ const formRules = reactive<FormRules<IPwdData>>({
   ]
 })
 
-const submitForm = (formEl: FormInstance | undefined) => {
-  //
+const settingStore = useSettingStore()
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  const data = {
+    oldPwd: pwdForm.oldPwd,
+    newPwd: pwdForm.newPwd
+  }
+
+  // 更新密码
+  const result = await settingStore.updataUserPwdAction(data)
+  if (!result.code) {
+    logoutAction(router)
+  }
 }
 
 const resetForm = (formEl: FormInstance | undefined) => {

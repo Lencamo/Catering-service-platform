@@ -13,3 +13,10 @@ export function updataStoreInfoApi(storeId: string, data: any) {
     data
   })
 }
+
+export function updataUserPwdApi(data: any) {
+  return orderRequest.patch({
+    url: `/user/pwd`,
+    data
+  })
+}

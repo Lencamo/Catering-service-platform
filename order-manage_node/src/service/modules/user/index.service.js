@@ -76,6 +76,40 @@ class userService {
 
     return result
   }
+
+  async findUserByPwd(password) {
+    const statement = `db.collection("c_user").where({
+      password: "${password}"
+    }).get()`
+
+    const { data: result } = await orderRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result.data
+  }
+
+  async updatePwd(userId, password) {
+    const statement = `db.collection("c_user").where({
+      _id: "${userId}"
+    }).update({data: {
+      password: "${password}"
+    }})`
+
+    const { data: result } = await orderRequest.post({
+      url: '/databaseupdate',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new userService()
