@@ -1,4 +1,4 @@
-const { NAME_ALREADY_EXISTS } = require('../../config/constants')
+const { STORENAME_ALREADY_EXISTS } = require('../../config/constants')
 const { storeSchema } = require('../../schema/store.schema')
 const storeService = require('../../service/modules/store/index.service')
 
@@ -11,7 +11,7 @@ const verifyStore = async (ctx, next) => {
   // 2、验证当前店铺名是否被占用
   const stores = await storeService.findStoreByName(storename)
   if (stores.length) {
-    return ctx.app.emit('error', NAME_ALREADY_EXISTS, ctx)
+    return ctx.app.emit('error', STORENAME_ALREADY_EXISTS, ctx)
   }
 
   await next()
@@ -20,13 +20,19 @@ const verifyStore = async (ctx, next) => {
 const verifyStoreInfo = async (ctx, next) => {
   const { storename, storelocal, storephone, storeintro } = ctx.request.body
 
-  // 数据合法性校验
+  // 1、数据合法性校验
   const joiResult = await storeSchema.validateAsync({
     storename,
     storelocal,
     storephone,
     storeintro
   })
+
+  // 2、验证当前店铺名是否被占用
+  const stores = await storeService.findStoreByName(storename)
+  if (stores.length) {
+    return ctx.app.emit('error', STORENAME_ALREADY_EXISTS, ctx)
+  }
 
   await next()
 }

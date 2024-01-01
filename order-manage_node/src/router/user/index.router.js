@@ -23,7 +23,7 @@ userRouter.post('/', verifyUser, handlePassword, userController.create)
 userRouter.get('/:userId', userController.show)
 
 // 更改用户信息
-userRouter.post('/:userId', verifyUserInfo, verifyAuth, userController.update)
+userRouter.patch('/', verifyUserInfo, verifyAuth, userController.update)
 
 // 修改用户密码
 userRouter.patch('/pwd', verifyPassword, verifyAuth, userController.updatePwd)

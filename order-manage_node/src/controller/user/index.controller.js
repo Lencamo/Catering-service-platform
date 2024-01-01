@@ -39,11 +39,11 @@ class userController {
   async update(ctx, next) {
     // 1、接收body数据
     const { username } = ctx.request.body
-    const { userId } = ctx.params
+    const { id: user_id } = ctx.user
 
     // 2、数据库交互
     // - 更新用户名称
-    const result = await userService.update(userId, username)
+    const result = await userService.update(user_id, username)
 
     // 3、发送响应信息
     ctx.body = {

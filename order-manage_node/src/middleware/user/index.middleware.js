@@ -22,8 +22,14 @@ const verifyUser = async (ctx, next) => {
 const verifyUserInfo = async (ctx, next) => {
   const { username } = ctx.request.body
 
-  // 数据合法性校验
+  // 1、数据合法性校验
   const joiResult = await userSchema.validateAsync({ username })
+
+  // 2、验证用户名是否占用
+  const users = await userService.findUserByName(username)
+  if (users.length) {
+    return ctx.app.emit('error', USERNAME_ALREADY_EXISTS, ctx)
+  }
 
   await next()
 }

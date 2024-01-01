@@ -1,9 +1,10 @@
 const {
-  NAME_ALREADY_EXISTS,
+  USERNAME_ALREADY_EXISTS,
   NAME_NOT_EXISTS,
   PASSWORD_IS_INCORRENT,
   UNAUTHORIZATION,
-  OPERATION_IS_NOT_ALLOWED
+  OPERATION_IS_NOT_ALLOWED,
+  STORENAME_ALREADY_EXISTS
 } = require('../config/constants.js')
 
 const errorHandle = (err, ctx) => {
@@ -11,7 +12,7 @@ const errorHandle = (err, ctx) => {
   let message = ''
 
   switch (err) {
-    case NAME_ALREADY_EXISTS:
+    case USERNAME_ALREADY_EXISTS:
       code = 1002
       message = '用户名已被注册，请输入新的用户名~~'
       break
@@ -26,6 +27,10 @@ const errorHandle = (err, ctx) => {
     case UNAUTHORIZATION:
       code = 1005
       message = 'token过期或者无效的token，请重新登录~~'
+      break
+    case STORENAME_ALREADY_EXISTS:
+      code = 1006
+      message = '店铺名称已被注册，请输入新的店铺名~~'
       break
     case OPERATION_IS_NOT_ALLOWED:
       code = 2001

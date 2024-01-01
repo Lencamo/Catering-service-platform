@@ -1,20 +1,20 @@
 import { orderRequest } from '@/services'
 
-export function updataUsernameApi(userId: string, data: any) {
-  return orderRequest.post({
-    url: `/user/${userId}`,
+export function updateUsernameApi(data: any) {
+  return orderRequest.patch({
+    url: `/user`,
     data
   })
 }
 
-export function updataStoreInfoApi(storeId: string, data: any) {
-  return orderRequest.post({
+export function updateStoreInfoApi(storeId: string, data: any) {
+  return orderRequest.patch({
     url: `/store/${storeId}`,
     data
   })
 }
 
-export function updataUserPwdApi(data: any) {
+export function updateUserPwdApi(data: any) {
   return orderRequest.patch({
     url: `/user/pwd`,
     data

@@ -176,7 +176,7 @@ const handleConfirmBtn = async () => {
 
   // 更新店铺信息
   const data = cardForm
-  await settingStore.updataStoreInfoAction(data)
+  await settingStore.updateStoreInfoAction(data)
 
   // 更新店铺logo
   // - 手动启动

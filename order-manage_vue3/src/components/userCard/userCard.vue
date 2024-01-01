@@ -161,13 +161,12 @@ const handleConfirmBtn = async () => {
 
   // 更新用户名称
   if (cardForm.username !== userInfo.value.username) {
-    const useId = userInfo.value._id
     const data = {
       username: cardForm.username
     }
 
-    const code = await settingStore.updataUsernameAction(useId, data)
-    if (!code) {
+    const result = await settingStore.updateUsernameAction(data)
+    if (!result.code) {
       logoutAction(router)
     }
   }

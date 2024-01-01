@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import {
-  updataStoreInfoApi,
-  updataUsernameApi,
-  updataUserPwdApi
+  updateStoreInfoApi,
+  updateUsernameApi,
+  updateUserPwdApi
 } from '@/services/modules/main/setting'
 import { getStoreInfoApi, getUserInfoApi } from '@/services/modules/login/login'
 import { localCache } from '@/utils/cache'
@@ -37,8 +37,8 @@ const useSettingStore = defineStore('Setting', {
       }
     },
 
-    async updataUsernameAction(data: any) {
-      const { data: res } = await updataUsernameApi(this.USER_ID, data)
+    async updateUsernameAction(data: any) {
+      const { data: res } = await updateUsernameApi(data)
 
       if (!res.code) {
         // - 更新setting中的userInfo
@@ -79,8 +79,8 @@ const useSettingStore = defineStore('Setting', {
       }
     },
 
-    async updataStoreInfoAction(data: any) {
-      const { data: res } = await updataStoreInfoApi(this.STORE_ID, data)
+    async updateStoreInfoAction(data: any) {
+      const { data: res } = await updateStoreInfoApi(this.STORE_ID, data)
 
       if (!res.code) {
         // 更新setting中的storeInfo
@@ -98,8 +98,8 @@ const useSettingStore = defineStore('Setting', {
 
     // ==============
 
-    async updataUserPwdAction(data: any) {
-      const { data: res } = await updataUserPwdApi(data)
+    async updateUserPwdAction(data: any) {
+      const { data: res } = await updateUserPwdApi(data)
 
       if (res.code) {
         ElMessage({

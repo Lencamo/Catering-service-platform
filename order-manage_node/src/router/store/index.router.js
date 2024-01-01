@@ -14,6 +14,6 @@ storeRouter.post('/', verifyAuth, verifyStore, storeController.create)
 storeRouter.get('/:userId', storeController.show)
 
 // 更改店铺信息
-storeRouter.post('/:storeId', verifyStoreInfo, verifyAuth, storeController.update)
+storeRouter.patch('/:storeId', verifyStoreInfo, verifyAuth, storeController.update)
 
 module.exports = storeRouter

@@ -112,7 +112,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   }
 
   // 更新密码
-  const result = await settingStore.updataUserPwdAction(data)
+  const result = await settingStore.updateUserPwdAction(data)
   if (!result.code) {
     logoutAction(router)
   }
