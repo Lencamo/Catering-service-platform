@@ -105,7 +105,11 @@ const handleEditBtn = async () => {
 
   cardForm.username = userInfo.value.username
   cardForm.password = userInfo.value.password
-  avatarList.value[0] = userInfo.value.avatar
+
+  // 是否使用默认值
+  if (userInfo.value.avatar.url) {
+    avatarList.value[0] = userInfo.value.avatar
+  }
 }
 
 // =================

@@ -103,7 +103,11 @@ const handleMenuIconClick = () => {
 
         img {
           height: 60%;
+          aspect-ratio: 1 / 1;
           margin: 0px 10px 0px 0px;
+
+          border-radius: 50%;
+          object-fit: cover;
         }
       }
     }

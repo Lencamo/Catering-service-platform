@@ -122,7 +122,11 @@ const handleEditBtn = () => {
   for (const key in cardForm) {
     cardForm[key] = storeInfo.value[key]
   }
-  logoList.value[0] = storeInfo.value.logo
+
+  // 是否使用默认值
+  if (storeInfo.value.logo.url) {
+    logoList.value[0] = storeInfo.value.logo
+  }
 }
 
 // =================
