@@ -27,9 +27,11 @@ import { reactive } from 'vue'
 import stepOne from './components/step-one.vue'
 import stepTwo from './components/step-two.vue'
 import stepThree from './components/step-three.vue'
+import { localCache } from '@/utils/cache'
+import { REGISTER_STORE } from '@/config/constants'
 
 const stepJump = reactive({
-  activeStep: 1, //  步骤条
+  activeStep: localCache.getCache(REGISTER_STORE) ? 2 : 1, //  步骤条
   prevBtn: false
 })
 
