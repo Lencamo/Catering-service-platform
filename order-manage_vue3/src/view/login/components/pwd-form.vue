@@ -57,7 +57,7 @@ const pwdLoginAction = (isRemeber: boolean) => {
 
       loginStore.pwdLoginAction({ username: user, password: pwd }).then(() => {
         // 页面跳转
-        router.push('/home')
+        router.push('/store')
 
         // 记住密码
         if (isRemeber) {

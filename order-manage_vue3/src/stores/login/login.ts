@@ -4,7 +4,7 @@ import { getStoreInfoApi, getUserInfoApi, pwdLoginApi } from '../../services/mod
 
 import type { IAccount, IMeta } from '@/types/login/login.ts'
 import { localCache } from '@/utils/cache.ts'
-import { LOGIN_TOKEN, LOGIN_USERINFO, LOGIN_STOREINFO } from '@/config/constants.ts'
+import { LOGIN_TOKEN, LOGIN_USERINFO, LOGIN_STOREINFO, REGISTER_STORE } from '@/config/constants.ts'
 import { initStaticRoutes } from '@/utils/initStaticRoutes.ts'
 
 const useloginStore = defineStore('login', {
@@ -31,6 +31,9 @@ const useloginStore = defineStore('login', {
 
         // 2、token缓存
         localCache.setCache(LOGIN_TOKEN, this.token)
+
+        // 3、店铺未注册标记
+        localCache.setCache(REGISTER_STORE, false)
 
         // =====
 

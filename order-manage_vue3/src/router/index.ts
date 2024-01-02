@@ -1,4 +1,4 @@
-import { LOGIN_TOKEN } from '@/config/constants'
+import { LOGIN_TOKEN, REGISTER_STORE } from '@/config/constants'
 import { localCache } from '@/utils/cache'
 import { createRouter, createWebHistory } from 'vue-router'
 import { firstMenuItem } from '@/utils/initStaticRoutes'
@@ -39,10 +39,15 @@ const router = createRouter({
 // 设置全局前置守卫
 router.beforeEach((to, from) => {
   const token = localCache.getCache(LOGIN_TOKEN)
+  const hasStore = localCache.getCache(REGISTER_STORE)
 
   // 进入后台token判断
-  if (/^\/(home|main)/.test(to.path) && !token) {
+  if (/^\/(home|main|store)/.test(to.path) && !token) {
     return '/login'
+  }
+
+  if (/^\/(home|main)/.test(to.path) && !hasStore) {
+    return '/store'
   }
 
   // 设置初次进入pages
