@@ -18,8 +18,8 @@
       </el-upload>
     </div>
     <div class="btn-box">
-      <el-button @click="resetForm(pwdFormRef)">重置</el-button>
-      <el-button type="primary" @click="submitForm(pwdFormRef)">确认</el-button>
+      <el-button @click="skipStep">跳过</el-button>
+      <el-button type="primary" @click="submitForm">确认</el-button>
     </div>
   </div>
 </template>
@@ -34,25 +34,31 @@ import type {
   FormInstance
 } from 'element-plus'
 import defaultLogo from '@/assets/imgs/default.jpg'
+import { localCache } from '@/utils/cache'
+import { LOGIN_STOREINFO, LOGIN_TOKEN } from '@/config/constants'
+import useSettingStore from '@/stores/main/setting'
 
+const settingStore = useSettingStore()
 const pwdFormRef = ref<FormInstance>()
+
+const cacheUrl =
+  localCache.getCache(LOGIN_STOREINFO) && localCache.getCache(LOGIN_STOREINFO).logo.url
+
+console.log(localCache.getCache(LOGIN_STOREINFO).logo.url)
 
 // 图片数据
 let logoList = ref<UploadUserFile[]>([
   {
     name: 'logo',
-    url: defaultLogo
+    url: cacheUrl || defaultLogo
   }
 ])
-
 // =================
 
 // 文件上传处理
 const uploadRef = ref<UploadInstance>()
 let BASE_URL = import.meta.env.VITE_BASE_API
 let token = localCache.getCache(LOGIN_TOKEN)
-import { localCache } from '@/utils/cache'
-import { LOGIN_TOKEN } from '@/config/constants'
 
 // - 请求url
 const logoUploadAction = computed(() => {
@@ -85,9 +91,6 @@ const beforeLogoUpload: UploadProps['beforeUpload'] = (rawFile) => {
 // logo上传-成功回调
 const handleUploadSuccess = async (response: any, uploadFile: UploadFile) => {
   ElMessage.success('店铺logo上传成功')
-
-  // storeInfo.value.logo.url = URL.createObjectURL(uploadFile.raw!)
-  // 跳转页面
 }
 const handleUploadError = (response: any, uploadFile: UploadFile) => {
   ElMessage.error('店铺logo上传失败')
@@ -97,16 +100,20 @@ const handleUploadError = (response: any, uploadFile: UploadFile) => {
 
 const emit = defineEmits(['stepChange'])
 
-const submitForm = (formEl: FormInstance | undefined) => {
-  // 提交表单
-  //
+const submitForm = async () => {
+  // 上传logo
+  uploadRef.value!.submit()
+
+  // 更新storeInfo
+  await settingStore.getStoreInfoAction()
+
   // step跳转
   emit('stepChange', 3)
 }
 
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.resetFields()
+const skipStep = () => {
+  // step跳转
+  emit('stepChange', 3)
 }
 </script>
 
