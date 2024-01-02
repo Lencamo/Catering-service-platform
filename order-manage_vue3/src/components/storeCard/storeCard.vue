@@ -19,11 +19,11 @@
         </span>
         <span>
           <el-text tag="b">联系电话：</el-text>
-          <el-text tag="ins">{{ storeInfo.storephone ?? '无' }}</el-text>
+          <el-text tag="ins">{{ storeInfo.storephone || '无' }}</el-text>
         </span>
         <span>
           <el-text tag="b">经营范围：</el-text>
-          <el-text tag="ins">{{ storeInfo.storeintro ?? '无' }}</el-text>
+          <el-text tag="ins">{{ storeInfo.storeintro || '无' }}</el-text>
         </span>
         <span>
           <el-text tag="b">店铺Login：</el-text>
@@ -120,6 +120,11 @@ const handleEditBtn = () => {
   dialogVisible.value = true
 
   for (const key in cardForm) {
+    // 细节bug修复（对接于后台接口数据校验问题）
+    if (storeInfo.value[key] === null) {
+      storeInfo.value[key] = ''
+    }
+
     cardForm[key] = storeInfo.value[key]
   }
 

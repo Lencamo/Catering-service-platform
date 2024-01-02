@@ -8,7 +8,7 @@ const storeRouter = new Router({
 })
 
 // 店铺注册
-storeRouter.post('/', verifyAuth, verifyStore, storeController.create)
+storeRouter.post('/', verifyStore, verifyAuth, storeController.create)
 
 // 查看店铺信息
 storeRouter.get('/:userId', storeController.show)
