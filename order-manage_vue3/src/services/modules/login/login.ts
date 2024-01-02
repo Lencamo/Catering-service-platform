@@ -1,6 +1,6 @@
 import { orderRequest } from '../../index.ts'
 
-import type { IAccount } from '@/types/login/login.ts'
+import type { IAccount, IStore } from '@/types/login/login.ts'
 
 export function pwdLoginApi(account: IAccount) {
   return orderRequest.post({
@@ -19,6 +19,15 @@ export function phoneLoginApi(account: any) {
 export function getCodeSvgApi() {
   return orderRequest.get({
     url: '/login/codePic'
+  })
+}
+
+// =========
+
+export function storeRegisterApi(store: IStore) {
+  return orderRequest.post({
+    url: `/store`,
+    data: store
   })
 }
 

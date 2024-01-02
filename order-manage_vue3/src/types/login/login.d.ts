@@ -9,3 +9,8 @@ export interface IMeta {
   icon: string
   url: string
 }
+
+export interface IStore {
+  storename: string
+  storelocal: string
+}

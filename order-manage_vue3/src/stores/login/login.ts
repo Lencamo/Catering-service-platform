@@ -1,8 +1,13 @@
 import { defineStore } from 'pinia'
 
-import { getStoreInfoApi, getUserInfoApi, pwdLoginApi } from '../../services/modules/login/login.ts'
+import {
+  getStoreInfoApi,
+  getUserInfoApi,
+  pwdLoginApi,
+  storeRegisterApi
+} from '../../services/modules/login/login.ts'
 
-import type { IAccount, IMeta } from '@/types/login/login.ts'
+import type { IAccount, IMeta, IStore } from '@/types/login/login.ts'
 import { localCache } from '@/utils/cache.ts'
 import { LOGIN_TOKEN, LOGIN_USERINFO, LOGIN_STOREINFO, REGISTER_STORE } from '@/config/constants.ts'
 import { initStaticRoutes } from '@/utils/initStaticRoutes.ts'
@@ -74,6 +79,25 @@ const useloginStore = defineStore('login', {
           type: 'error'
         })
       }
+    },
+
+    async storeRegisterAction(data: IStore) {
+      const { data: res } = await storeRegisterApi(data)
+
+      if (!res.code) {
+        // 注册完成标记
+        localCache.setCache(REGISTER_STORE, true)
+
+        // 缓存店铺信息
+        this.getStoreInfoAction()
+      } else {
+        ElMessage({
+          message: res.message,
+          type: 'error'
+        })
+      }
+
+      return res
     },
 
     routesCacheAction() {
