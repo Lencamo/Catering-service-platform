@@ -20,6 +20,10 @@ import { reactive, ref, computed } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { localCache } from '@/utils/cache'
 import { REGISTER_STORE } from '@/config/constants'
+import useloginStore from '@/stores/login/login.ts'
+import { storeToRefs } from 'pinia'
+
+const loginStore = useloginStore()
 
 const pwdFormRef = ref<FormInstance>()
 
@@ -41,6 +45,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
 
   // 注册完成标记
   localCache.setCache(REGISTER_STORE, true)
+
+  // 缓存店铺信息
+  loginStore.getStoreInfoAction()
 }
 
 const resetForm = (formEl: FormInstance | undefined) => {

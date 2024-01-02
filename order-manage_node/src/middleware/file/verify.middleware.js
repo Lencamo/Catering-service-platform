@@ -24,8 +24,13 @@ const verifyLogo = async (ctx, next) => {
   const { id: user_id, username } = ctx.user
 
   // 验证当前用户是否存在店铺logo
-  const store = await storeService.findStoreByUserId(user_id)
-  const fileName = JSON.parse(store[0]).logo.name
+  const stores = await storeService.show(user_id)
+
+  let fileName = null
+
+  if (stores.length) {
+    fileName = JSON.parse(stores[0]).logo.name
+  }
 
   if (fileName !== null) {
     fs.unlink(UPLOAD_PATH + '/' + fileName, (err) => {

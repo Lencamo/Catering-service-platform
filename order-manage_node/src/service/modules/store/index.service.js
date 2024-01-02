@@ -55,9 +55,9 @@ class storeService {
         query: statement
       }
     })
-    // console.log(result)
+    // console.log(JSON.parse(result.data))
 
-    return JSON.parse(result.data)
+    return result.data
   }
 
   async update(storeId, storename, storelocal, storephone, storeintro) {
@@ -79,22 +79,6 @@ class storeService {
     // console.log(result)
 
     return result
-  }
-
-  async findStoreByUserId(user_id) {
-    const statement = `db.collection("c_store").where({
-      user_id: "${user_id}"
-    }).get()`
-
-    const { data: result } = await orderRequest.post({
-      url: '/databasequery',
-      data: {
-        query: statement
-      }
-    })
-    // console.log(result)
-
-    return result.data
   }
 }
 

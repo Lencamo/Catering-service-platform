@@ -15,9 +15,29 @@ const useloginStore = defineStore('login', {
     routeMetas: [] as IMeta[]
   }),
   getters: {
-    //
+    USER_ID(state) {
+      return state.userInfo._id
+    }
   },
   actions: {
+    async getStoreInfoAction() {
+      const { data: res } = await getStoreInfoApi(this.USER_ID)
+
+      if (res.data) {
+        // 店铺已注册标记
+        localCache.setCache(REGISTER_STORE, true)
+
+        // 缓存店铺信息
+        const storeInfo = res.data
+        this.storeInfo = storeInfo
+
+        localCache.setCache(LOGIN_STOREINFO, this.storeInfo)
+      } else {
+        // 店铺未注册标记
+        localCache.setCache(REGISTER_STORE, false)
+      }
+    },
+
     async pwdLoginAction(account: IAccount) {
       // 1、登录
       const { data: res } = await pwdLoginApi(account)
@@ -32,9 +52,6 @@ const useloginStore = defineStore('login', {
         // 2、token缓存
         localCache.setCache(LOGIN_TOKEN, this.token)
 
-        // 3、店铺未注册标记
-        localCache.setCache(REGISTER_STORE, false)
-
         // =====
 
         // 1、获取用户信息
@@ -46,12 +63,7 @@ const useloginStore = defineStore('login', {
         localCache.setCache(LOGIN_USERINFO, this.userInfo)
 
         // 2、获取店铺信息
-        const { data: res3 } = await getStoreInfoApi(userId)
-        const storeInfo = res3.data
-        this.storeInfo = storeInfo
-
-        // 缓存店铺信息
-        localCache.setCache(LOGIN_STOREINFO, this.storeInfo)
+        await this.getStoreInfoAction()
 
         // 3、本地静态路由-批量注册
         const routeMetas = initStaticRoutes()

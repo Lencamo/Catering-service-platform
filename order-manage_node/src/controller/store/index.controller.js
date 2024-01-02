@@ -24,7 +24,8 @@ class storeController {
     // console.log(user_id)
 
     // 2、数据库交互
-    const result = await storeService.show(user_id)
+    const stores = await storeService.show(user_id)
+    const result = stores.length === 0 ? null : JSON.parse(stores[0])
 
     // 3、发送响应消息
     ctx.body = {

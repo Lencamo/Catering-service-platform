@@ -42,7 +42,7 @@ const useSettingStore = defineStore('Setting', {
 
       if (!res.code) {
         // - 更新setting中的userInfo
-        this.getUserInfoAction()
+        await this.getUserInfoAction()
 
         // 一、方案1
         // - 是否使用新用户名称重新登录？（看个人）

@@ -4,6 +4,7 @@
       <template #header>
         <div class="top-box">
           <h3>请完善你的店铺信息</h3>
+          <el-button v-if="stepJump.activeStep === 2" @click="handleNext">下一步</el-button>
           <el-button v-if="stepJump.activeStep === 3" @click="handlePrev">上一步</el-button>
         </div>
       </template>
@@ -31,6 +32,11 @@ const stepJump = reactive({
   activeStep: 1, //  步骤条
   prevBtn: false
 })
+
+// 下一步按钮
+const handleNext = () => {
+  stepJump.activeStep = 3
+}
 
 // 上一步按钮
 const handlePrev = () => {

@@ -2,12 +2,6 @@ import { orderRequest } from '../../index.ts'
 
 import type { IAccount } from '@/types/login/login.ts'
 
-export function getCodeSvgApi() {
-  return orderRequest.get({
-    url: '/login/codePic'
-  })
-}
-
 export function pwdLoginApi(account: IAccount) {
   return orderRequest.post({
     url: '/login',
@@ -19,6 +13,12 @@ export function phoneLoginApi(account: any) {
   return orderRequest.post({
     url: '/login/phone',
     data: account
+  })
+}
+
+export function getCodeSvgApi() {
+  return orderRequest.get({
+    url: '/login/codePic'
   })
 }
 

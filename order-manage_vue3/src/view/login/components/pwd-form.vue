@@ -17,7 +17,7 @@ import type { FormRules, FormInstance } from 'element-plus'
 import useloginStore from '@/stores/login/login.ts'
 import { useRouter } from 'vue-router'
 import { localCache } from '@/utils/cache.ts'
-import { CACHE_USER } from '@/config/constants.ts'
+import { CACHE_USER, REGISTER_STORE } from '@/config/constants.ts'
 
 const loginStore = useloginStore()
 const router = useRouter()
@@ -47,25 +47,31 @@ const formRules = reactive<FormRules>({
 // 待调用函数
 const pwdFormRef = ref<FormInstance>()
 const pwdLoginAction = (isRemeber: boolean) => {
-  pwdFormRef.value?.validate((valid, fields) => {
+  pwdFormRef.value?.validate(async (valid, fields) => {
     if (valid) {
       ElMessage.success('表单校验成功！')
 
       // 密码登录 Action
-      // console.log(pwdForm)
       const { user, pwd } = pwdForm
 
-      loginStore.pwdLoginAction({ username: user, password: pwd }).then(() => {
-        // 页面跳转
-        router.push('/store')
+      // 登录
+      await loginStore.pwdLoginAction({ username: user, password: pwd })
 
-        // 记住密码
-        if (isRemeber) {
-          localCache.setCache(CACHE_USER, { username: user, password: pwd })
-        } else {
-          localCache.removeCache(CACHE_USER)
-        }
-      })
+      // 页面跳转
+      const hasStore = localCache.getCache(REGISTER_STORE)
+
+      if (hasStore) {
+        router.push('/home')
+      } else {
+        router.push('/store')
+      }
+
+      // 记住密码
+      if (isRemeber) {
+        localCache.setCache(CACHE_USER, { username: user, password: pwd })
+      } else {
+        localCache.removeCache(CACHE_USER)
+      }
 
       //
     } else {
