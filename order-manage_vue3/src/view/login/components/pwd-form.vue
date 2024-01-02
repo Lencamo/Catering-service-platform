@@ -49,7 +49,7 @@ const pwdFormRef = ref<FormInstance>()
 const pwdLoginAction = (isRemeber: boolean) => {
   pwdFormRef.value?.validate(async (valid, fields) => {
     if (valid) {
-      ElMessage.success('表单校验成功！')
+      // ElMessage.success('表单校验成功！')
 
       // 密码登录 Action
       const { user, pwd } = pwdForm
