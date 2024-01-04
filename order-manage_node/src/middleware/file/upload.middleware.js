@@ -29,10 +29,8 @@ const upload = multer({
 
 const avatarFileHandle = upload.single('avatar')
 const logoFileHandle = upload.single('logo')
-const ossFileHandle = upload.single('file')
 
 module.exports = {
   avatarFileHandle,
-  logoFileHandle,
-  ossFileHandle
+  logoFileHandle
 }

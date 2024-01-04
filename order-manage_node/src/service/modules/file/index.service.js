@@ -1,4 +1,4 @@
-const { orderRequest } = require('../../index.js')
+const { cloudRequest } = require('../../index.js')
 
 class fileService {
   async storeAvatar(filename, mimetype, size, avatar_url, user_id) {
@@ -13,7 +13,7 @@ class fileService {
       }
     }})`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databaseupdate',
       data: {
         query: statement
@@ -32,7 +32,7 @@ class fileService {
       avatar: true,
     }).get()`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databasequery',
       data: {
         query: statement
@@ -57,7 +57,7 @@ class fileService {
       }
     }})`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databaseupdate',
       data: {
         query: statement
@@ -76,7 +76,7 @@ class fileService {
       logo: true,
     }).get()`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databasequery',
       data: {
         query: statement

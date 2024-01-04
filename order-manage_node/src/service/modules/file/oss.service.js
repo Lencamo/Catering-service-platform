@@ -24,9 +24,15 @@ class ossService {
     }
   }
 
-  // async getFile(filename) {
-  //   await client.get(OSS_FILE_PATH + filename)
-  // }
+  async putCodeBuffer(filename, buffer) {
+    try {
+      const result = await ossClient.put(OSS_FILE_PATH + filename, new Buffer.from(buffer))
+
+      return result
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = new ossService()

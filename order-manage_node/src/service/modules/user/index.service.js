@@ -1,4 +1,4 @@
-const { orderRequest } = require('../../index.js')
+const { cloudRequest } = require('../../index.js')
 
 class userService {
   async create(user) {
@@ -17,7 +17,7 @@ class userService {
       }]
     })`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databaseadd',
       data: {
         query: statement
@@ -32,7 +32,7 @@ class userService {
         username: "${username}"
     }).get()`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databasequery',
       data: {
         query: statement
@@ -48,7 +48,7 @@ class userService {
       _id: "${user_id}"
     }).get()`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databasequery',
       data: {
         query: statement
@@ -66,7 +66,7 @@ class userService {
       username: "${username}"
     }})`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databaseupdate',
       data: {
         query: statement
@@ -82,7 +82,7 @@ class userService {
       password: "${password}"
     }).get()`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databasequery',
       data: {
         query: statement
@@ -100,7 +100,7 @@ class userService {
       password: "${password}"
     }})`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databaseupdate',
       data: {
         query: statement

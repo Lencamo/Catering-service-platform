@@ -1,4 +1,6 @@
+const ossController = require('../../controller/file/oss.controller.js')
 const { verifyAuth } = require('../../middleware/auth.middleware.js')
+const { ossFileHandle } = require('../../middleware/file/oss.middleware.js')
 const { getWxToken } = require('../../service/request/wx_token.js')
 
 const Router = require('@koa/router')
@@ -34,5 +36,7 @@ demoRouter.get('/getAccess_Token', async (ctx, next) => {
     data
   }
 })
+
+demoRouter.post('/oss', verifyAuth, ossFileHandle, ossController.putFile)
 
 module.exports = demoRouter

@@ -40,3 +40,16 @@
   }
 }
 ```
+
+- 桌号集合（c_table）
+
+> 所有用户可读，仅创建者可读写
+
+```json
+{
+  "_id": "a72823ff6596d08005deb8093a848baa",
+  "tablename": "http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/code-1704382572893-549775905-1号桌.jpg",
+  "codeUrl": "1号桌",
+  "createTime": "2024-01-04 23:36:13"
+}
+```

@@ -1,4 +1,4 @@
-const { orderRequest } = require('../..')
+const { cloudRequest } = require('../..')
 
 class storeService {
   async create(user_id, storename, storelocal) {
@@ -18,7 +18,7 @@ class storeService {
       }]
     })`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databaseadd',
       data: {
         query: statement
@@ -33,7 +33,7 @@ class storeService {
       storename: "${storename}"
     }).get()`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databasequery',
       data: {
         query: statement
@@ -49,7 +49,7 @@ class storeService {
       user_id: "${user_id}"
     }).get()`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databasequery',
       data: {
         query: statement
@@ -70,7 +70,7 @@ class storeService {
       storeintro: "${storeintro}"
     }})`
 
-    const { data: result } = await orderRequest.post({
+    const { data: result } = await cloudRequest.post({
       url: '/databaseupdate',
       data: {
         query: statement

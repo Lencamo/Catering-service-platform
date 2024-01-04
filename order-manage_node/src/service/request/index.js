@@ -13,7 +13,9 @@ class RenRequest {
         const { data: res } = await getWxToken()
         config.params = { ...config.params, access_token: res.access_token }
         // 2、env（根据不同的实例传入更佳）
-        config.data = { ...config.data, env: CLOUD_ENV }
+        if (CLOUD_ENV) {
+          config.data = { ...config.data, env: CLOUD_ENV }
+        }
 
         return config
       },
