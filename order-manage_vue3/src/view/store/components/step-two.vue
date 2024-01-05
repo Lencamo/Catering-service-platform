@@ -44,7 +44,7 @@ const pwdFormRef = ref<FormInstance>()
 const cacheUrl =
   localCache.getCache(LOGIN_STOREINFO) && localCache.getCache(LOGIN_STOREINFO).logo.url
 
-console.log(localCache.getCache(LOGIN_STOREINFO).logo.url)
+// console.log(localCache.getCache(LOGIN_STOREINFO).logo.url)
 
 // 图片数据
 let logoList = ref<UploadUserFile[]>([

@@ -17,7 +17,7 @@
       >
         <el-table-column type="selection" />
         <el-table-column type="index" label="序号" width="60" />
-        <el-table-column prop="tablename" label="桌号" width="120" align="center" />
+        <el-table-column prop="tablename" label="桌号" width="120" sortable align="center" />
         <el-table-column prop="codeUrl" label="桌号小程序码" align="center">
           <template #default="scope">
             <span style="display: inline-block; width: 70px">
@@ -67,6 +67,18 @@
         @current-change="handleCurrentChange"
       />
     </div>
+    <el-dialog v-model="dialogVisible" title="新增桌号" align-center draggable center width="350px">
+      <el-text tag="p">请选择桌号：</el-text>
+      <br />
+      <el-input-number v-model="tableNumb" :min="1" controls-position="right" />
+
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="handleConfirmBtn">确认</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -90,7 +102,7 @@ const getCurrentTableList = async () => {
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
 
-  await tableStore.getTableListAction(size, offset)
+  await tableStore.getTableListAction({ size, offset })
 }
 getCurrentTableList()
 
@@ -109,10 +121,36 @@ const handleCurrentChange = (page: number) => {
   getCurrentTableList()
 }
 
+// =================
+
+// Dialog弹窗
+const dialogVisible = ref(false)
+
+// 桌号数据
+const tableNumb = ref()
+
 // 新增桌号按钮
 const handleAddBtn = () => {
-  //
+  dialogVisible.value = true
+
+  tableNumb.value = null
 }
+
+const handleConfirmBtn = async () => {
+  dialogVisible.value = false
+
+  // 更新店铺信息
+  const tablename = tableNumb.value + '号桌'
+  const result = await tableStore.addTableAction(tablename)
+
+  // 细节处理：是否需要同步更新Pagination的页码
+  if (!result.code) {
+    currentPage.value = 1
+    pageSize.value = 5
+  }
+}
+
+// =================
 
 // 下载桌号小程序码按钮
 const handleDownloadBtn = async (table: ITableData) => {
@@ -161,6 +199,14 @@ const handleDelectBtn = (tableId: number) => {
 
     display: flex;
     justify-content: flex-end;
+  }
+
+  :deep(.el-dialog__body) {
+    padding: 10px var(--el-dialog-padding-primary);
+  }
+
+  .el-input-number {
+    width: 100%;
   }
 }
 </style>

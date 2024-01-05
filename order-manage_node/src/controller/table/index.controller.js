@@ -6,8 +6,6 @@ class tableController {
     const { id: user_id } = ctx.user
     const { offset, size } = ctx.request.body
 
-    console.log()
-
     // 2、数据库交互
     const result = await tableServer.tableList(user_id, offset, size)
     // - 数据处理

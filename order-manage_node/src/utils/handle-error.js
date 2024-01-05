@@ -4,7 +4,8 @@ const {
   PASSWORD_IS_INCORRENT,
   UNAUTHORIZATION,
   OPERATION_IS_NOT_ALLOWED,
-  STORENAME_ALREADY_EXISTS
+  STORENAME_ALREADY_EXISTS,
+  TABLENAME_ALREADY_EXISTS
 } = require('../config/constants.js')
 
 const errorHandle = (err, ctx) => {
@@ -31,6 +32,10 @@ const errorHandle = (err, ctx) => {
     case STORENAME_ALREADY_EXISTS:
       code = 1006
       message = '店铺名称已被注册，请输入新的店铺名~~'
+      break
+    case TABLENAME_ALREADY_EXISTS:
+      code = 1007
+      message = '桌号已被注册，请输入新的桌号名称~~'
       break
     case OPERATION_IS_NOT_ALLOWED:
       code = 2001

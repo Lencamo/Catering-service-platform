@@ -53,6 +53,22 @@ class tableServer {
 
     return result
   }
+
+  async findTableByName(tablename) {
+    const statement = `db.collection("c_table").where({
+      tablename: "${tablename}"
+  }).get()`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result.data
+  }
 }
 
 module.exports = new tableServer()
