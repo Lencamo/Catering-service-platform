@@ -15,7 +15,7 @@ class userController {
     // 3、发送响应信息
     ctx.body = {
       code: 0,
-      msssage: '用户注册成功！',
+      message: '用户注册成功！',
       data: result
     }
   }
@@ -31,7 +31,7 @@ class userController {
     // 3、发送响应信息
     ctx.body = {
       code: 0,
-      msssage: '单个用户详情成功！',
+      message: '单个用户详情成功！',
       data: result
     }
   }
@@ -48,7 +48,7 @@ class userController {
     // 3、发送响应信息
     ctx.body = {
       code: 0,
-      msssage: '更新用户详情成功！',
+      message: '更新用户详情成功！',
       data: result
     }
   }
@@ -65,7 +65,7 @@ class userController {
     // 3、发送响应信息
     ctx.body = {
       code: 0,
-      msssage: '用户密码修改成功！',
+      message: '用户密码修改成功！',
       data: result
     }
   }

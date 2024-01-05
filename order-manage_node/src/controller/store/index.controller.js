@@ -47,7 +47,7 @@ class storeController {
     // 3、发送响应信息
     ctx.body = {
       code: 0,
-      msssage: '更新店铺信息成功！',
+      message: '更新店铺信息成功！',
       data: result
     }
   }

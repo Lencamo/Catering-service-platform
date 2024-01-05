@@ -12,7 +12,7 @@ class loginController {
     // 3、发送响应信息
     ctx.body = {
       code: 0,
-      msssage: '用户登录成功！',
+      message: '用户登录成功！',
       data: {
         ...payload,
         token

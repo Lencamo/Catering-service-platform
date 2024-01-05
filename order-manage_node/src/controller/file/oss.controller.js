@@ -29,6 +29,7 @@ class ossController {
     // 1、接收数据
     const { tablename } = ctx.request.body
     const { fileName, codeBuffer } = ctx.code
+    const { id: user_id } = ctx.user
 
     // 2、数据库交互
     // - 上传文件到oss
@@ -36,7 +37,7 @@ class ossController {
 
     // - 存储小程序码
     const createTime = dayjs().utc().utcOffset(8).format('YYYY-MM-DD HH:mm:ss')
-    const result = await tableServer.createTable(tablename, codeUrl, createTime)
+    const result = await tableServer.createTable(tablename, codeUrl, createTime, user_id)
 
     // 3、发送响应信息
     ctx.body = {
