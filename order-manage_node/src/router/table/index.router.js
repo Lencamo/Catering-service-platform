@@ -16,4 +16,7 @@ tableRouter.post('/', verifyAuth, handleTable, ossController.putCodeBuffer)
 // 获取桌号列表
 tableRouter.post('/list', verifyAuth, tableController.tableList)
 
+// 删除桌号
+tableRouter.delete('/:tableId', verifyAuth, tableController.delete)
+
 module.exports = tableRouter

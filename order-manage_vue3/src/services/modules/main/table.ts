@@ -14,3 +14,9 @@ export function addTableApi(tablename: string) {
     data: { tablename }
   })
 }
+
+export function deleteTableApi(tableId: string) {
+  return orderRequest.delete({
+    url: `/table/${tableId}`
+  })
+}

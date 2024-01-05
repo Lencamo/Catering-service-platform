@@ -43,7 +43,7 @@
             >
             <el-popconfirm
               title="你确定执行删除操作吗？"
-              @confirm="handleDelectBtn(scope.row.id)"
+              @confirm="handleDelectBtn(scope.row._id)"
               width="200px"
             >
               <template #reference>
@@ -139,7 +139,7 @@ const handleAddBtn = () => {
 const handleConfirmBtn = async () => {
   dialogVisible.value = false
 
-  // 更新店铺信息
+  // 新增桌号
   const tablename = tableNumb.value + '号桌'
   const result = await tableStore.addTableAction(tablename)
 
@@ -150,7 +150,17 @@ const handleConfirmBtn = async () => {
   }
 }
 
-// =================
+// 桌号删除按钮
+const handleDelectBtn = async (tableId: string) => {
+  // 删除桌号
+  const result = await tableStore.deleteTableAction(tableId)
+
+  // 细节处理：是否需要同步更新Pagination的页码
+  if (!result.code) {
+    currentPage.value = 1
+    pageSize.value = 5
+  }
+}
 
 // 下载桌号小程序码按钮
 const handleDownloadBtn = async (table: ITableData) => {
@@ -169,11 +179,6 @@ const handleDownloadBtn = async (table: ITableData) => {
   } catch (error: any) {
     ElMessage.error('下载图片失败！')
   }
-}
-
-// 桌号删除按钮
-const handleDelectBtn = (tableId: number) => {
-  //
 }
 </script>
 

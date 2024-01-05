@@ -69,6 +69,22 @@ class tableServer {
 
     return result.data
   }
+
+  async delete(table_id) {
+    const statement = `db.collection("c_table").where({
+      _id: "${table_id}"
+  }).remove()`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databasedelete',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new tableServer()
