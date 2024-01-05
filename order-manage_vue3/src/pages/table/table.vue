@@ -8,7 +8,13 @@
       </span>
     </div>
     <div class="center-box">
-      <el-table :data="tableList" style="width: 100%" border center>
+      <el-table
+        :data="tableList"
+        :default-sort="{ prop: 'tablename', order: 'ascending' }"
+        style="width: 100%"
+        border
+        center
+      >
         <el-table-column type="selection" />
         <el-table-column type="index" label="序号" width="60" />
         <el-table-column prop="tablename" label="桌号" width="120" align="center" />
@@ -67,63 +73,41 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { ITableData } from '@/types/main/table'
+import useTableStore from '@/stores/main/table'
+import { storeToRefs } from 'pinia'
 
 // 分页器数据
-const tableTotalCount = 5
-const tableList = [
-  {
-    _id: '09e78768659784e805defb1d799d4556',
-    codeUrl:
-      'http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/code-1704428756048-258355306-1%E5%8F%B7%E6%A1%8C.jpg',
-    createTime: '2024-01-05 12:25:56',
-    tablename: '1号桌',
-    user_id: '7027b65465903dce055011740e2671aa'
-  },
-  {
-    _id: '7027b654659785fb05cfac44663f61e1',
-    codeUrl:
-      'http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/code-1704429030559-589481894-2%E5%8F%B7%E6%A1%8C.jpg',
-    createTime: '2024-01-05 12:30:30',
-    tablename: '2号桌',
-    user_id: '7027b65465903dce055011740e2671aa'
-  },
-  {
-    _id: 'a72823ff6597860205ec10075cdddd5c',
-    codeUrl:
-      'http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/code-1704429038028-786074175-3%E5%8F%B7%E6%A1%8C.jpg',
-    createTime: '2024-01-05 12:30:38',
-    tablename: '3号桌',
-    user_id: '7027b65465903dce055011740e2671aa'
-  },
-  {
-    _id: '80e3bed0659786080605b10f23880d8d',
-    codeUrl:
-      'http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/code-1704429043962-507786020-4%E5%8F%B7%E6%A1%8C.jpg',
-    createTime: '2024-01-05 12:30:44',
-    tablename: '4号桌',
-    user_id: '7027b65465903dce055011740e2671aa'
-  },
-  {
-    _id: 'a72823ff6597861005ec12020962253d',
-    codeUrl:
-      'http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/code-1704429051973-241831000-5%E5%8F%B7%E6%A1%8C.jpg',
-    createTime: '2024-01-05 12:30:52',
-    tablename: '5号桌',
-    user_id: '7027b65465903dce055011740e2671aa'
-  }
-]
-
-// 列表的size变化处理
-const handleSizeChange = (size: number) => {
-  //
-}
-// 列表的当前页变化处理
-const handleCurrentChange = (page: number) => {
-  //
-}
+const tableStore = useTableStore()
+const { tableList, tableTotalCount } = storeToRefs(tableStore)
 
 const currentPage = ref(1)
 const pageSize = ref(5)
+
+// ===========
+
+// 获取桌号列表
+const getCurrentTableList = async () => {
+  const size = pageSize.value
+  const offset = (currentPage.value - 1) * size
+
+  await tableStore.getTableListAction(size, offset)
+}
+getCurrentTableList()
+
+// ===========
+
+// 列表的size变化处理
+const handleSizeChange = (size: number) => {
+  pageSize.value = size
+
+  getCurrentTableList()
+}
+// 列表的当前页变化处理
+const handleCurrentChange = (page: number) => {
+  currentPage.value = page
+
+  getCurrentTableList()
+}
 
 // 新增桌号按钮
 const handleAddBtn = () => {
