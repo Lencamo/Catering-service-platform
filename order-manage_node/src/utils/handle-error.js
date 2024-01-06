@@ -5,7 +5,8 @@ const {
   UNAUTHORIZATION,
   OPERATION_IS_NOT_ALLOWED,
   STORENAME_ALREADY_EXISTS,
-  TABLENAME_ALREADY_EXISTS
+  TABLENAME_ALREADY_EXISTS,
+  CATEGORY_ALREADY_EXISTS
 } = require('../config/constants.js')
 
 const errorHandle = (err, ctx) => {
@@ -36,6 +37,10 @@ const errorHandle = (err, ctx) => {
     case TABLENAME_ALREADY_EXISTS:
       code = 1007
       message = '桌号已被注册，请输入新的桌号名称~~'
+      break
+    case CATEGORY_ALREADY_EXISTS:
+      code = 1008
+      message = '类目已被注册，请输入新的类目名称~~'
       break
     case OPERATION_IS_NOT_ALLOWED:
       code = 2001

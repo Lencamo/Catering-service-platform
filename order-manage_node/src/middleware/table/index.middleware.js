@@ -3,9 +3,10 @@ const tableServer = require('../../service/modules/table/index.service')
 
 const handleTable = async (ctx, next) => {
   const { tablename } = ctx.request.body
+  const { id: user_id } = ctx.user
 
-  // 1、验证桌号是否占用
-  const tables = await tableServer.findTableByName(tablename)
+  // 1、验证当前用户是否已存在该桌号
+  const tables = await tableServer.findTableByName(tablename, user_id)
   if (tables.length) {
     return ctx.app.emit('error', TABLENAME_ALREADY_EXISTS, ctx)
   }

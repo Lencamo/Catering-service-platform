@@ -1,8 +1,6 @@
 const ossService = require('../../service/modules/file/oss.service.js')
 const tableServer = require('../../service/modules/table/index.service.js')
-const dayjs = require('dayjs')
-const utc = require('dayjs/plugin/utc')
-dayjs.extend(utc)
+const { currentTime } = require('../../utils/current-time.js')
 
 class ossController {
   async putFile(ctx, next) {
@@ -36,7 +34,7 @@ class ossController {
     const { url: codeUrl } = await ossService.putCodeBuffer(fileName, codeBuffer)
 
     // - 存储小程序码
-    const createTime = dayjs().utc().utcOffset(8).format('YYYY-MM-DD HH:mm:ss')
+    const createTime = currentTime()
     const result = await tableServer.createTable(tablename, codeUrl, createTime, user_id)
 
     // 3、发送响应信息

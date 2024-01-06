@@ -5,6 +5,7 @@ const UNAUTHORIZATION = 'unauthorization'
 const OPERATION_IS_NOT_ALLOWED = 'operation is not allowed'
 const STORENAME_ALREADY_EXISTS = 'storename already exists'
 const TABLENAME_ALREADY_EXISTS = 'tablename already exists'
+const CATEGORY_ALREADY_EXISTS = 'category already exists'
 
 module.exports = {
   USERNAME_ALREADY_EXISTS,
@@ -13,5 +14,6 @@ module.exports = {
   UNAUTHORIZATION,
   OPERATION_IS_NOT_ALLOWED,
   STORENAME_ALREADY_EXISTS,
-  TABLENAME_ALREADY_EXISTS
+  TABLENAME_ALREADY_EXISTS,
+  CATEGORY_ALREADY_EXISTS
 }

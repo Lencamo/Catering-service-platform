@@ -54,8 +54,9 @@ class tableServer {
     return result
   }
 
-  async findTableByName(tablename) {
+  async findTableByName(tablename, user_id) {
     const statement = `db.collection("c_table").where({
+      user_id: "${user_id}",
       tablename: "${tablename}"
   }).get()`
 
