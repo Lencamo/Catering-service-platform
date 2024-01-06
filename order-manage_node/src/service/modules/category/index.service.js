@@ -53,6 +53,22 @@ class categoryService {
 
     return result
   }
+
+  async delete(category_id) {
+    const statement = `db.collection("c_category").where({
+      _id: "${category_id}"
+  }).remove()`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databasedelete',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new categoryService()

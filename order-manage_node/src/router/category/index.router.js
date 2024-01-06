@@ -13,4 +13,7 @@ categoryRouter.post('/', verifyAuth, verifyCategory, categoryController.create)
 // 获取分类列表
 categoryRouter.post('/list', verifyAuth, categoryController.categoryList)
 
+// 删除分类
+categoryRouter.delete('/:categoryId', verifyAuth, categoryController.delete)
+
 module.exports = categoryRouter

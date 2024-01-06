@@ -39,6 +39,21 @@ class categoryController {
       }
     }
   }
+
+  async delete(ctx, next) {
+    // 1、接收数据
+    const { categoryId: category_id } = ctx.params
+
+    // 2、数据库交互
+    const result = await categoryService.delete(category_id)
+
+    // 3、发送响应消息
+    ctx.body = {
+      code: 0,
+      message: '删除分类成功！',
+      data: result
+    }
+  }
 }
 
 module.exports = new categoryController()
