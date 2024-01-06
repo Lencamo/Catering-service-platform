@@ -139,15 +139,19 @@ const handleAddBtn = () => {
 const handleConfirmBtn = async () => {
   dialogVisible.value = false
 
-  // 新增桌号
-  const tablename = tableNumb.value + '号桌'
-  const result = await tableStore.addTableAction(tablename)
+  if (tableNumb.value) {
+    // 新增桌号
+    const tablename = tableNumb.value + '号桌'
+    const result = await tableStore.addTableAction(tablename)
 
-  // 细节处理：是否需要同步更新Pagination的页码
-  // if (!result.code) {
-  //   currentPage.value = 1
-  //   pageSize.value = 5
-  // }
+    // 细节处理：是否需要同步更新Pagination的页码
+    // if (!result.code) {
+    //   currentPage.value = 1
+    //   pageSize.value = 5
+    // }
+  } else {
+    ElMessage.error('桌号名称不能为空！')
+  }
 }
 
 // 桌号删除按钮
