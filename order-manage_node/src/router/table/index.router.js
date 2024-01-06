@@ -4,8 +4,6 @@ const { handleTable } = require('../../middleware/table/index.middleware')
 const ossController = require('../../controller/file/oss.controller.js')
 const tableController = require('../../controller/table/index.controller.js')
 
-//
-
 const tableRouter = new Router({
   prefix: '/table'
 })

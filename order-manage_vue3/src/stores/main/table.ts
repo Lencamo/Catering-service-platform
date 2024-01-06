@@ -16,10 +16,20 @@ const useTableStore = defineStore('Table', {
     // 桌号列表
     async getTableListAction(data: IPagination) {
       const { data: res } = await getTableListApi(data)
-      const { list, totalCount } = res.data
 
-      this.tableList = list
-      this.tableTotalCount = totalCount
+      if (!res.code) {
+        const { list, totalCount } = res.data
+
+        this.tableList = list
+        this.tableTotalCount = totalCount
+      } else {
+        ElMessage({
+          message: res.message,
+          type: 'error'
+        })
+      }
+
+      Promise.resolve(res)
     },
 
     // 新增桌号

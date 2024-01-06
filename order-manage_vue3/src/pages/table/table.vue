@@ -144,10 +144,10 @@ const handleConfirmBtn = async () => {
   const result = await tableStore.addTableAction(tablename)
 
   // 细节处理：是否需要同步更新Pagination的页码
-  if (!result.code) {
-    currentPage.value = 1
-    pageSize.value = 5
-  }
+  // if (!result.code) {
+  //   currentPage.value = 1
+  //   pageSize.value = 5
+  // }
 }
 
 // 桌号删除按钮
@@ -156,11 +156,23 @@ const handleDelectBtn = async (tableId: string) => {
   const result = await tableStore.deleteTableAction(tableId)
 
   // 细节处理：是否需要同步更新Pagination的页码
-  if (!result.code) {
-    currentPage.value = 1
-    pageSize.value = 5
-  }
+  // if (!result.code) {
+  //   currentPage.value = 1
+  //   pageSize.value = 5
+  // }
 }
+
+// 细节处理：是否需要同步更新Pagination的页码
+tableStore.$onAction(({ name, after }) => {
+  after((result) => {
+    if ((name === 'addTableAction' || name === 'deleteTableAction') && !result.code) {
+      currentPage.value = 1
+      pageSize.value = 5
+    }
+  })
+})
+
+// ========
 
 // 下载桌号小程序码按钮
 const handleDownloadBtn = async (table: ITableData) => {
