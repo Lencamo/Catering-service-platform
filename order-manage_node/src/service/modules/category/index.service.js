@@ -69,6 +69,25 @@ class categoryService {
 
     return result
   }
+
+  async update(category_id, category, updateTime) {
+    const statement = `db.collection("c_category").where({
+      _id: "${category_id}"
+    }).update({data: {
+      category: "${category}",
+      updateTime: "${updateTime}"
+    }})`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databaseupdate',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new categoryService()

@@ -1,6 +1,7 @@
 import {
   addCategoryApi,
   deleteCategoryApi,
+  editeCategoryApi,
   getCategoryListApi
 } from '@/services/modules/main/category'
 import type { ICategoryData } from '@/types/main/category'
@@ -38,6 +39,23 @@ const useCategoryStore = defineStore('Category', {
     // 新增分类
     async addCategoryAction(category: string) {
       const { data: res } = await addCategoryApi(category)
+
+      if (!res.code) {
+        // 更新列表
+        this.getCategoryListAction({ size: 10, offset: 0 })
+      } else {
+        ElMessage({
+          message: res.message,
+          type: 'error'
+        })
+      }
+
+      return res
+    },
+
+    // 编辑分类
+    async editeCategoryAction(categoryId: string, category: string) {
+      const { data: res } = await editeCategoryApi(categoryId, category)
 
       if (!res.code) {
         // 更新列表

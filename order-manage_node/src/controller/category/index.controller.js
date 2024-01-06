@@ -54,6 +54,23 @@ class categoryController {
       data: result
     }
   }
+
+  async update(ctx, next) {
+    // 1、接收body数据
+    const { category } = ctx.request.body
+    const { categoryId: category_id } = ctx.params
+
+    // 2、数据库交互
+    const updateTime = currentTime()
+    const result = await categoryService.update(category_id, category, updateTime)
+
+    // 3、发送响应信息
+    ctx.body = {
+      code: 0,
+      message: '更新分类名称成功！',
+      data: result
+    }
+  }
 }
 
 module.exports = new categoryController()

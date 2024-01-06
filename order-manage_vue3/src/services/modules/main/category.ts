@@ -15,6 +15,13 @@ export function addCategoryApi(category: string) {
   })
 }
 
+export function editeCategoryApi(categoryId: string, category: string) {
+  return orderRequest.patch({
+    url: `/category/${categoryId}`,
+    data: { category }
+  })
+}
+
 export function deleteCategoryApi(categoryId: string) {
   return orderRequest.delete({
     url: `/category/${categoryId}`

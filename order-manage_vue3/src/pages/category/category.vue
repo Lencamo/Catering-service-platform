@@ -24,6 +24,9 @@
         </el-table-column>
         <el-table-column label="操作" width="200" align="center">
           <template #default="scope">
+            <el-button type="warning" size="small" icon="Edit" @click="handleEditBtn(scope.row)">
+              编辑
+            </el-button>
             <el-popconfirm
               title="你确定执行删除操作吗？"
               @confirm="handleDelectBtn(scope.row._id)"
@@ -111,21 +114,40 @@ const dialogVisible = ref(false)
 
 // 类目数据
 const category = ref('')
+const categoryId = ref('')
+const isEdit = ref(false)
 
 // 新增类目按钮
 const handleAddBtn = () => {
   dialogVisible.value = true
 
+  isEdit.value = false
+  // 初始化数据
   category.value = ''
+  categoryId.value = ''
+}
+
+// 类目修改按钮
+const handleEditBtn = (item: ICategoryData) => {
+  dialogVisible.value = true
+
+  isEdit.value = true
+  // 数据回显
+  category.value = item.category
+  categoryId.value = item._id
 }
 
 const handleConfirmBtn = async () => {
   dialogVisible.value = false
 
-  // 新增类目
   const categoryLength = category.value.length
   if (categoryLength >= 2 && categoryLength <= 6) {
-    const result = await categoryStore.addCategoryAction(category.value)
+    if (isEdit.value) {
+      const result = await categoryStore.editeCategoryAction(categoryId.value, category.value)
+    } else {
+      // 新增类目
+      const result = await categoryStore.addCategoryAction(category.value)
+    }
   } else {
     ElMessage.error('类目名称长度应在2-6个字符之间！')
   }
@@ -140,7 +162,12 @@ const handleDelectBtn = async (categoryId: string) => {
 // 细节处理：是否需要同步更新Pagination的页码
 categoryStore.$onAction(({ name, after }) => {
   after((result) => {
-    if ((name === 'addCategoryAction' || name === 'deleteCategoryAction') && !result.code) {
+    if (
+      (name === 'addCategoryAction' ||
+        name === 'deleteCategoryAction' ||
+        name === 'editeCategoryAction') &&
+      !result.code
+    ) {
       currentPage.value = 1
       pageSize.value = 10
     }
