@@ -93,8 +93,13 @@
 {
   "_id": "09e78768659784e805defb1d799d4556",
   "foodname": "青椒烧肉",
-  "foodUrl": "http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/food-1704382572893-549775905-qingjiao.jpg",
-  "price": "18",
+  "food": {
+    "name": "dish-1703856579787-798556893.png",
+    "url": "http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/food-1704382572893-549775905-qingjiao.png",
+    "mimetype": "image/png",
+    "size": "153125"
+  },
+  "foodPrice": "18",
   "createTime": "2024-01-06 11:26:46",
   "unit_id": "b751f2806598fd7905fcc4d463234b4b",
   "category_id": "0b153f9a6598fca005f3f6c046a67d14",

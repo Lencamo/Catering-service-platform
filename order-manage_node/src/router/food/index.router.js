@@ -1,20 +1,19 @@
 const Router = require('@koa/router')
 const { verifyAuth } = require('../../middleware/auth.middleware')
-const { handleTable } = require('../../middleware/table/index.middleware')
-const ossController = require('../../controller/file/oss.controller.js')
-const tableController = require('../../controller/table/index.controller.js')
+const { handlefood } = require('../../middleware/food/index.middleware.js')
+const foodController = require('../../controller/food/index.controller.js')
 
-const tableRouter = new Router({
+const foodRouter = new Router({
   prefix: '/food'
 })
 
-// 新增桌号
-tableRouter.post('/', verifyAuth, handleTable, ossController.putCodeBuffer)
+// 新增菜品
+foodRouter.post('/', verifyAuth, handlefood, foodController.create)
 
-// 获取桌号列表
-tableRouter.post('/list', verifyAuth, tableController.tableList)
+// 获取菜品列表
+foodRouter.post('/list', verifyAuth, foodController.foodList)
 
-// 删除桌号
-tableRouter.delete('/:tableId', verifyAuth, tableController.delete)
+// 删除菜品
+foodRouter.delete('/:foodId', verifyAuth, foodController.delete)
 
-module.exports = tableRouter
+module.exports = foodRouter

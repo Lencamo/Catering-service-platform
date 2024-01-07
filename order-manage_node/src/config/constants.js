@@ -7,6 +7,7 @@ const STORENAME_ALREADY_EXISTS = 'storename already exists'
 const TABLENAME_ALREADY_EXISTS = 'tablename already exists'
 const CATEGORY_ALREADY_EXISTS = 'category already exists'
 const UNITNAME_ALREADY_EXISTS = 'unitname already exists'
+const FOODNAME_ALREADY_EXISTS = 'foodname already exists'
 
 module.exports = {
   USERNAME_ALREADY_EXISTS,
@@ -17,5 +18,6 @@ module.exports = {
   STORENAME_ALREADY_EXISTS,
   TABLENAME_ALREADY_EXISTS,
   CATEGORY_ALREADY_EXISTS,
-  UNITNAME_ALREADY_EXISTS
+  UNITNAME_ALREADY_EXISTS,
+  FOODNAME_ALREADY_EXISTS
 }

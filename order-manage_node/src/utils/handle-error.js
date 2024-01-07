@@ -7,7 +7,8 @@ const {
   STORENAME_ALREADY_EXISTS,
   TABLENAME_ALREADY_EXISTS,
   CATEGORY_ALREADY_EXISTS,
-  UNITNAME_ALREADY_EXISTS
+  UNITNAME_ALREADY_EXISTS,
+  FOODNAME_ALREADY_EXISTS
 } = require('../config/constants.js')
 
 const errorHandle = (err, ctx) => {
@@ -46,6 +47,10 @@ const errorHandle = (err, ctx) => {
     case UNITNAME_ALREADY_EXISTS:
       code = 1009
       message = '菜品单位已被注册，请输入新的单位名称~~'
+      break
+    case FOODNAME_ALREADY_EXISTS:
+      code = 1010
+      message = '菜品已被注册，请输入新的菜品名称~~'
       break
     case OPERATION_IS_NOT_ALLOWED:
       code = 2001

@@ -6,8 +6,8 @@ const handleUnit = async (ctx, next) => {
   const { id: user_id } = ctx.user
 
   // 验证当前用户是否已存在该菜品单位
-  const tables = await unitService.findUnitByName(unitname, user_id)
-  if (tables.length) {
+  const units = await unitService.findUnitByName(unitname, user_id)
+  if (units.length) {
     return ctx.app.emit('error', UNITNAME_ALREADY_EXISTS, ctx)
   }
 
