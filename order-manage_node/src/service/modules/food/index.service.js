@@ -77,6 +77,28 @@ class foodService {
 
     return result
   }
+
+  async update(food_id, updateTime, foodname, foodPrice, unit_id, category_id) {
+    const statement = `db.collection("c_food").where({
+      _id: "${food_id}"
+    }).update({data: {
+      foodname: "${foodname}",
+      foodPrice: "${foodPrice}",
+      updateTime: "${updateTime}",
+      unit_id: "${unit_id}",
+      category_id: "${category_id}"
+    }})`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databaseupdate',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new foodService()

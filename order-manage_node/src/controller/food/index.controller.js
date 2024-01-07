@@ -62,6 +62,31 @@ class foodController {
       data: result
     }
   }
+
+  async update(ctx, next) {
+    // 1、接收body数据
+    const { foodname, foodPrice, unit_id, category_id } = ctx.request.body
+    const { foodId: food_id } = ctx.params
+
+    // 2、数据库交互
+    // - 更新用户名称
+    const updateTime = currentTime()
+    const result = await foodService.update(
+      food_id,
+      updateTime,
+      foodname,
+      foodPrice,
+      unit_id,
+      category_id
+    )
+
+    // 3、发送响应信息
+    ctx.body = {
+      code: 0,
+      message: '更新菜品信息成功！',
+      data: result
+    }
+  }
 }
 
 module.exports = new foodController()
