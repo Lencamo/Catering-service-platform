@@ -51,6 +51,7 @@
 {
   "_id": "a72823ff6596d08005deb8093a848baa",
   "tablename": "1号桌",
+  "codeName": "code-1704382572893-549775905-1号桌.jpg",
   "codeUrl": "http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/code-1704382572893-549775905-1号桌.jpg",
   "createTime": "2024-01-04 23:36:13",
   "user_id": "7027b65465903dce055011740e2671aa"

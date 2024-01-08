@@ -36,7 +36,7 @@ class ossController {
 
     // - 存储小程序码
     const createTime = currentTime()
-    const result = await tableServer.createTable(tablename, codeUrl, createTime, user_id)
+    const result = await tableServer.createTable(tablename, fileName, codeUrl, createTime, user_id)
 
     // 3、发送响应信息
     ctx.body = {

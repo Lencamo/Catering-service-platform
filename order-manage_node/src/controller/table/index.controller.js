@@ -1,3 +1,4 @@
+const ossService = require('../../service/modules/file/oss.service')
 const tableServer = require('../../service/modules/table/index.service')
 
 class tableController {
@@ -27,6 +28,14 @@ class tableController {
     const { tableId: table_id } = ctx.params
 
     // 2、数据库交互
+    // - 删除oss图片
+    const tables = await tableServer.show(table_id)
+    const fileName = JSON.parse(tables[0]).codeName
+    if (fileName !== null) {
+      await ossService.deleteFile(fileName)
+    }
+
+    // - 删除table数据
     const result = await tableServer.delete(table_id)
 
     // 3、发送响应消息

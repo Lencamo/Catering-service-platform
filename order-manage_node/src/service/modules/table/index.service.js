@@ -18,10 +18,11 @@ class tableServer {
     return result
   }
 
-  async createTable(tablename, codeUrl, createTime, user_id) {
+  async createTable(tablename, fileName, codeUrl, createTime, user_id) {
     const statement = `db.collection("c_table").add({
       data: [{
         tablename: "${tablename}",
+        codeName: "${fileName}",
         codeUrl: "${codeUrl}",
         createTime: "${createTime}",
         user_id: "${user_id}"
@@ -85,6 +86,22 @@ class tableServer {
     // console.log(result)
 
     return result
+  }
+
+  async show(table_id) {
+    const statement = `db.collection("c_table").where({
+      _id: "${table_id}"
+    }).get()`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(JSON.parse(result.data))
+
+    return result.data
   }
 }
 
