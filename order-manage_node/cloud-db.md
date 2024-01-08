@@ -95,9 +95,7 @@
   "foodname": "青椒烧肉",
   "food": {
     "name": "dish-1703856579787-798556893.png",
-    "url": "http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/food-1704382572893-549775905-qingjiao.png",
-    "mimetype": "image/png",
-    "size": "153125"
+    "url": "http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/food-1704382572893-549775905-qingjiao.png"
   },
   "foodPrice": "18",
   "createTime": "2024-01-06 11:26:46",

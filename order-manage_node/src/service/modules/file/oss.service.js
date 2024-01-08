@@ -24,6 +24,16 @@ class ossService {
     }
   }
 
+  async deleteFile(filename) {
+    try {
+      const result = await ossClient.delete(OSS_FILE_PATH + filename)
+
+      return result
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async putCodeBuffer(filename, buffer) {
     try {
       const result = await ossClient.put(OSS_FILE_PATH + filename, new Buffer.from(buffer))

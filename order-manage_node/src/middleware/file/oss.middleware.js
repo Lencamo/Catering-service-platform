@@ -28,7 +28,9 @@ const upload = multer({
 })
 
 const ossFileHandle = upload.single('oss')
+const foodFileHandle = upload.single('food')
 
 module.exports = {
-  ossFileHandle
+  ossFileHandle,
+  foodFileHandle
 }

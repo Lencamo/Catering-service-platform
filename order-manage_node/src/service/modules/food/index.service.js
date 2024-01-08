@@ -7,9 +7,7 @@ class foodService {
         foodname: "${foodname}",
         food: {
           name: null,
-          url: null,
-          mimetype: null,
-          size: null,
+          url: null
         },
         foodPrice: "${foodPrice}",
         updateTime: "${updateTime}",
@@ -87,6 +85,43 @@ class foodService {
       updateTime: "${updateTime}",
       unit_id: "${unit_id}",
       category_id: "${category_id}"
+    }})`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databaseupdate',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
+
+  async show(food_id) {
+    const statement = `db.collection("c_food").where({
+      _id: "${food_id}"
+    }).get()`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(JSON.parse(result.data))
+
+    return result.data
+  }
+
+  async updateFood(food_id, filename, foodUrl) {
+    const statement = `db.collection("c_food").where({
+      _id: "${food_id}"
+    }).update({data: {
+      food: {
+        name: "${filename}",
+        url: "${foodUrl}"
+      },
     }})`
 
     const { data: result } = await cloudRequest.post({
