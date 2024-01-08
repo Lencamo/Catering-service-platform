@@ -69,7 +69,6 @@ class foodController {
     const { foodId: food_id } = ctx.params
 
     // 2、数据库交互
-    // - 更新用户名称
     const updateTime = currentTime()
     const result = await foodService.update(
       food_id,
@@ -85,6 +84,27 @@ class foodController {
       code: 0,
       message: '更新菜品信息成功！',
       data: result
+    }
+  }
+
+  async check(ctx, next) {
+    // 1、接收body数据
+    const { category_id } = ctx.request.body
+    const { id: user_id } = ctx.user
+
+    // 2、数据库交互
+    const result = await foodService.check(user_id, category_id)
+    // - 数据处理
+    const jsonArr = result.data.map((item) => JSON.parse(item))
+
+    // 3、发送响应信息
+    ctx.body = {
+      code: 0,
+      message: '查询菜品列表成功！',
+      data: {
+        list: jsonArr,
+        totalCount: result.pager.Total
+      }
     }
   }
 }

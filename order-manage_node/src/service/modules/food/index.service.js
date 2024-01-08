@@ -134,6 +134,23 @@ class foodService {
 
     return result
   }
+
+  async check(user_id, category_id) {
+    const statement = `db.collection("c_food").where({
+      category_id: "${category_id}",
+      user_id: "${user_id}"
+    }).get()`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(JSON.parse(result.data))
+
+    return result
+  }
 }
 
 module.exports = new foodService()

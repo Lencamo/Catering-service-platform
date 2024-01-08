@@ -19,4 +19,7 @@ foodRouter.delete('/:foodId', verifyAuth, foodController.delete)
 // 编辑菜品
 foodRouter.patch('/:foodId', verifyfood, verifyAuth, foodController.update)
 
+// 根据菜品类目查找菜品
+foodRouter.post('/category', verifyAuth, foodController.check)
+
 module.exports = foodRouter
