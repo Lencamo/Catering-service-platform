@@ -12,7 +12,7 @@
         ></foodBody>
       </div>
     </div>
-    <!-- <foodDialog ref="foodDialogRef"></foodDialog> -->
+    <foodDialog ref="foodDialogRef"></foodDialog>
   </div>
 </template>
 
@@ -26,7 +26,7 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 import { ref } from 'vue'
-// import type { IRoleList } from '@/types/main/system'
+// import type { IFoodList } from '@/types/main/system'
 
 const listTableRef = ref<InstanceType<typeof foodBody>>()
 const foodDialogRef = ref<InstanceType<typeof foodDialog>>()
@@ -34,12 +34,12 @@ const foodDialogRef = ref<InstanceType<typeof foodDialog>>()
 // 显示查询结果
 const handleQueryList = (payload: any) => {
   // console.log(payload)
-  listTableRef.value?.getCurrentRoleList(payload)
+  listTableRef.value?.getCurrentFoodList(payload)
 }
 
 // 恢复默认列表
 const handleResetList = () => {
-  listTableRef.value?.getCurrentRoleList()
+  listTableRef.value?.getCurrentFoodList()
 }
 
 // =======
@@ -49,13 +49,13 @@ const isNew = ref<boolean>(true)
 // 新增按钮处理
 const handleAddClick = () => {
   isNew.value = true
-  // foodDialogRef.value?.setRoleDialogVisible(isNew.value)
+  foodDialogRef.value?.setFoodDialogVisible(isNew.value)
 }
 // 编辑按钮处理
-// const handleEditClick = (payload: IRoleList) => {
+// const handleEditClick = (payload: IFoodList) => {
 const handleEditClick = (payload: any) => {
   isNew.value = false
-  // foodDialogRef.value?.setRoleDialogVisible(isNew.value, payload)
+  foodDialogRef.value?.setFoodDialogVisible(isNew.value, payload)
 }
 </script>
 

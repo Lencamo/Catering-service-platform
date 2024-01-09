@@ -11,7 +11,7 @@
       <el-table :data="foodList" style="width: 100%" border>
         <el-table-column type="selection" />
         <el-table-column type="index" label="序号" width="60" />
-        <el-table-column prop="foodname" label="菜品名称" width="140" />
+        <el-table-column prop="foodname" label="菜品名称" align="center" width="140" />
         <el-table-column prop="url" label="菜品图片" align="center">
           <template #default="scope">
             <span style="display: inline-block; width: 70px">
@@ -25,9 +25,9 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="菜品价格" width="140">
+        <el-table-column label="菜品价格" align="center" width="140">
           <template #default="scope">
-            {{ scope.row.foodPrice || '暂无信息' }}
+            {{ scope.row.foodPrice + '￥' || '暂无信息' }}
           </template>
         </el-table-column>
         <el-table-column label="更新时间" align="center">
@@ -73,10 +73,6 @@ import type { IFoodData } from '@/types/main/food'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 
-// 权限操作控制
-import { useRoute } from 'vue-router'
-const route = useRoute()
-
 // 分页器数据
 const foodStore = useFoodStore()
 const { foodTotalCount, foodList } = storeToRefs(foodStore)
@@ -85,27 +81,27 @@ const currentPage = ref(1)
 const pageSize = ref(5)
 
 // 获取food列表数据
-const getCurrentRoleList = (payload: any = {}) => {
+const getCurrentFoodList = (payload: any = {}) => {
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
   const queryInfo = { offset, size, ...payload }
 
   foodStore.getFoodListAction(queryInfo)
 }
-defineExpose({ getCurrentRoleList })
+defineExpose({ getCurrentFoodList })
 
 // 初次进入页面时
-getCurrentRoleList()
+getCurrentFoodList()
 
 // 列表的size变化处理
 const handleSizeChange = (size: number) => {
   // console.log(size)
-  getCurrentRoleList()
+  getCurrentFoodList()
 }
 // 列表的当前页变化处理
 const handleCurrentChange = (page: number) => {
   // console.log(page)
-  getCurrentRoleList()
+  getCurrentFoodList()
 }
 
 // 菜品删除按钮
@@ -128,7 +124,10 @@ const handleEditBtn = (food: IFoodData) => {
 // 细节处理：是否需要同步更新Pagination的页码
 foodStore.$onAction(({ name, after }) => {
   after((result) => {
-    if (name === 'delectFoodAction' && !result.code) {
+    if (
+      (name === 'delectFoodAction' || name === 'addFoodAction' || name === 'editFoodAction') &&
+      !result.code
+    ) {
       currentPage.value = 1
       pageSize.value = 5
     }

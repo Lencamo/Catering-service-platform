@@ -25,14 +25,14 @@ class unitController {
     // 2、数据库交互
     const result = await unitService.unitList(user_id)
     // - 数据处理
-    const data = result.data.map((item) => JSON.parse(item).unitname)
+    const jsonArr = result.data.map((item) => JSON.parse(item))
 
     // 3、发送响应消息
     ctx.body = {
       code: 0,
       message: '获取菜品单位列表成功！',
       data: {
-        list: data,
+        list: jsonArr,
         totalCount: result.pager.Total
       }
     }

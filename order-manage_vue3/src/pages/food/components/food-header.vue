@@ -32,14 +32,14 @@ const searchForm = reactive({
   category_id: ''
 })
 
-// 部门列表数据
+// 初始化下列菜单数据
 const foodStore = useFoodStore()
 const { categoryListAll } = storeToRefs(foodStore)
 
-const getCurrentCategoryList = async () => {
-  await foodStore.getCategoryListAllAction()
+const initEntireData = async () => {
+  await foodStore.getEntireDataAction()
 }
-getCurrentCategoryList()
+initEntireData()
 
 // 自定义事件
 const emit = defineEmits(['resetList', 'queryList'])
