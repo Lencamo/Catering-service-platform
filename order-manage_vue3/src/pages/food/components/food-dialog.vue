@@ -12,9 +12,13 @@
           <el-input v-model="dialogData.foodname" />
         </el-form-item>
         <el-form-item label="菜品价格">
-          <template #default="scope">
-            <el-input-number v-model="dialogData.foodPrice" :min="1" controls-position="right" />
-          </template>
+          <el-input-number
+            v-model="dialogData.foodPrice"
+            :min="0"
+            :step="0.5"
+            :precision="2"
+            controls-position="right"
+          />
         </el-form-item>
         <el-form-item label="菜品单位">
           <el-select v-model="dialogData.unit_id" placeholder="请选择菜品单位">
@@ -60,7 +64,7 @@ initEntireData()
 // 弹窗数据
 const dialogData = reactive<any>({
   foodname: '',
-  foodPrice: '' as string,
+  foodPrice: 0,
   unit_id: '',
   category_id: ''
 })
@@ -73,9 +77,6 @@ const setFoodDialogVisible = (isNew: boolean, food?: any) => {
   dialogVisible.value = true
 
   isNewDialog.value = isNew
-
-  // 移除校验结果
-  dialogFormRef.value?.resetFields()
 
   // 初始化Dialog数据
   if (!isNew && food) {
@@ -93,6 +94,8 @@ const setFoodDialogVisible = (isNew: boolean, food?: any) => {
     for (const key in dialogData) {
       dialogData[key] = ''
     }
+    dialogData.foodPrice = 0
+
     editFoodId.value = null
   }
 }

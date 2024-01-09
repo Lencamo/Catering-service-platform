@@ -30,7 +30,7 @@
             {{ scope.row.foodPrice + '￥' || '暂无信息' }}
           </template>
         </el-table-column>
-        <el-table-column label="更新时间" align="center">
+        <el-table-column label="更新时间" align="center" width="140">
           <template #default="scope">
             {{ scope.row.updateTime || '暂无信息' }}
           </template>
