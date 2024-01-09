@@ -40,7 +40,7 @@
             <el-button type="warning" size="small" icon="Edit" @click="handleEditBtn(scope.row)" />
             <el-popconfirm
               title="你确定执行删除操作吗？"
-              @confirm="handleDelectBtn(scope.row.id)"
+              @confirm="handleDelectBtn(scope.row._id)"
               width="200px"
             >
               <template #reference>
@@ -125,20 +125,15 @@ const handleEditBtn = (food: IFoodData) => {
   emit('editClick', food)
 }
 
-// // 细节处理：是否需要同步更新Pagination的页码
-// foodStore.$onAction(({ name, after }) => {
-//   after((result) => {
-//     if (
-//       (name === 'addCategoryAction' ||
-//         name === 'delectFoodAction' ||
-//         name === 'editeCategoryAction') &&
-//       !result.code
-//     ) {
-//       currentPage.value = 1
-//       pageSize.value = 10
-//     }
-//   })
-// })
+// 细节处理：是否需要同步更新Pagination的页码
+foodStore.$onAction(({ name, after }) => {
+  after((result) => {
+    if (name === 'delectFoodAction' && !result.code) {
+      currentPage.value = 1
+      pageSize.value = 5
+    }
+  })
+})
 </script>
 
 <style lang="scss" scoped>
