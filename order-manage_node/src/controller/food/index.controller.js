@@ -89,11 +89,11 @@ class foodController {
 
   async check(ctx, next) {
     // 1、接收body数据
-    const { category_id } = ctx.request.body
+    const { category_id, offset, size } = ctx.request.body
     const { id: user_id } = ctx.user
 
     // 2、数据库交互
-    const result = await foodService.check(user_id, category_id)
+    const result = await foodService.check(user_id, category_id, offset, size)
     // - 数据处理
     const jsonArr = result.data.map((item) => JSON.parse(item))
 

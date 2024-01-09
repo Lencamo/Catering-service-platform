@@ -54,6 +54,22 @@ class categoryService {
     return result
   }
 
+  async categoryListAll(user_id) {
+    const statement = `db.collection("c_category").where({
+      user_id: "${user_id}"
+    }).get()`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
+
   async delete(category_id) {
     const statement = `db.collection("c_category").where({
       _id: "${category_id}"

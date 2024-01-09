@@ -40,6 +40,26 @@ class categoryController {
     }
   }
 
+  async categoryListAll(ctx, next) {
+    // 1、接收数据
+    const { id: user_id } = ctx.user
+
+    // 2、数据库交互
+    const result = await categoryService.categoryListAll(user_id)
+    // - 数据处理
+    const jsonArr = result.data.map((item) => JSON.parse(item))
+
+    // 3、发送响应消息
+    ctx.body = {
+      code: 0,
+      message: '获取分类列表成功！',
+      data: {
+        list: jsonArr,
+        totalCount: result.pager.Total
+      }
+    }
+  }
+
   async delete(ctx, next) {
     // 1、接收数据
     const { categoryId: category_id } = ctx.params

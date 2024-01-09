@@ -1,11 +1,62 @@
 <template>
   <div class="food">
-    <h2>food</h2>
+    <div class="search-box" v-permissions="{ route, action: 'query' }">
+      <foodHeader @query-list="handleQueryList" @reset-list="handleResetList"></foodHeader>
+    </div>
+    <div class="list-table">
+      <div class="list-table">
+        <foodBody
+          ref="listTableRef"
+          @add-click="handleAddClick"
+          @edit-click="handleEditClick"
+        ></foodBody>
+      </div>
+    </div>
+    <!-- <foodDialog ref="foodDialogRef"></foodDialog> -->
   </div>
 </template>
 
 <script setup lang="ts">
-//
+import foodHeader from './components/food-header.vue'
+import foodBody from './components/food-body.vue'
+import foodDialog from './components/food-dialog.vue'
+
+// 权限操作控制
+import { useRoute } from 'vue-router'
+const route = useRoute()
+
+import { ref } from 'vue'
+// import type { IRoleList } from '@/types/main/system'
+
+const listTableRef = ref<InstanceType<typeof foodBody>>()
+const foodDialogRef = ref<InstanceType<typeof foodDialog>>()
+
+// 显示查询结果
+const handleQueryList = (payload: any) => {
+  // console.log(payload)
+  listTableRef.value?.getCurrentRoleList(payload)
+}
+
+// 恢复默认列表
+const handleResetList = () => {
+  listTableRef.value?.getCurrentRoleList()
+}
+
+// =======
+
+const isNew = ref<boolean>(true)
+
+// 新增按钮处理
+const handleAddClick = () => {
+  isNew.value = true
+  // foodDialogRef.value?.setRoleDialogVisible(isNew.value)
+}
+// 编辑按钮处理
+// const handleEditClick = (payload: IRoleList) => {
+const handleEditClick = (payload: any) => {
+  isNew.value = false
+  // foodDialogRef.value?.setRoleDialogVisible(isNew.value, payload)
+}
 </script>
 
 <style lang="scss" scoped>

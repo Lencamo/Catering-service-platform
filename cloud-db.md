@@ -99,7 +99,7 @@
     "url": "http://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/food-1704382572893-549775905-qingjiao.png"
   },
   "foodPrice": "18",
-  "createTime": "2024-01-06 11:26:46",
+  "updateTime": "2024-01-06 11:26:46",
   "unit_id": "b751f2806598fd7905fcc4d463234b4b",
   "category_id": "0b153f9a6598fca005f3f6c046a67d14",
   "user_id": "7027b65465903dce055011740e2671aa"

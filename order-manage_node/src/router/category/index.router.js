@@ -10,8 +10,11 @@ const categoryRouter = new Router({
 // 新增分类
 categoryRouter.post('/', verifyAuth, verifyCategory, categoryController.create)
 
-// 获取分类列表
+// 获取分类列表(分页)
 categoryRouter.post('/list', verifyAuth, categoryController.categoryList)
+
+// 获取分类列表(所有)
+categoryRouter.post('/list/all', verifyAuth, categoryController.categoryListAll)
 
 // 删除分类
 categoryRouter.delete('/:categoryId', verifyAuth, categoryController.delete)
