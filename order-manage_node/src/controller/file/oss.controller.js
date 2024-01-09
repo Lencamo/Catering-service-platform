@@ -54,6 +54,7 @@ class ossController {
     // 2、数据库交互
     // - 上传文件到OSS
     const result = await ossService.putFile(filename, path)
+    // console.log(result.res)
 
     // - 存储文件OSS地址
     const foodUrl = result.url
@@ -63,7 +64,7 @@ class ossController {
     ctx.body = {
       code: 0,
       message: '菜品图片上传成功!!!',
-      data: result.res
+      data
     }
   }
 }
