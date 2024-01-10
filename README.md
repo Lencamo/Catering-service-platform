@@ -30,6 +30,22 @@ pm2 start ecosystem.config.js
 
 &emsp;&emsp;商家后台管理系统
 
+## 项目启动
+
+```sh
+npm install
+
+npm run dev
+```
+
+## 项目部署
+
+```sh
+npm install
+
+npm run build
+```
+
 ## 三、qr-order_uniapp
 
 &emsp;&emsp;用户微信扫码点餐小程序
