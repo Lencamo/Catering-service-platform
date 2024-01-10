@@ -194,7 +194,10 @@ const handleConfirmBtn = async () => {
   } else {
     // 新增
     // - 新增菜品
-    await foodStore.addFoodAction(dialogData)
+    const result = await foodStore.addFoodAction(dialogData)
+
+    // - 标记新菜品_id👏
+    dialogData._id = result.data.id_list[0]
   }
 
   // 处理菜品图片
