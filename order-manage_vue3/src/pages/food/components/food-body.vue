@@ -12,7 +12,7 @@
         <el-table-column type="selection" />
         <el-table-column type="index" label="序号" width="60" />
         <el-table-column prop="foodname" label="菜品名称" align="center" width="140" />
-        <el-table-column prop="url" label="菜品图片" align="center">
+        <el-table-column prop="url" label="菜品图片" align="center" min-width="140">
           <template #default="scope">
             <span style="display: inline-block; width: 70px">
               <el-image
@@ -25,26 +25,28 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="菜品价格" align="center" width="140">
+        <el-table-column label="菜品价格" align="center" min-width="120">
           <template #default="scope">
             {{ scope.row.foodPrice + '￥' || '暂无信息' }}
           </template>
         </el-table-column>
-        <el-table-column label="更新时间" align="center" width="140">
+        <el-table-column label="更新时间" align="center" width="180">
           <template #default="scope">
             {{ scope.row.updateTime || '暂无信息' }}
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" min-width="120" align="center">
+        <el-table-column fixed="right" label="操作" width="180" align="center">
           <template #default="scope">
-            <el-button type="warning" size="small" icon="Edit" @click="handleEditBtn(scope.row)" />
+            <el-button type="warning" size="small" icon="Edit" @click="handleEditBtn(scope.row)">
+              编辑
+            </el-button>
             <el-popconfirm
               title="你确定执行删除操作吗？"
               @confirm="handleDelectBtn(scope.row._id)"
               width="200px"
             >
               <template #reference>
-                <el-button type="danger" size="small" icon="Delete" />
+                <el-button type="danger" size="small" icon="Delete">删除</el-button>
               </template>
             </el-popconfirm>
           </template>

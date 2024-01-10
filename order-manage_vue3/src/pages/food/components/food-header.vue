@@ -3,7 +3,7 @@
     <el-form label-position="right" label-width="70px" :model="searchForm" ref="searchFormRef">
       <el-row :gutter="40">
         <el-col :sm="12" :md="8" :lg="6">
-          <el-form-item label="菜品类目" prop="roleId">
+          <el-form-item label="菜品类目" prop="category_id">
             <el-select placeholder="请选择菜品的类目" v-model="searchForm.category_id">
               <template v-for="item in categoryListAll" :key="item._id">
                 <el-option :label="item.category" :value="item._id" />
