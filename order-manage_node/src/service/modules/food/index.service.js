@@ -151,6 +151,22 @@ class foodService {
 
     return result
   }
+
+  async deleteByCategory(category_id) {
+    const statement = `db.collection("c_food").where({
+      category_id: "${category_id}"
+  }).remove()`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databasedelete',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new foodService()

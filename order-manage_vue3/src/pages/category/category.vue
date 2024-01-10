@@ -28,9 +28,9 @@
               编辑
             </el-button>
             <el-popconfirm
-              title="你确定执行删除操作吗？"
+              title="当前操作将会一同删除该类目下的所有菜品，是否继续执行！"
               @confirm="handleDelectBtn(scope.row._id)"
-              width="200px"
+              width="300px"
             >
               <template #reference>
                 <el-button type="danger" size="small" icon="Delete">删除</el-button>

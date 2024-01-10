@@ -35,9 +35,8 @@ const verifyStoreInfo = async (ctx, next) => {
 
   // 2、验证新的店铺名是否被他人占用
   const stores = await storeService.findStoreByName(storename)
-  const result = JSON.parse(stores[0])
 
-  if (stores.length && result._id !== storeId) {
+  if (stores.length && JSON.parse(stores[0])._id !== storeId) {
     return ctx.app.emit('error', STORENAME_ALREADY_EXISTS, ctx)
   }
 

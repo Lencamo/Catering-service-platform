@@ -1,5 +1,6 @@
 const categoryService = require('../../service/modules/category/index.service')
 const { currentTime } = require('../../utils/current-time')
+const foodService = require('../../service/modules/food/index.service')
 
 class categoryController {
   async create(ctx, next) {
@@ -65,6 +66,10 @@ class categoryController {
     const { categoryId: category_id } = ctx.params
 
     // 2、数据库交互
+    // - 删除该分类下的菜品
+    const data = await foodService.deleteByCategory(category_id)
+
+    // - 删除要删除的菜品分类
     const result = await categoryService.delete(category_id)
 
     // 3、发送响应消息
