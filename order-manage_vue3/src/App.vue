@@ -17,5 +17,7 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
   width: 100vw;
   height: 100vh;
   background-color: #e8eaed;
+  /* background: url(./assets/imgs/background.jpg) no-repeat;
+  background-size: cover; */
 }
 </style>
