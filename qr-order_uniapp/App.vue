@@ -1,17 +1,17 @@
-<script>
-	export default {
-		onLaunch: function() {
-			console.log('App Launch')
-		},
-		onShow: function() {
-			console.log('App Show')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
-	}
+<template>
+  <view class="App">
+    <h2>App</h2>
+  </view>
+</template>
+
+<script setup lang="ts">
+//
 </script>
 
-<style>
-	/*每个页面公共css */
+<style lang="scss">
+.App {
+  width: 100vw;
+  height: 100vh;
+  background-color: #e8eaed;
+}
 </style>
