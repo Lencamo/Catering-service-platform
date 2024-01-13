@@ -104,14 +104,15 @@ const selectBtnHandle = (index: number) => {
 		
 		display: flex;
 		
+		position: fixed;
+		width: 100%;
+		
 		.left-sidebar {
 			width: 25%;
-			height: 100vh;
+			height: 84vh;
 			text-align: center;
 			background-color: #f9f9f9;
 			font-size: 28rpx;
-			
-			padding-bottom: 8vh;
 				
 			.categor-box {
 				color: #8a8a8a;
@@ -139,10 +140,8 @@ const selectBtnHandle = (index: number) => {
 		
 		.right-select {
 			width: 75%;
-			height: 100vh;
-			
-			padding-bottom: 8vh;
-			
+			height: 84vh;
+
 			.food-categor {
 				font-size: 28rpx;
 				height: 80rpx;
