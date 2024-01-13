@@ -21,8 +21,8 @@
 				</block>
 			</scroll-view>
 			<scroll-view scroll-y enable-flex class="right-select">
-				<block v-for="(item,index) in 4" :key="index">
-					<view class="food-categor">-- 炒菜（素）</view>
+				<block v-for="(item,index) in ['炒菜（素）','汤类','炒菜（荤）']" :key="index">
+					<view class="food-categor">-- {{item}}</view>
 					<foodItem></foodItem>
 				</block>
 			</scroll-view>
@@ -43,7 +43,7 @@ import foodItem from './components/foodItem.vue'
 	
 import { ref } from 'vue';
 
-// 选择人数按钮
+// 选择菜品分类
 let selectCategory = ref(0)
 const selectBtnHandle = (index: number) => {
 	selectCategory.value = index
@@ -51,20 +51,6 @@ const selectBtnHandle = (index: number) => {
 </script>
 
 <style lang="scss" scoped>
-
-@mixin circleStyle($size, $color) {
-	font-size: $size * 0.63;
-	color: #ffffff;
-	font-weight: 500;
-	line-height: $size;
-	text-align: center;
-	
-	width: $size;
-	height: $size;
-	border-radius: $size * 0.5;
-	background-color: $color;
-}
-	
 .order {
   .top-box {
 		@include flex-init(space-between, center, row);
@@ -78,7 +64,7 @@ const selectBtnHandle = (index: number) => {
 		width: 100%;
 		padding-left: 20rpx;
 		
-		background-color: #a05939;
+		background-color: #009688;
 		
 		.icon-box {
 			@include flex-init(space-between, center, row);
@@ -111,7 +97,7 @@ const selectBtnHandle = (index: number) => {
 			width: 25%;
 			height: 84vh;
 			text-align: center;
-			background-color: #f9f9f9;
+			background-color: #f5f7ff;
 			font-size: 28rpx;
 				
 			.categor-box {
@@ -135,6 +121,8 @@ const selectBtnHandle = (index: number) => {
 				color: black;
 				font-weight: bold;
 				background-color: #ffffff;
+				
+				border-left: 6rpx solid red;
 			}
 		}
 		

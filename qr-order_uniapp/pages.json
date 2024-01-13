@@ -5,7 +5,7 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "饭达人餐厅",
-				"navigationBarBackgroundColor": "#a05939",
+				"navigationBarBackgroundColor": "#009688",
 				"enablePullDownRefresh" : false
 			}
 		},
