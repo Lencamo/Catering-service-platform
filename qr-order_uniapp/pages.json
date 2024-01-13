@@ -1,17 +1,18 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path" : "pages/order/order",
 			"style" : 
 			{
-				"navigationBarTitleText" : "饭达人餐馆",
+				"navigationBarTitleText" : "饭达人餐厅",
+				"navigationBarBackgroundColor": "#a05939",
 				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle": "custom"
 			}
 		}
 	],

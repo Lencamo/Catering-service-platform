@@ -10,12 +10,12 @@
 				<view style="font-size: 34rpx;font-weight: 500;">请选择你的就餐人数</view>
 			</view>
 			<view class="btn-select">
-					<scroll-view scroll-x enable-flex class="btn-list">
-						<block v-for="item in 10" :key="item">
-							<view class="numb-btn" :class="{'is-active': item === selectNumb  }"  @click="selectBtnHandle(item)">{{item}}</view>
-						</block>
-					</scroll-view>
-					<button class="enter-order">开始点餐</button>
+				<scroll-view scroll-x enable-flex class="btn-list">
+					<block v-for="(item, index) in 10" :key="index">
+						<view class="numb-btn" :class="{'is-active': index + 1 === selectNumb  }"  @click="selectBtnHandle(item)">{{item}}</view>
+					</block>
+				</scroll-view>
+				<button class="enter-order" @click="startBtnHandle">开始点餐</button>
 			</view>
 		</view>
   </view>
@@ -24,9 +24,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+// 选择人数按钮
 let selectNumb = ref(1)
-const selectBtnHandle = (item: number) => {
-	selectNumb.value = item
+const selectBtnHandle = (index: number) => {
+	selectNumb.value = index
+}
+
+// 开始点餐按钮
+const startBtnHandle = ()=>{
+	uni.navigateTo({
+		url:'/pages/order/order'
+	})
 }
 </script>
 
@@ -58,7 +66,7 @@ const selectBtnHandle = (item: number) => {
 	.select-box {
 		width: 90%;
 		height: 40%;
-		margin: 0rpx 5% 100rpx;
+		margin: 0rpx 8% 100rpx;
 		background-color: white;
 		
 		.table-msg {
@@ -71,7 +79,6 @@ const selectBtnHandle = (item: number) => {
 		}
 		
 		.btn-select {
-			// @include flex-init(center, center, column);
 			height: 55%;
 			
 			.btn-list {
@@ -102,7 +109,9 @@ const selectBtnHandle = (item: number) => {
 				font-size: 33rpx;
 				line-height: 75rpx;
 				
-				background-color: #6bb8ad;
+				// background-color: #6bb8ad;
+				color: #e3e3e3;
+				background-color: #009688;
 			}
 		}
 	}
