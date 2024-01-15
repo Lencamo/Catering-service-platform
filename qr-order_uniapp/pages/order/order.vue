@@ -3,7 +3,7 @@
 		<view class="top-box">
 			<view>
 				<text style="color: #2c2c2c;font-weight: bold;">【</text>
-				<text style="color: aliceblue;">5人</text>
+				<text style="color: aliceblue;">{{dineNumber}}人</text>
 				<text style="color: #2c2c2c;font-weight: bold;">】就餐</text>
 			</view>
 			<view class="icon-box">
@@ -40,8 +40,13 @@
 
 <script setup lang="ts">
 import foodItem from './components/foodItem.vue'
-	
+
 import { ref } from 'vue';
+import { wxCache } from '../../utils/cache';
+import { DINE_NUMB } from '../../config/constants';
+
+// 初始化数据
+const dineNumber = wxCache.getCache(DINE_NUMB)
 
 // 选择菜品分类
 let selectCategory = ref(0)
@@ -65,6 +70,11 @@ const selectBtnHandle = (index: number) => {
 		padding-left: 20rpx;
 		
 		background-color: #009688;
+		
+		.table-box {
+			margin: 6rpx;
+			border: 2rpx  #a05939
+		}
 		
 		.icon-box {
 			@include flex-init(space-between, center, row);

@@ -12,9 +12,9 @@
 							<text style="font-size: 26rpx; color: #d1d1d1;"> / 盘</text>
 						</view>
 						<view class="food-count">
-							<image v-if="foodCount" @click="countHandle("sub")" style="width: 35rpx;height: 35rpx;" src="../../../static/image/icons/sub.svg" mode=""></image>
+							<image v-if="foodCount" @click="countHandle('sub')" style="width: 35rpx;height: 35rpx;" src="../../../static/image/icons/sub.svg" mode=""></image>
 							<text v-if="foodCount" style="margin: 0rpx 20rpx;">{{foodCount}}</text>
-							<image @click="countHandle("add")" style="width: 35rpx;height: 35rpx;" src="../../../static/image/icons/add.svg" mode=""></image>
+							<image @click="countHandle('add')" style="width: 35rpx;height: 35rpx;" src="../../../static/image/icons/add.svg" mode=""></image>
 						</view>
 					</view>
 				</view>

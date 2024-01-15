@@ -2,6 +2,8 @@
 
 ### json 数据库
 
+&emsp;&emsp;当创建 仅创建者可读写 的 collection 时，内部不仅会自动产生 `_id`、还会自动产生 `_openid`
+
 ### 1、常规集合
 
 - 用户集合（c_user）

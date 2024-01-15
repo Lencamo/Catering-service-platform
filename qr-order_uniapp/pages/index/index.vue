@@ -6,7 +6,7 @@
 		</view>
 		<view class="select-box">
 			<view class="table-msg">
-				<view style="font-size: 44rpx;font-weight: bold;">1号桌</view>
+				<view style="font-size: 44rpx;font-weight: bold;">{{table}}</view>
 				<view style="font-size: 34rpx;font-weight: 500;">请选择你的就餐人数</view>
 			</view>
 			<view class="btn-select">
@@ -23,6 +23,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { onLoad } from '@dcloudio/uni-app'
+import { wxCache } from '../../utils/cache';
+import { DINE_NUMB, TABLE_NAME } from '../../config/constants';
+
+// 扫码获取的数据
+let table = ref('1号桌')
+onLoad( e => {
+	// console.log(e)
+	table.value = e?.tablenamed
+	wxCache.setCache(TABLE_NAME, e?.tablenamed)
+})
 
 // 选择人数按钮
 let selectNumb = ref(1)
@@ -32,7 +43,9 @@ const selectBtnHandle = (index: number) => {
 
 // 开始点餐按钮
 const startBtnHandle = ()=>{
-	uni.navigateTo({
+	wxCache.setCache(DINE_NUMB, selectNumb.value)
+		
+	uni.redirectTo({
 		url:'/pages/order/order'
 	})
 }
