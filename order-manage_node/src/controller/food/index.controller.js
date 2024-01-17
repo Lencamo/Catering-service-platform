@@ -4,7 +4,7 @@ const { currentTime } = require('../../utils/current-time')
 class foodController {
   async create(ctx, next) {
     // 1、接收数据
-    const { foodname, foodPrice, unit_id, category_id } = ctx.request.body
+    const { foodname, foodPrice, unitname, category } = ctx.request.body
     const { id: user_id } = ctx.user
     // console.log(user_id)
 
@@ -15,8 +15,8 @@ class foodController {
       updateTime,
       foodname,
       foodPrice,
-      unit_id,
-      category_id
+      unitname,
+      category
     )
 
     // 3、发送响应消息
@@ -65,7 +65,7 @@ class foodController {
 
   async update(ctx, next) {
     // 1、接收body数据
-    const { foodname, foodPrice, onSale, unit_id, category_id } = ctx.request.body
+    const { foodname, foodPrice, onSale, unitname, category } = ctx.request.body
     const { foodId: food_id } = ctx.params
 
     // 2、数据库交互
@@ -76,8 +76,8 @@ class foodController {
       foodname,
       foodPrice,
       onSale,
-      unit_id,
-      category_id
+      unitname,
+      category
     )
 
     // 3、发送响应信息
@@ -90,11 +90,11 @@ class foodController {
 
   async check(ctx, next) {
     // 1、接收body数据
-    const { category_id, offset, size } = ctx.request.body
+    const { category, offset, size } = ctx.request.body
     const { id: user_id } = ctx.user
 
     // 2、数据库交互
-    const result = await foodService.check(user_id, category_id, offset, size)
+    const result = await foodService.check(user_id, category, offset, size)
     // - 数据处理
     const jsonArr = result.data.map((item) => JSON.parse(item))
 

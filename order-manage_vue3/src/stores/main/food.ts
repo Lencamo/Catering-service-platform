@@ -48,7 +48,7 @@ const useFoodStore = defineStore('Food', {
     // ==============
 
     async getFoodListAction(data: any) {
-      if (Object.keys(data).includes('category_id')) {
+      if (Object.keys(data).includes('category')) {
         var { data: res } = await getFoodCheckListApi(data) // 条件查询结果列表
       } else {
         var { data: res } = await getFoodListApi(data) // 常规菜品列表

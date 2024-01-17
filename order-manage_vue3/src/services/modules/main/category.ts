@@ -22,8 +22,8 @@ export function editeCategoryApi(categoryId: string, category: string) {
   })
 }
 
-export function deleteCategoryApi(categoryId: string) {
+export function deleteCategoryApi(category: string) {
   return orderRequest.delete({
-    url: `/category/${categoryId}`
+    url: `/category/${category}`
   })
 }

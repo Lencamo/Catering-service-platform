@@ -17,7 +17,7 @@ categoryRouter.post('/list', verifyAuth, categoryController.categoryList)
 categoryRouter.post('/list/all', verifyAuth, categoryController.categoryListAll)
 
 // 删除分类
-categoryRouter.delete('/:categoryId', verifyAuth, categoryController.delete)
+categoryRouter.delete('/:category', verifyAuth, categoryController.delete)
 
 // 编辑分类
 categoryRouter.patch('/:categoryId', verifyAuth, categoryController.update)

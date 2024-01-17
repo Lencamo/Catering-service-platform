@@ -71,8 +71,8 @@ const useCategoryStore = defineStore('Category', {
     },
 
     // 删除分类
-    async deleteCategoryAction(categoryId: string) {
-      const { data: res } = await deleteCategoryApi(categoryId)
+    async deleteCategoryAction(category: string) {
+      const { data: res } = await deleteCategoryApi(category)
 
       if (!res.code) {
         // 更新列表

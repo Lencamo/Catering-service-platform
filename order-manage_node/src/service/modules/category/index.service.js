@@ -70,9 +70,9 @@ class categoryService {
     return result
   }
 
-  async delete(category_id) {
+  async delete(category) {
     const statement = `db.collection("c_category").where({
-      _id: "${category_id}"
+      category: "${category}"
   }).remove()`
 
     const { data: result } = await cloudRequest.post({

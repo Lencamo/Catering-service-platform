@@ -63,14 +63,14 @@ class categoryController {
 
   async delete(ctx, next) {
     // 1、接收数据
-    const { categoryId: category_id } = ctx.params
+    const { category } = ctx.params
 
     // 2、数据库交互
     // - 删除该分类下的菜品
-    const data = await foodService.deleteByCategory(category_id)
+    const data = await foodService.deleteByCategory(category)
 
     // - 删除要删除的菜品分类
-    const result = await categoryService.delete(category_id)
+    const result = await categoryService.delete(category)
 
     // 3、发送响应消息
     ctx.body = {

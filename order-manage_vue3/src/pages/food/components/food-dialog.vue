@@ -20,7 +20,7 @@
             controls-position="right"
           />
         </el-form-item>
-        <el-form-item label="菜品状态">
+        <el-form-item v-if="!isNewDialog" label="菜品状态">
           <el-switch
             v-model="dialogData.onSale"
             inline-prompt
@@ -31,16 +31,16 @@
           />
         </el-form-item>
         <el-form-item label="菜品单位">
-          <el-select v-model="dialogData.unit_id" placeholder="请选择菜品单位">
+          <el-select v-model="dialogData.unitname" placeholder="请选择菜品单位">
             <template v-for="item in unitListAll" :key="item._id">
-              <el-option :label="item.unitname" :value="item._id" />
+              <el-option :label="item.unitname" :value="item.unitname" />
             </template>
           </el-select>
         </el-form-item>
         <el-form-item label="菜品类目">
-          <el-select v-model="dialogData.category_id" placeholder="请选择菜品类目">
+          <el-select v-model="dialogData.category" placeholder="请选择菜品类目">
             <template v-for="item in categoryListAll" :key="item._id">
-              <el-option :label="item.category" :value="item._id" />
+              <el-option :label="item.category" :value="item.category" />
             </template>
           </el-select>
         </el-form-item>
@@ -100,8 +100,8 @@ const dialogData = reactive<any>({
   foodname: '',
   foodPrice: 0,
   onSale: true,
-  unit_id: '',
-  category_id: '',
+  unitname: '',
+  category: '',
   _id: '' // 供菜品图片上传接口使用
 })
 

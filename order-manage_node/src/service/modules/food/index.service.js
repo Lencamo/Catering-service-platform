@@ -1,7 +1,7 @@
 const { cloudRequest } = require('../..')
 
 class foodService {
-  async create(user_id, updateTime, foodname, foodPrice, unit_id, category_id) {
+  async create(user_id, updateTime, foodname, foodPrice, unitname, category) {
     const statement = `db.collection("c_food").add({
       data: [{
         foodname: "${foodname}",
@@ -12,8 +12,8 @@ class foodService {
         foodPrice: "${foodPrice}",
         onSale: true,
         updateTime: "${updateTime}",
-        unit_id: "${unit_id}",
-        category_id: "${category_id}",
+        unitname: "${unitname}",
+        category: "${category}",
         user_id: "${user_id}"
       }]
     })`
@@ -77,7 +77,7 @@ class foodService {
     return result
   }
 
-  async update(food_id, updateTime, foodname, foodPrice, onSale, unit_id, category_id) {
+  async update(food_id, updateTime, foodname, foodPrice, onSale, unitname, category) {
     const statement = `db.collection("c_food").where({
       _id: "${food_id}"
     }).update({data: {
@@ -85,8 +85,8 @@ class foodService {
       foodPrice: "${foodPrice}",
       onSale: ${onSale},
       updateTime: "${updateTime}",
-      unit_id: "${unit_id}",
-      category_id: "${category_id}"
+      unitname: "${unitname}",
+      category: "${category}"
     }})`
 
     const { data: result } = await cloudRequest.post({
@@ -137,9 +137,9 @@ class foodService {
     return result
   }
 
-  async check(user_id, category_id, offset, size) {
+  async check(user_id, category, offset, size) {
     const statement = `db.collection("c_food").where({
-      category_id: "${category_id}",
+      category: "${category}",
       user_id: "${user_id}"
     }).limit(${size}).skip(${offset}).get()`
 
@@ -154,9 +154,9 @@ class foodService {
     return result
   }
 
-  async deleteByCategory(category_id) {
+  async deleteByCategory(category) {
     const statement = `db.collection("c_food").where({
-      category_id: "${category_id}"
+      category: "${category}"
   }).remove()`
 
     const { data: result } = await cloudRequest.post({

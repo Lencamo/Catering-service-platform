@@ -29,7 +29,7 @@
             </el-button>
             <el-popconfirm
               title="当前操作将会一同删除该类目下的所有菜品，是否继续执行！"
-              @confirm="handleDelectBtn(scope.row._id)"
+              @confirm="handleDelectBtn(scope.row.category)"
               width="300px"
             >
               <template #reference>
@@ -154,9 +154,9 @@ const handleConfirmBtn = async () => {
 }
 
 // 类目删除按钮
-const handleDelectBtn = async (categoryId: string) => {
+const handleDelectBtn = async (category: string) => {
   // 删除类目
-  const result = await categoryStore.deleteCategoryAction(categoryId)
+  const result = await categoryStore.deleteCategoryAction(category)
 }
 
 // 细节处理：是否需要同步更新Pagination的页码

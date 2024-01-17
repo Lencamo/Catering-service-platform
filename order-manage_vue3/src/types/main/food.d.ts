@@ -8,8 +8,8 @@ export interface IFoodData {
   foodPrice: string
   onSale: boolean
   updateTime: string
-  unit_id: string
-  category_id: string
+  unitname: string
+  category: string
   user_id: string
 
   [key: string]: any
