@@ -6,6 +6,7 @@ export interface IFoodData {
     url: string | null
   }
   foodPrice: string
+  onSale: boolean
   updateTime: string
   unit_id: string
   category_id: string

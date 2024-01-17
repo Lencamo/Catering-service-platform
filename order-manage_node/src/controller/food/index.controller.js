@@ -65,7 +65,7 @@ class foodController {
 
   async update(ctx, next) {
     // 1、接收body数据
-    const { foodname, foodPrice, unit_id, category_id } = ctx.request.body
+    const { foodname, foodPrice, onSale, unit_id, category_id } = ctx.request.body
     const { foodId: food_id } = ctx.params
 
     // 2、数据库交互
@@ -75,6 +75,7 @@ class foodController {
       updateTime,
       foodname,
       foodPrice,
+      onSale,
       unit_id,
       category_id
     )

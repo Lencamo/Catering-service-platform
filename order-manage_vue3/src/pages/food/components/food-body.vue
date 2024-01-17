@@ -30,6 +30,13 @@
             {{ scope.row.foodPrice + '￥' || '暂无信息' }}
           </template>
         </el-table-column>
+        <el-table-column label="菜品状态" align="center" min-width="80">
+          <template #default="scope">
+            <el-button :type="scope.row.onSale ? 'success' : 'info'" plain size="small">
+              {{ scope.row.onSale ? '在售' : '售馨' }}
+            </el-button>
+          </template>
+        </el-table-column>
         <el-table-column label="更新时间" align="center" width="180">
           <template #default="scope">
             {{ scope.row.updateTime || '暂无信息' }}

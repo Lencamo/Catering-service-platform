@@ -10,6 +10,7 @@ class foodService {
           url: null
         },
         foodPrice: "${foodPrice}",
+        onSale: true,
         updateTime: "${updateTime}",
         unit_id: "${unit_id}",
         category_id: "${category_id}",
@@ -76,12 +77,13 @@ class foodService {
     return result
   }
 
-  async update(food_id, updateTime, foodname, foodPrice, unit_id, category_id) {
+  async update(food_id, updateTime, foodname, foodPrice, onSale, unit_id, category_id) {
     const statement = `db.collection("c_food").where({
       _id: "${food_id}"
     }).update({data: {
       foodname: "${foodname}",
       foodPrice: "${foodPrice}",
+      onSale: ${onSale},
       updateTime: "${updateTime}",
       unit_id: "${unit_id}",
       category_id: "${category_id}"
