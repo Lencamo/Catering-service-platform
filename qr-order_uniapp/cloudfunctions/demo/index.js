@@ -7,7 +7,7 @@ exports.main = async (event, context) => {
 
   switch (event.url) {
     case '/demo':
-      return demoController.getCategoryList(event.data)
+      return demoController.getUserMsg(event.data)
     default:
       break
   }

@@ -1,7 +1,7 @@
 const demoService = require('./service.js')
 
 class demoController {
-  async getCategoryList(data) {
+  async getUserMsg(data) {
     // 1、数据准备
     const { username } = data
 
@@ -21,11 +21,11 @@ class demoController {
 module.exports = new demoController()
 
 // module.exports = {
-// 	getCategoryList: ()=> {
+// 	getUserMsg: ()=> {
 
 // 	  return {
 // 	    code: 0,
-// 	    message: '获取菜品类目菜品列表成功！'
+// 	    message: '获取指定用户信息成功！'
 // 	  }
 // 	}
 // }

@@ -2,8 +2,8 @@ const { appletRequest, cloudRequest } = require('../..')
 const { CODE_ENTER_PAGE, CODE_WIDTH } = require('../../../config/dotenv')
 
 class tableServer {
-  async getTableCode(tablename) {
-    const enterPath = `${CODE_ENTER_PAGE}?tablenamed=${tablename}`
+  async getTableCode(tablename, user_id) {
+    const enterPath = `${CODE_ENTER_PAGE}?tablename=${tablename}&userId=${user_id}`
     const codeWidth = CODE_WIDTH
 
     const { data: result } = await appletRequest.post({

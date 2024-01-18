@@ -8,7 +8,7 @@ class demoService {
 			username: username
 		}).get()
 		
-		console.log(result)
+		// console.log(result)
 		
 		return result
 	}

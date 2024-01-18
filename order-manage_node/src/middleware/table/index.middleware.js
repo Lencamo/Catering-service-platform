@@ -12,7 +12,7 @@ const handleTable = async (ctx, next) => {
   }
 
   // 2、获取小程序码
-  const codeBuffer = await tableServer.getTableCode(tablename)
+  const codeBuffer = await tableServer.getTableCode(tablename, user_id)
 
   // 3、小程序码文件名
   const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)

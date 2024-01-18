@@ -25,14 +25,14 @@
 import { ref } from 'vue';
 import { onLoad } from '@dcloudio/uni-app'
 import { wxCache } from '../../utils/cache';
-import { DINE_NUMB, TABLE_NAME } from '../../config/constants';
+import { DINE_NUMB, CODE_MSG } from '../../config/constants';
 
 // 扫码获取的数据
 let table = ref('1号桌')
 onLoad( e => {
 	// console.log(e)
-	table.value = e?.tablenamed
-	wxCache.setCache(TABLE_NAME, e?.tablenamed)
+	table.value = e?.tablename
+	wxCache.setCache(CODE_MSG, e)
 })
 
 // 选择人数按钮
