@@ -103,17 +103,7 @@
   "foodPrice": "18",
   "onSale": true,
   "updateTime": "2024-01-06 11:26:46",
-  // "unit_id": "b751f2806598fd7905fcc4d463234b4b",
-  // "unit": {
-  //   "unit_id": "b751f2806598fd7905fcc4d463234b4b",
-  //   "unitname": "盘"
-  // },
   "unitname": "盘",
-  // "category_id": "0b153f9a6598fca005f3f6c046a67d14",
-  // "category": {
-  //   "category_id": "0b153f9a6598fca005f3f6c046a67d14",
-  //   "category": "炒菜（荤）"
-  // },
   "category": "炒菜（荤）",
   "user_id": "7027b65465903dce055011740e2671aa"
 }

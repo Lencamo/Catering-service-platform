@@ -49,3 +49,7 @@ npm run build
 ## 三、qr-order_uniapp
 
 &emsp;&emsp;用户微信扫码点餐小程序
+
+## 说明
+
+&emsp;&emsp;同 order-manage_node 项目一样，我没有上传私密性信息的完整 `env.js` 文件，而是`env.template.js` 文件。大家可以根据自己的小程序、云开发信息完善 `env.template.js` 并将其改名为 env.js 文件即可。
