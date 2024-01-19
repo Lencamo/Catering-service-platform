@@ -4,7 +4,7 @@
 			<view class="food">
 				<image class="left" :src="item.food.url" mode="aspectFill"></image>
 				<view class="right">
-					<view style="font-size: 30rpx;font-weight: bold;">{{item.category}}</view>
+					<view style="font-size: 30rpx;font-weight: bold;">{{item.foodname}}</view>
 					<view style="font-size: 26rpx; color: #d1d1d1;">已售 2</view>
 					<view class="buttom-row">
 						<view class="food-msg">

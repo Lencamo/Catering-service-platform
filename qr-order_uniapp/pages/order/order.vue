@@ -12,17 +12,17 @@
 			</view>
 		</view>
 		<view class="content-box">
-			<scroll-view scroll-y enable-flex class="left-sidebar">
+			<scroll-view scroll-y enable-flex scroll-with-animation class="left-sidebar">
 				<block v-for="(item,index) in categoryList" :key="index">
-					<view @click="handleSidebarClick(item._id)" class="categor-box" :class="{'is-active': 'lencamo' + item._id === switchId }">
+					<view @click="handleSidebarClick(item._id, index)" class="categor-box" :class="{'is-active': index === switchId }" >
 						<view class="categor-btn">{{item.category}}</view>
 						<view class="circle-box">2</view>
 					</view>
 				</block>
 			</scroll-view>
-			<scroll-view scroll-y enable-flex :scroll-into-view="switchId" class="right-select">
+			<scroll-view scroll-y enable-flex	scroll-with-animation :scroll-into-view="scrollId" @scroll="handleFoodListScroll" class="right-select">
 				<block v-for="(item,index) in categoryFoodList" :key="index">
-					<view :id=" 'lencamo' + item._id">
+					<view class="rightCategoryItem" :id="'lencamo' + item._id">
 						<view class="food-category">-- {{item.category}}</view>
 						<foodItem :food-list='item.foodList'></foodItem>
 					</view>
@@ -43,39 +43,81 @@
 <script setup lang="ts">
 import foodItem from './components/foodItem.vue'
 
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import { wxCache } from '../../utils/cache';
 import { DINE_NUMB } from '../../config/constants';
 import { getCategoryListApi, getCategoryFoodListApi } from '../../service/order';
 import { ICategoryList } from '../../types/order';
+import { getSelectorAllTop } from '../../utils/selectorQuery';
 
-// 初始化数据
-// - 顶部就餐人数
+// 就餐人数
 const dineNumber = wxCache.getCache(DINE_NUMB)
 
-// - 左侧菜品类目、右侧菜品类目下的菜品
+// 视图数据
 const categoryList = ref<ICategoryList[]>()
 const categoryFoodList = ref<ICategoryList[]>()
+const categoryFoodDomDetails = ref() // item选择器信息
+
+// 左右联动数据
+const switchId = ref<number>() // 控制左侧样式是否is-active
+const scrollId = ref<string>() // 控制右侧是否滚动到指定位置
+
+// ============
 
 const orderDataInit = async () =>{
+	// - 左侧菜品类目
 	const { result: res }: any  = await getCategoryListApi()
 	categoryList.value = res.data
-	switchId.value = 'lencamo' + res.data[0]._id
-
+	
+	// - 联动数据
+	switchId.value = 0
+	scrollId.value = 'lencamo' + res.data[0]._id
+	
+	// - 右侧菜品类目下的菜品
 	const { result: res2 } : any = await getCategoryFoodListApi()
 	categoryFoodList.value = res2.data
+	
+	// - 右侧菜品类目Item 选择器信息
+	const getResult = (value: any) => {
+		categoryFoodDomDetails.value = value[0] // 主要是 top、bottom、id值
+	}
+	nextTick(() => {
+		getSelectorAllTop('.rightCategoryItem', getResult)
+	})
 }
 orderDataInit()
 
 // ============
 
-// 左右联动id值
-const switchId = ref('')
-
 // 侧边栏点击处理
-const handleSidebarClick = (id: string) =>{
-	switchId.value = 'lencamo' + id
+const handleSidebarClick = (id: string,index: number) =>{
+	// - 左侧点击联动右侧（触发点）
+	switchId.value = index
+	scrollId.value = 'lencamo' + id
 }
+
+// 滑动右侧菜品处理
+const handleFoodListScroll = (event: any) =>{
+	// 80rpx + (160rpx + 20rpx) * n
+	const { scrollTop, scrollHeight } = event.detail
+	
+	let headHeight = 0 // 顶部的多余height
+	categoryFoodDomDetails.value.forEach((item: any, index: number) => {
+		if(index === 0) headHeight = item.top
+		
+		// - 细节修复
+		if(scrollHeight - item.top > scrollHeight - scrollTop) {
+			return
+		}
+		// - 右侧滑动联动左侧（触发段）
+		if(scrollTop + headHeight >= item.top  && scrollTop + headHeight < item.bottom ) {
+			switchId.value = index
+			return
+		}
+	})
+}
+
+// const
 </script>
 
 <style lang="scss" scoped>
