@@ -1,5 +1,5 @@
 export function getSelectorTop(selector: string, callback: any) {
-	const query = wx.createSelectorQuery()
+	const query = uni.createSelectorQuery()
 	query.select(selector).boundingClientRect()
 	
 	query.exec(res => {
@@ -8,7 +8,7 @@ export function getSelectorTop(selector: string, callback: any) {
 }
 
 export function getSelectorAllTop(selector: string, callback: any) {
-	const query = wx.createSelectorQuery()
+	const query = uni.createSelectorQuery()
 	query.selectAll(selector).boundingClientRect()
 	
 	query.exec(res => {
