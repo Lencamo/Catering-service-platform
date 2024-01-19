@@ -13,23 +13,23 @@
 		</view>
 		<view class="content-box">
 			<scroll-view scroll-y enable-flex scroll-into-view class="left-sidebar">
-				<block v-for="(item,index) in ['炒菜（素）','汤类','炒菜（荤）']" :key="index">
+				<block v-for="(item,index) in categoryList" :key="index">
 					<view class="categor-box" :class="{'is-active': index === selectCategory  }">
-						<view class="categor-btn"  @click="selectBtnHandle(index)">{{item}}</view>
+						<view class="categor-btn"  @click="selectBtnHandle(index)">{{item.category}}</view>
 						<view class="circle-box">2</view>
 					</view>
 				</block>
 			</scroll-view>
 			<scroll-view scroll-y enable-flex class="right-select">
-				<block v-for="(item,index) in ['炒菜（素）','汤类','炒菜（荤）']" :key="index">
-					<view class="food-categor">-- {{item}}</view>
-					<foodItem></foodItem>
+				<block v-for="(item,index) in categoryFoodList" :key="index">
+					<view class="food-category">-- {{item.category}}</view>
+					<foodItem :food-list='item.foodList'></foodItem>
 				</block>
 			</scroll-view>
 		</view>
 		<view class="bottom-box">
 			<view class="left">
-				<image src="/static/image/icons/shopping.svg" mode="aspectFit"></image>
+				<image class="shopping" src="/static/image/icons/shopping.svg" mode="aspectFit"></image>
 				<view class="circle-box">6</view>
 			</view>
 			<view class="center">共￥145元</view>
@@ -44,9 +44,26 @@ import foodItem from './components/foodItem.vue'
 import { ref } from 'vue';
 import { wxCache } from '../../utils/cache';
 import { DINE_NUMB } from '../../config/constants';
+import { getCategoryListApi, getCategoryFoodListApi } from '../../service/order';
+import { ICategoryList } from '../../types/order';
 
 // 初始化数据
+// - 顶部就餐人数
 const dineNumber = wxCache.getCache(DINE_NUMB)
+
+// - 左侧菜品类目、右侧菜品类目下的菜品
+const categoryList = ref<ICategoryList[]>()
+const categoryFoodList = ref<ICategoryList[]>()
+
+const orderDataInit = async () =>{
+	const { result: res }: any  = await getCategoryListApi()
+	categoryList.value = res.data
+	
+	const { result: res2 } : any = await getCategoryFoodListApi()
+	categoryFoodList.value = res2.data
+	console.log(res2)
+}
+orderDataInit()
 
 // 选择菜品分类
 let selectCategory = ref(0)
@@ -140,7 +157,7 @@ const selectBtnHandle = (index: number) => {
 			width: 75%;
 			height: 84vh;
 
-			.food-categor {
+			.food-category {
 				font-size: 28rpx;
 				height: 80rpx;
 				line-height: 80rpx;
@@ -177,7 +194,7 @@ const selectBtnHandle = (index: number) => {
 			
 			position: relative;
 			
-			image {
+			.shopping {
 				width: 76%;
 				height: 76%;
 				margin: 12%;
