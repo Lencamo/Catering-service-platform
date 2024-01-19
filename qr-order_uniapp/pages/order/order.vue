@@ -12,18 +12,20 @@
 			</view>
 		</view>
 		<view class="content-box">
-			<scroll-view scroll-y enable-flex scroll-into-view class="left-sidebar">
+			<scroll-view scroll-y enable-flex class="left-sidebar">
 				<block v-for="(item,index) in categoryList" :key="index">
-					<view class="categor-box" :class="{'is-active': index === selectCategory  }">
-						<view class="categor-btn"  @click="selectBtnHandle(index)">{{item.category}}</view>
+					<view @click="handleSidebarClick(item._id)" class="categor-box" :class="{'is-active': 'lencamo' + item._id === switchId }">
+						<view class="categor-btn">{{item.category}}</view>
 						<view class="circle-box">2</view>
 					</view>
 				</block>
 			</scroll-view>
-			<scroll-view scroll-y enable-flex class="right-select">
+			<scroll-view scroll-y enable-flex :scroll-into-view="switchId" class="right-select">
 				<block v-for="(item,index) in categoryFoodList" :key="index">
-					<view class="food-category">-- {{item.category}}</view>
-					<foodItem :food-list='item.foodList'></foodItem>
+					<view :id=" 'lencamo' + item._id">
+						<view class="food-category">-- {{item.category}}</view>
+						<foodItem :food-list='item.foodList'></foodItem>
+					</view>
 				</block>
 			</scroll-view>
 		</view>
@@ -58,17 +60,21 @@ const categoryFoodList = ref<ICategoryList[]>()
 const orderDataInit = async () =>{
 	const { result: res }: any  = await getCategoryListApi()
 	categoryList.value = res.data
-	
+	switchId.value = 'lencamo' + res.data[0]._id
+
 	const { result: res2 } : any = await getCategoryFoodListApi()
 	categoryFoodList.value = res2.data
-	console.log(res2)
 }
 orderDataInit()
 
-// 选择菜品分类
-let selectCategory = ref(0)
-const selectBtnHandle = (index: number) => {
-	selectCategory.value = index
+// ============
+
+// 左右联动id值
+const switchId = ref('')
+
+// 侧边栏点击处理
+const handleSidebarClick = (id: string) =>{
+	switchId.value = 'lencamo' + id
 }
 </script>
 
