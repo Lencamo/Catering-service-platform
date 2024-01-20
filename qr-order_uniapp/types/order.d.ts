@@ -1,23 +1,26 @@
 export interface ICategoryList {
   _id: string
   category: string
+  foodList: IFoodList[]
+
   createTime: string
   updateTime: string
   user_id: string
-  foodList?: any[]
 }
 
 export interface IFoodList {
   _id: string
-  category: string
+  onSale: Boolean
   food: {
     name: string
     url: string
   }
-  foodPrice: string
   foodname: string
-  onSale: Boolean
+  foodPrice: string
   unitname: string
+  foodCount: number
+
+  category: string
   updateTime: string
   user_id: string
 }

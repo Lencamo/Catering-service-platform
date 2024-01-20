@@ -14,16 +14,16 @@
             <view class="food-count" v-if="item.onSale">
               <image
                 class="sub"
-                v-if="foodCount"
-                @click="countHandle('sub')"
+                v-if="item.foodCount"
+                @click="item.foodCount--"
                 style="width: 35rpx; height: 35rpx"
                 src="../../../static/image/icons/sub.svg"
                 mode=""
               ></image>
-              <text v-if="foodCount" style="margin: 0rpx 20rpx">{{ foodCount }}</text>
+              <text v-if="item.foodCount" style="margin: 0rpx 20rpx">{{ item.foodCount }}</text>
               <image
                 class="add"
-                @click="countHandle('add')"
+                @click="item.foodCount++"
                 style="width: 35rpx; height: 35rpx"
                 src="../../../static/image/icons/add.svg"
                 mode=""
@@ -37,20 +37,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+// import { watch } from 'vue';
 import { IFoodList } from '../../../types/order'
 
 // food列表数据
 interface Props {
   foodList: IFoodList[]
 }
-
 const props = defineProps<Props>()
 
-const foodCount = ref(0)
-const countHandle = (value: string) => {
-  value === 'add' ? foodCount.value++ : foodCount.value--
-}
+// 监听 foodCount 变化
+// watch(() => foodList, () => {
+// 	//
+// })
 </script>
 
 <style lang="scss" scoped>

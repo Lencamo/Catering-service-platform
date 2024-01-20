@@ -13,7 +13,7 @@
     </view>
     <view class="content-box">
       <scroll-view scroll-y enable-flex scroll-with-animation class="left-sidebar">
-        <block v-for="(item, index) in categoryList" :key="index">
+        <block v-for="(item, index) in categoryFoodAllList" :key="index">
           <view
             @click="handleSidebarClick(item._id, index)"
             class="categor-box"
@@ -32,7 +32,7 @@
         @scroll="handleFoodListScroll"
         class="right-select"
       >
-        <block v-for="(item, index) in categoryFoodList" :key="index">
+        <block v-for="(item, index) in categoryFoodAllList" :key="index">
           <view class="rightCategoryItem" :id="'lencamo' + item._id">
             <view class="food-category">-- {{ item.category }}</view>
             <foodItem :food-list="item.foodList"></foodItem>
@@ -57,16 +57,18 @@ import foodItem from './components/foodItem.vue'
 import { nextTick, ref } from 'vue'
 import { wxCache } from '../../utils/cache'
 import { DINE_NUMB } from '../../config/constants'
-import { getCategoryListApi, getCategoryFoodListApi } from '../../service/order'
-import { ICategoryList } from '../../types/order'
 import { getSelectorAllTop } from '../../utils/selectorQuery'
+import useOrderStore from '../../stores/order'
+import { storeToRefs } from 'pinia'
+import { ICategoryList } from '../../types/order'
 
 // 就餐人数
 const dineNumber = wxCache.getCache(DINE_NUMB)
 
-// 视图数据
-const categoryList = ref<ICategoryList[]>()
-const categoryFoodList = ref<ICategoryList[]>()
+// 菜品类目列表、菜品列表数据
+const categoryFoodAllList = ref<ICategoryList[]>()
+
+// 右侧菜品类目Item 选择器信息
 const categoryFoodDomDetails = ref() // item选择器信息
 
 // 左右联动数据
@@ -76,24 +78,22 @@ const scrollId = ref<string>() // 控制右侧是否滚动到指定位置
 // ============
 
 const orderDataInit = async () => {
-  // - 左侧菜品类目
-  const { result: res }: any = await getCategoryListApi()
-  categoryList.value = res.data
-
-  // - 联动数据
-  switchId.value = 0
-  scrollId.value = 'lencamo' + res.data[0]._id
-
-  // - 右侧菜品类目下的菜品
-  const { result: res2 }: any = await getCategoryFoodListApi()
-  categoryFoodList.value = res2.data
+  // - 菜品类目列表、菜品列表
+  const orderStore = useOrderStore()
+  await orderStore.getCategoryFoodListAction()
+  const { categoryFoodList }: any = storeToRefs(orderStore)
+  categoryFoodAllList.value = categoryFoodList.value
 
   // - 右侧菜品类目Item 选择器信息
-  const getResult = (value: any) => {
-    categoryFoodDomDetails.value = value[0] // 主要是 top、bottom、id值
-  }
   nextTick(() => {
+    const getResult = (value: any) => {
+      categoryFoodDomDetails.value = value[0] // 主要是 top、bottom、id值
+    }
     getSelectorAllTop('.rightCategoryItem', getResult)
+
+    // - 左右联动数据
+    switchId.value = 0
+    scrollId.value = 'lencamo' + categoryFoodAllList.value[0]._id
   })
 }
 orderDataInit()
