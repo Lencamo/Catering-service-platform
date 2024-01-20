@@ -45,7 +45,7 @@ import useOrderStore from '../../../stores/order'
 import { storeToRefs } from 'pinia'
 
 const orderStore = useOrderStore()
-const { categoryFoodList, orderTotalCount, orderMoneySum } = storeToRefs(orderStore)
+const { categoryFoodList, orderTotalCount, orderMoneySum, orderFoodList } = storeToRefs(orderStore)
 
 // food列表数据
 interface Props {
@@ -68,12 +68,20 @@ const foodCountHandle = (action: string, food: IFoodList) => {
   // orderTotalCount 数目更新
   action === 'add' ? orderTotalCount.value++ : orderTotalCount.value--
 
-  // orderMoneySum 消费统计
+  // foodMoneySum 消费更新
+  action === 'add'
+    ? (food.foodMoneySum += Number(food.foodPrice))
+    : (food.foodMoneySum -= Number(food.foodPrice))
+
+  // orderMoneySum 消费更新
   action === 'add'
     ? (orderMoneySum.value += Number(food.foodPrice))
     : (orderMoneySum.value -= Number(food.foodPrice))
 
   // console.log(categoryFoodList.value, orderTotalCount.value, orderMoneySum.value)
+
+  // isOrder 菜品是否order更新
+  action === 'add' ? (food.isOrder = true) : (food.isOrder = false)
 }
 </script>
 

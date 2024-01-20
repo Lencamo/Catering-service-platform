@@ -1,27 +1,35 @@
-export interface ICategoryList {
+interface ICategory {
   _id: string
   category: string
-  categoryOrderCount: number
-  foodList: IFoodList[]
-
   createTime: string
   updateTime: string
   user_id: string
 }
 
-export interface IFoodList {
+interface IFood {
   _id: string
-  onSale: Boolean
-  food: {
-    name: string
-    url: string
-  }
   foodname: string
+  food: {
+    name: string | null
+    url: string | null
+  }
   foodPrice: string
-  unitname: string
-  foodOrderCount: number
-
-  category: string
+  onSale: boolean
   updateTime: string
+  unitname: string
+  category: string
   user_id: string
+}
+
+// ==========
+
+export interface ICategoryList extends ICategory {
+  categoryOrderCount: number
+  foodList: IFoodList[]
+}
+
+export interface IFoodList extends IFood {
+  foodOrderCount: number
+  foodMoneySum: number
+  isOrder: boolean
 }

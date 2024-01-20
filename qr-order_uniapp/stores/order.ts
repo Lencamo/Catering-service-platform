@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia'
 import { getCategoryFoodListApi } from '../service/order'
-import { ICategoryList } from '../types/order'
+import { ICategoryList, IFoodList } from '../types/order'
 
 const useOrderStore = defineStore('Order', {
   state: () => ({
     orderTotalCount: 0,
     orderMoneySum: 0,
-    categoryFoodList: null as ICategoryList[]
+    categoryFoodList: [] as ICategoryList[],
+
+    orderFoodList: [] as IFoodList[]
   }),
   getters: {
     //

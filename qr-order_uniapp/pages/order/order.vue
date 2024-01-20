@@ -46,11 +46,11 @@
       <!--  -->
     </view>
     <view class="bottom-box">
-      <view class="left">
+      <view @click="showOrderComp" class="left">
         <image class="shopping" src="/static/image/icons/shopping.svg" mode="aspectFit"></image>
         <view v-if="orderFoodTotalCount" class="circle-box">{{ orderFoodTotalCount }}</view>
       </view>
-      <view class="center">共￥{{ orderMoneyTotalSum }}</view>
+      <view @click="showOrderComp" class="center">共￥{{ orderMoneyTotalSum }}</view>
       <view class="rgiht">选好了</view>
     </view>
   </view>
@@ -68,6 +68,7 @@ import { storeToRefs } from 'pinia'
 import { ICategoryList } from '../../types/order'
 
 const orderStore = useOrderStore()
+const { categoryFoodList, orderFoodList } = storeToRefs(orderStore)
 
 // 监听 orderTotalCount 变化
 orderStore.$subscribe((mutation, state) => {
@@ -149,7 +150,23 @@ const handleFoodListScroll = (event: any) => {
 
 // ============
 
-// 左侧菜品栏 circle 数目计算
+// 点击弹出 orderList 组件
+const showOrderComp = () => {
+  orderFoodList.value = []
+
+  // 购物车数据列表汇总 🎈
+  categoryFoodList.value.forEach((item) => {
+    item.foodList.forEach((item) => {
+      if (item.isOrder) {
+        orderFoodList.value.push(item)
+      }
+    })
+  })
+  // console.log(orderFoodList.value)
+
+  // 弹出 orderList 组件
+  //
+}
 </script>
 
 <style lang="scss" scoped>

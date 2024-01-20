@@ -16,7 +16,9 @@ class orderController {
         const newFoodList = foodList.map((food) => {
           return {
             ...food,
-            foodOrderCount: 0 // 单个菜品项数目统计（+ - 购物车）
+            foodOrderCount: 0, // 单个菜品项 数目统计（+ - 购物车）
+            foodMoneySum: 0, // 单个菜品项 消费统计（+ - 购物车）
+            isOrder: false // 当前菜品是否被 order
           }
         })
 
