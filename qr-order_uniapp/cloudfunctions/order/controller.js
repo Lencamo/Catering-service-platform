@@ -16,13 +16,13 @@ class orderController {
         const newFoodList = foodList.map((food) => {
           return {
             ...food,
-            foodOrderCount: 0 // 供单项 + - 购物车使用
+            foodOrderCount: 0 // 单个菜品项数目统计（+ - 购物车）
           }
         })
 
         return {
           ...item,
-          categoryOrderCount: 0, // 供左侧单项 circle 数目统计
+          categoryOrderCount: 0, // 左侧单个菜品类目 circle 数目统计
           foodList: newFoodList
         }
       })
@@ -33,8 +33,9 @@ class orderController {
       code: 0,
       message: '获取菜品类目菜品列表数据成功！',
       data: {
-        categoryFoodList: result,
-        orderTotalCount: 0 // 用户总共 添加的菜品数目 统计
+        orderTotalCount: 0, // 用户总共 添加的菜品数目 统计
+        orderMoneySum: 0, // 用户总共 消费统计
+        categoryFoodList: result
       }
     }
   }

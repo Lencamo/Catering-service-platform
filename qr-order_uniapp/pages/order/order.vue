@@ -50,7 +50,7 @@
         <image class="shopping" src="/static/image/icons/shopping.svg" mode="aspectFit"></image>
         <view v-if="orderFoodTotalCount" class="circle-box">{{ orderFoodTotalCount }}</view>
       </view>
-      <view class="center">共￥145元</view>
+      <view class="center">共￥{{ orderMoneyTotalSum }}</view>
       <view class="rgiht">选好了</view>
     </view>
   </view>
@@ -73,6 +73,7 @@ const orderStore = useOrderStore()
 orderStore.$subscribe((mutation, state) => {
   // console.log(mutation,state)
   orderFoodTotalCount.value = state.orderTotalCount
+  orderMoneyTotalSum.value = state.orderMoneySum
 })
 
 // ============
@@ -80,9 +81,10 @@ orderStore.$subscribe((mutation, state) => {
 // 就餐人数
 const dineNumber = wxCache.getCache(DINE_NUMB)
 
-// 菜品类目列表、菜品列表数据
+// 菜品类目列表、菜品列表数据、添加的菜品统计、总共的消费统计
 const categoryFoodAllList = ref<ICategoryList[]>()
 const orderFoodTotalCount = ref()
+const orderMoneyTotalSum = ref()
 
 // 右侧菜品类目Item 选择器信息
 const categoryFoodDomDetails = ref() // item选择器信息
@@ -96,9 +98,10 @@ const scrollId = ref<string>() // 控制右侧是否滚动到指定位置
 const orderDataInit = async () => {
   // - 菜品类目列表、菜品列表
   await orderStore.getCategoryFoodListAction()
-  const { categoryFoodList, orderTotalCount } = storeToRefs(orderStore)
+  const { categoryFoodList, orderTotalCount, orderMoneySum } = storeToRefs(orderStore)
   categoryFoodAllList.value = categoryFoodList.value
   orderFoodTotalCount.value = orderTotalCount.value
+  orderMoneyTotalSum.value = orderMoneySum.value
 
   // - 右侧菜品类目Item 选择器信息
   nextTick(() => {
