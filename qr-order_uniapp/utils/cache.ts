@@ -1,19 +1,19 @@
 class Cache {
   setCache(key: string, value: any) {
-    uni.setStorageSync(key, JSON.stringify(value))
+    wx.setStorageSync(key, JSON.stringify(value))
   }
 
   getCache(key: string) {
-    const value = uni.getStorageSync(key)
+    const value = wx.getStorageSync(key)
     return value ? JSON.parse(value) : null
   }
 
   removeCache(key: string) {
-    uni.removeStorageSync(key)
+    wx.removeStorageSync(key)
   }
 
   clearCache() {
-    uni.clearStorageSync()
+    wx.clearStorageSync()
   }
 }
 

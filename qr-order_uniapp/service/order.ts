@@ -4,7 +4,7 @@ import { wxCache } from '../utils/cache'
 const { userId } = wxCache.getCache(CODE_MSG)
 
 export function getCategoryListApi() {
-  return uni.cloud.callFunction({
+  return wx.cloud.callFunction({
     name: 'order',
     data: {
       url: '/order/categoryList',
@@ -16,7 +16,7 @@ export function getCategoryListApi() {
 }
 
 export function getCategoryFoodListApi() {
-  return uni.cloud.callFunction({
+  return wx.cloud.callFunction({
     name: 'order',
     data: {
       url: '/order/category/foodList',

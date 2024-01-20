@@ -160,7 +160,7 @@ const handleFoodListScroll = (event: any) => {
 
     .icon-box {
       @include flex-init(space-between, center, row);
-      margin: 0rpx 10rpx;
+      margin: 0rpx 20rpx;
 
       .number {
         width: 60rpx;

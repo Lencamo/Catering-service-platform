@@ -1,5 +1,5 @@
 export function demoApi() {
-  return uni.cloud.callFunction({
+  return wx.cloud.callFunction({
     name: 'demo',
     data: {
       url: '/demo',

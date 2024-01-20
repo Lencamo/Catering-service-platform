@@ -6,13 +6,13 @@
 		</view>
 		<view class="select-box">
 			<view class="table-msg">
-				<view style="font-size: 44rpx;font-weight: bold;">{{table}}</view>
+				<view style="font-size: 44rpx;font-weight: bold;">{{tableName}}</view>
 				<view style="font-size: 34rpx;font-weight: 500;">请选择你的就餐人数</view>
 			</view>
 			<view class="btn-select">
 				<scroll-view scroll-x enable-flex class="btn-list">
 					<block v-for="(item, index) in 10" :key="index">
-						<view class="numb-btn" :class="{'is-active': index + 1 === selectNumb  }"  @click="selectBtnHandle(item)">{{item}}</view>
+						<view class="numb-btn" :class="{'is-active': index + 1 === tableNumber  }"  @click="selectBtnHandle(item)">{{item}}</view>
 					</block>
 				</scroll-view>
 				<button class="enter-order" @click="startBtnHandle">开始点餐</button>
@@ -28,22 +28,22 @@ import { wxCache } from '../../utils/cache';
 import { DINE_NUMB, CODE_MSG } from '../../config/constants';
 
 // 扫码获取的数据
-let table = ref('1号桌')
+let tableName = ref('1号桌')
 onLoad( e => {
 	// console.log(e)
-	table.value = e?.tablename
+	tableName.value = e?.tablename
 	wxCache.setCache(CODE_MSG, e)
 })
 
 // 选择人数按钮
-let selectNumb = ref(1)
+let tableNumber = ref(1)
 const selectBtnHandle = (index: number) => {
-	selectNumb.value = index
+	tableNumber.value = index
 }
 
 // 开始点餐按钮
 const startBtnHandle = ()=>{
-	wxCache.setCache(DINE_NUMB, selectNumb.value)
+	wxCache.setCache(DINE_NUMB, tableNumber.value)
 		
 	uni.redirectTo({
 		url:'/pages/order/order'

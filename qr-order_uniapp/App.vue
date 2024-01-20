@@ -11,10 +11,10 @@ import { onLaunch } from '@dcloudio/uni-app'
 // 初始化操作
 onLaunch(() => {
   // 1、云开发云环境
-  if (!uni.cloud) {
+  if (!wx.cloud) {
     console.log('请使用大于 2.2.3 基础库，以使用云能力')
   } else {
-    uni.cloud.init({
+    wx.cloud.init({
       env: CLOUD_ENV
     })
   }
