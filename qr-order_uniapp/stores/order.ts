@@ -4,7 +4,8 @@ import { ICategoryList } from '../types/order'
 
 const useOrderStore = defineStore('Order', {
   state: () => ({
-    categoryFoodList: null as ICategoryList[]
+    categoryFoodList: null as ICategoryList[],
+    orderTotalCount: 0
   }),
   getters: {
     //
@@ -14,7 +15,8 @@ const useOrderStore = defineStore('Order', {
       const { result: res }: any = await getCategoryFoodListApi()
 
       if (!res.data.code) {
-        this.categoryFoodList = res.data
+        this.categoryFoodList = res.data.categoryFoodList
+        this.orderTotalCount = res.data.orderTotalCount
       } else {
         uni.showToast({
           icon: 'error',

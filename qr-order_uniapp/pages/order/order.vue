@@ -20,7 +20,9 @@
             :class="{ 'is-active': index === switchId }"
           >
             <view class="categor-btn">{{ item.category }}</view>
-            <view class="circle-box">2</view>
+            <view v-if="item.categoryOrderCount" class="circle-box">{{
+              item.categoryOrderCount
+            }}</view>
           </view>
         </block>
       </scroll-view>
@@ -40,10 +42,13 @@
         </block>
       </scroll-view>
     </view>
+    <view class="">
+      <!--  -->
+    </view>
     <view class="bottom-box">
       <view class="left">
         <image class="shopping" src="/static/image/icons/shopping.svg" mode="aspectFit"></image>
-        <view class="circle-box">6</view>
+        <view v-if="orderFoodTotalCount" class="circle-box">{{ orderFoodTotalCount }}</view>
       </view>
       <view class="center">共￥145元</view>
       <view class="rgiht">选好了</view>
@@ -62,11 +67,22 @@ import useOrderStore from '../../stores/order'
 import { storeToRefs } from 'pinia'
 import { ICategoryList } from '../../types/order'
 
+const orderStore = useOrderStore()
+
+// 监听 orderTotalCount 变化
+orderStore.$subscribe((mutation, state) => {
+  // console.log(mutation,state)
+  orderFoodTotalCount.value = state.orderTotalCount
+})
+
+// ============
+
 // 就餐人数
 const dineNumber = wxCache.getCache(DINE_NUMB)
 
 // 菜品类目列表、菜品列表数据
 const categoryFoodAllList = ref<ICategoryList[]>()
+const orderFoodTotalCount = ref()
 
 // 右侧菜品类目Item 选择器信息
 const categoryFoodDomDetails = ref() // item选择器信息
@@ -79,10 +95,10 @@ const scrollId = ref<string>() // 控制右侧是否滚动到指定位置
 
 const orderDataInit = async () => {
   // - 菜品类目列表、菜品列表
-  const orderStore = useOrderStore()
   await orderStore.getCategoryFoodListAction()
-  const { categoryFoodList }: any = storeToRefs(orderStore)
+  const { categoryFoodList, orderTotalCount } = storeToRefs(orderStore)
   categoryFoodAllList.value = categoryFoodList.value
+  orderFoodTotalCount.value = orderTotalCount.value
 
   // - 右侧菜品类目Item 选择器信息
   nextTick(() => {
@@ -127,6 +143,10 @@ const handleFoodListScroll = (event: any) => {
     }
   })
 }
+
+// ============
+
+// 左侧菜品栏 circle 数目计算
 </script>
 
 <style lang="scss" scoped>

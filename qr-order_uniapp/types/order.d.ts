@@ -1,6 +1,7 @@
 export interface ICategoryList {
   _id: string
   category: string
+  categoryOrderCount: number
   foodList: IFoodList[]
 
   createTime: string
@@ -18,7 +19,7 @@ export interface IFoodList {
   foodname: string
   foodPrice: string
   unitname: string
-  foodCount: number
+  foodOrderCount: number
 
   category: string
   updateTime: string

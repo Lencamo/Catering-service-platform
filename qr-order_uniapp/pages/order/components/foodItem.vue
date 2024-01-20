@@ -14,16 +14,18 @@
             <view class="food-count" v-if="item.onSale">
               <image
                 class="sub"
-                v-if="item.foodCount"
-                @click="item.foodCount--"
+                v-if="item.foodOrderCount"
+                @click="foodCountHandle('sub', item)"
                 style="width: 35rpx; height: 35rpx"
                 src="../../../static/image/icons/sub.svg"
                 mode=""
               ></image>
-              <text v-if="item.foodCount" style="margin: 0rpx 20rpx">{{ item.foodCount }}</text>
+              <text v-if="item.foodOrderCount" style="margin: 0rpx 20rpx">{{
+                item.foodOrderCount
+              }}</text>
               <image
                 class="add"
-                @click="item.foodCount++"
+                @click="foodCountHandle('add', item)"
                 style="width: 35rpx; height: 35rpx"
                 src="../../../static/image/icons/add.svg"
                 mode=""
@@ -38,7 +40,12 @@
 
 <script setup lang="ts">
 // import { watch } from 'vue';
-import { IFoodList } from '../../../types/order'
+import { ICategoryList, IFoodList } from '../../../types/order'
+import useOrderStore from '../../../stores/order'
+import { storeToRefs } from 'pinia'
+
+const orderStore = useOrderStore()
+const { categoryFoodList, orderTotalCount } = storeToRefs(orderStore)
 
 // food列表数据
 interface Props {
@@ -46,10 +53,23 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-// 监听 foodCount 变化
-// watch(() => foodList, () => {
-// 	//
-// })
+// 购物车数目更新
+const foodCountHandle = (action: string, food: IFoodList) => {
+  // foodOrderCount 数目更新
+  action === 'add' ? food.foodOrderCount++ : food.foodOrderCount--
+
+  // categoryOrderCount 数目更新
+  categoryFoodList.value.forEach((item: ICategoryList) => {
+    if (item.category === food.category) {
+      action === 'add' ? item.categoryOrderCount++ : item.categoryOrderCount--
+    }
+  })
+
+  // orderTotalCount 数目更新
+  action === 'add' ? orderTotalCount.value++ : orderTotalCount.value--
+
+  // console.log(categoryFoodList.value, orderTotalCount.value)
+}
 </script>
 
 <style lang="scss" scoped>
