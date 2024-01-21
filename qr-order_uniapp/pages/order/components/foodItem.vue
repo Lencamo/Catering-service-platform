@@ -8,7 +8,7 @@
           <view style="font-size: 26rpx; color: #d1d1d1">月售 2</view>
           <view class="buttom-row">
             <view class="food-msg">
-              <text style="font-size: 26rpx; font-weight: bold">￥{{ item.foodPrice }}</text>
+              <text style="font-size: 26rpx; font-weight: bold">￥{{ item.foodPrice }} </text>
               <text style="font-size: 26rpx; color: #d1d1d1"> / {{ item.unitname }}</text>
             </view>
             <view class="food-count" v-if="item.onSale">
@@ -16,7 +16,6 @@
                 class="sub"
                 v-if="item.foodOrderCount"
                 @click="foodCountHandle('sub', item)"
-                style="width: 35rpx; height: 35rpx"
                 src="../../../static/image/icons/sub.svg"
                 mode=""
               ></image>
@@ -26,7 +25,6 @@
               <image
                 class="add"
                 @click="foodCountHandle('add', item)"
-                style="width: 35rpx; height: 35rpx"
                 src="../../../static/image/icons/add.svg"
                 mode=""
               ></image>
@@ -39,7 +37,6 @@
 </template>
 
 <script setup lang="ts">
-// import { watch } from 'vue';
 import { ICategoryList, IFoodList } from '../../../types/order'
 import useOrderStore from '../../../stores/order'
 import { storeToRefs } from 'pinia'
@@ -129,17 +126,21 @@ const foodCountHandle = (action: string, food: IFoodList) => {
         width: 100%;
 
         .food-msg {
-          width: 200rpx;
+          width: 100%;
         }
 
         .food-count {
           @include flex-init(flex-end, center, row);
 
-          width: 100%;
+          width: 160rpx; // 50rpx的数目统计空间（大概可以容纳3个数）
 
           .sub,
           .add {
+            width: 35rpx;
+            height: 35rpx;
+
             vertical-align: middle;
+            margin: 7.5rpx 0;
           }
         }
       }

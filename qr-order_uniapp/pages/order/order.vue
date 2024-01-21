@@ -42,8 +42,8 @@
         </block>
       </scroll-view>
     </view>
-    <view class="">
-      <!--  -->
+    <view class="order-box">
+      <orderList v-if="isVisibleOrderComp"></orderList>
     </view>
     <view class="bottom-box">
       <view @click="showOrderComp" class="left">
@@ -58,6 +58,7 @@
 
 <script setup lang="ts">
 import foodItem from './components/foodItem.vue'
+import orderList from './components/orderList.vue'
 
 import { nextTick, ref } from 'vue'
 import { wxCache } from '../../utils/cache'
@@ -151,6 +152,8 @@ const handleFoodListScroll = (event: any) => {
 // ============
 
 // 点击弹出 orderList 组件
+const isVisibleOrderComp = ref(false)
+
 const showOrderComp = () => {
   orderFoodList.value = []
 
@@ -165,7 +168,7 @@ const showOrderComp = () => {
   // console.log(orderFoodList.value)
 
   // 弹出 orderList 组件
-  //
+  isVisibleOrderComp.value = true
 }
 </script>
 
@@ -274,9 +277,9 @@ const showOrderComp = () => {
     bottom: 0rpx;
     left: 0rpx;
 
-    width: 90%;
+    width: 84%;
     height: 80rpx;
-    margin: 8%;
+    margin: 60rpx 8%;
     border-radius: 40rpx;
 
     background-color: #e3e3e3;
