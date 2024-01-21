@@ -86,6 +86,7 @@ $uni-font-size-paragraph: 15px;
   flex-direction: $direction;
 }
 
+// - 数字圆圈
 @mixin circleStyle($size, $color) {
   font-size: $size * 0.63;
   color: #ffffff;
@@ -97,4 +98,48 @@ $uni-font-size-paragraph: 15px;
   height: $size;
   border-radius: $size * 0.5;
   background-color: $color;
+}
+
+// 弹窗遮罩
+@mixin grayBackStyle() {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+// 进入、退出弹窗动画
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+@mixin slideUpStyle() {
+  animation: slideUp 0.4s 0.1s ease both;
+}
+
+@mixin slideDownStyle() {
+  animation: slideDown 0.4s 0.1s ease both;
 }
