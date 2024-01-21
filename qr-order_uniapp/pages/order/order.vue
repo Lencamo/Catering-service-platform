@@ -43,14 +43,16 @@
       </scroll-view>
     </view>
     <view class="order-box">
-      <orderList v-if="isVisibleOrderComp"></orderList>
+      <orderList v-if="isVisibleOrderComp" @handle-visible="handleVisible"></orderList>
     </view>
     <view class="bottom-box">
       <view @click="showOrderComp" class="left">
         <image class="shopping" src="/static/image/icons/shopping.svg" mode="aspectFit"></image>
         <view v-if="orderFoodTotalCount" class="circle-box">{{ orderFoodTotalCount }}</view>
       </view>
-      <view @click="showOrderComp" class="center">共￥{{ orderMoneyTotalSum }}</view>
+      <view @click="showOrderComp" class="center"
+        >共￥{{ Number(orderMoneyTotalSum).toFixed(1) }}</view
+      >
       <view class="rgiht">选好了</view>
     </view>
   </view>
@@ -60,7 +62,7 @@
 import foodItem from './components/foodItem.vue'
 import orderList from './components/orderList.vue'
 
-import { nextTick, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { wxCache } from '../../utils/cache'
 import { DINE_NUMB } from '../../config/constants'
 import { getSelectorAllTop } from '../../utils/selectorQuery'
@@ -74,6 +76,7 @@ const { categoryFoodList, orderFoodList } = storeToRefs(orderStore)
 // 监听 orderTotalCount 变化
 orderStore.$subscribe((mutation, state) => {
   // console.log(mutation,state)
+  categoryFoodAllList.value = categoryFoodList.value
   orderFoodTotalCount.value = state.orderTotalCount
   orderMoneyTotalSum.value = state.orderMoneySum
 })
@@ -154,6 +157,7 @@ const handleFoodListScroll = (event: any) => {
 // 点击弹出 orderList 组件
 const isVisibleOrderComp = ref(false)
 
+// - 弹出组件
 const showOrderComp = () => {
   orderFoodList.value = []
 
@@ -168,7 +172,14 @@ const showOrderComp = () => {
   // console.log(orderFoodList.value)
 
   // 弹出 orderList 组件
-  isVisibleOrderComp.value = true
+  if (orderFoodList.value.length) {
+    isVisibleOrderComp.value = true
+  }
+}
+
+// - 关闭 orderList 组件（子传父操作）
+const handleVisible = (value: boolean = false) => {
+  isVisibleOrderComp.value = value
 }
 </script>
 

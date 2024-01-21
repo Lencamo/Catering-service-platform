@@ -1,16 +1,16 @@
 <template>
   <view class="orderList">
-    <view class="mask-box"></view>
+    <view class="mask-box" @click="emit('handleVisible', false)"></view>
     <view class="order-box">
       <view class="order-top">
         <view>已选商品</view>
-        <view class="icon-box">
+        <view class="icon-box" @click="handleClearOrder">
           <image class="clear" src="/static/image/icons/clear-order.svg"></image>
           <view>清空购物车</view>
         </view>
       </view>
-      <view ref="scrollBoxRef" class="scroll-box">
-        <scroll-view :scroll-y="isScroll" enable-flex>
+      <view class="scroll-box">
+        <scroll-view scroll-y enable-flex>
           <block v-for="(item, index) in orderFoodListALl" :key="index">
             <view v-if="item.foodOrderCount">
               <view class="food" :class="{ 'is-gray': item.onSale === false }">
@@ -19,13 +19,15 @@
                   <view style="font-size: 30rpx">{{ item.foodname }}</view>
                   <view class="buttom-row">
                     <view class="food-msg">
-                      <text style="font-size: 25rpx">￥{{ item.foodMoneySum }} </text>
+                      <text style="font-size: 25rpx"
+                        >￥{{ Number(item.foodMoneySum).toFixed(1) }}
+                      </text>
                     </view>
                     <view class="food-count">
                       <image
                         class="sub"
                         v-if="item.foodOrderCount"
-                        @click="foodCountHandle('sub', item)"
+                        @click="foodCountHandle('sub', item, index)"
                         src="/static/image/icons/sub.svg"
                         mode=""
                       ></image>
@@ -34,7 +36,7 @@
                       }}</text>
                       <image
                         class="add"
-                        @click="foodCountHandle('add', item)"
+                        @click="foodCountHandle('add', item, index)"
                         src="/static/image/icons/add.svg"
                         mode=""
                       ></image>
@@ -55,39 +57,63 @@
 import { ICategoryList, IFoodList } from '../../../types/order'
 import useOrderStore from '../../../stores/order'
 import { storeToRefs } from 'pinia'
-import { nextTick, ref } from 'vue'
+import { ref } from 'vue'
 
 const orderStore = useOrderStore()
 const { categoryFoodList, orderTotalCount, orderMoneySum, orderFoodList } = storeToRefs(orderStore)
 
-// 监听 orderTotalCount 变化
 const orderFoodListALl = ref<IFoodList[]>(orderFoodList.value)
-const isScroll = ref(false)
-const scrollBoxRef = ref()
 
-// 是否启用纵向滚动 🍗
-const handleOrderListScroll = () => {
-  if (orderFoodList.value.length > 3) {
-    isScroll.value = true
+// ==============
 
-    nextTick(() => {
-      scrollBoxRef.value.style.maxHeight = 'none'
-      scrollBoxRef.value.style.height = '550rpx'
-    })
-  }
-}
-handleOrderListScroll()
+// 是否关闭 orderList 组件
+const emit = defineEmits(['handleVisible'])
 
-// 监听 orderFoodListALl 变化
 orderStore.$subscribe((mutation, state) => {
   // console.log(mutation,state)
-  orderFoodListALl.value = state.orderFoodList
 
-  handleOrderListScroll()
+  let isOrderCount = 0
+  state.orderFoodList.forEach((item) => {
+    if (item.isOrder === true) isOrderCount++
+  })
+  if (!isOrderCount) {
+    emit('handleVisible', false)
+  }
 })
 
+// ==============
+
+// 清空购物车
+const handleClearOrder = async () => {
+  // 方式1
+  // uni.redirectTo({
+  //   url: '/pages/order/order'
+  // })
+
+  // 方式2
+  // orderStore.$reset()
+  // await orderStore.getCategoryFoodListAction()
+
+  // 方式3
+  orderStore.orderTotalCount = 0
+  orderStore.orderMoneySum = 0
+
+  orderStore.categoryFoodList.forEach((item) => {
+    item.categoryOrderCount = 0
+
+    item.foodList.forEach((food) => {
+      food.foodOrderCount = 0
+      food.foodMoneySum = 0
+
+      food.isOrder = false
+    })
+  })
+}
+
+// ==============
+
 // 购物车数目更新
-const foodCountHandle = (action: string, food: IFoodList) => {
+const foodCountHandle = (action: string, food: IFoodList, index: number) => {
   // foodOrderCount 数目更新
   action === 'add' ? food.foodOrderCount++ : food.foodOrderCount--
 
