@@ -140,7 +140,12 @@ const foodCountHandle = (action: string, food: IFoodList, index: number) => {
   // console.log(categoryFoodList.value, orderTotalCount.value, orderMoneySum.value)
 
   // isOrder 菜品是否order更新
-  action === 'add' ? (food.isOrder = true) : (food.isOrder = false)
+  // action === 'add' ? (food.isOrder = true) : (food.isOrder = false) // bug修复
+  if (action === 'sub' && food.foodOrderCount <= 0) {
+    food.isOrder = false
+  } else {
+    food.isOrder = true
+  }
 }
 </script>
 
