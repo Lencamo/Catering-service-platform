@@ -21,6 +21,13 @@
         "navigationBarTitleText": "云开发测试页",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/bill/bill",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
     }
   ],
   "globalStyle": {

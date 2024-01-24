@@ -1,3 +1,4 @@
+// c_category集合
 interface ICategory {
   _id: string
   category: string
@@ -5,7 +6,7 @@ interface ICategory {
   updateTime: string
   user_id: string
 }
-
+// c_food集合
 interface IFood {
   _id: string
   foodname: string

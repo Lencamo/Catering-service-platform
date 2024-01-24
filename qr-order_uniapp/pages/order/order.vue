@@ -53,7 +53,7 @@
       <view @click="showOrderComp" class="center"
         >共￥{{ Number(orderMoneyTotalSum).toFixed(1) }}</view
       >
-      <view class="rgiht">选好了</view>
+      <view class="rgiht" @click="orderOkBtn">选好了</view>
     </view>
   </view>
 </template>
@@ -69,6 +69,8 @@ import { getSelectorAllTop } from '../../utils/selectorQuery'
 import useOrderStore from '../../stores/order'
 import { storeToRefs } from 'pinia'
 import { ICategoryList } from '../../types/order'
+import userBillStore from '../../stores/bill'
+import { IMenuList } from '../../types/bill'
 
 const orderStore = useOrderStore()
 const { categoryFoodList, orderFoodList } = storeToRefs(orderStore)
@@ -157,8 +159,7 @@ const handleFoodListScroll = (event: any) => {
 // 点击弹出 orderList 组件
 const isVisibleOrderComp = ref(false)
 
-// - 弹出组件
-const showOrderComp = () => {
+const getOrderFoodList = () => {
   orderFoodList.value = []
 
   // 购物车数据列表汇总 🎈
@@ -170,6 +171,12 @@ const showOrderComp = () => {
     })
   })
   // console.log(orderFoodList.value)
+}
+
+// - 弹出组件
+const showOrderComp = () => {
+  // 获取 orderFoodList 数据
+  getOrderFoodList()
 
   // 弹出 orderList 组件
   if (orderFoodList.value.length) {
@@ -180,6 +187,38 @@ const showOrderComp = () => {
 // - 关闭 orderList 组件（子传父操作）
 const handleVisible = (value: boolean = false) => {
   isVisibleOrderComp.value = value
+}
+
+// =============
+
+// 确认当前点餐内容
+const billStore = userBillStore()
+
+const orderOkBtn = async () => {
+  // 获取桌号、就餐人数
+  // 略（service中）
+
+  // 订单编号、下单时间
+  // 略（云函数中）
+
+  // 其他
+  // ……
+
+  // 获取 orderFoodList 数据
+  getOrderFoodList()
+  // console.log(orderFoodList.value)
+
+  // 数据整理
+  const singeMenu: IMenuList = {
+    orderMoneySum: orderMoneyTotalSum.value,
+    orderTotalCount: orderFoodTotalCount.value,
+    acceptStatus: false,
+
+    orderListArr: orderFoodList.value
+  }
+
+  // 上传 点餐相关数据 通过云函数使用
+  await billStore.uploadMenuListAction(singeMenu)
 }
 </script>
 
@@ -329,6 +368,11 @@ const handleVisible = (value: boolean = false) => {
 
       color: #e3e3e3;
       background: #009688;
+
+      &:hover {
+        color: black;
+        background: red;
+      }
     }
   }
 }

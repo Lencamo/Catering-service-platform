@@ -16,6 +16,7 @@ const useOrderStore = defineStore('Order', {
   actions: {
     async getCategoryFoodListAction() {
       const { result: res }: any = await getCategoryFoodListApi()
+      // console.log(res)
 
       if (!res.data.code) {
         this.orderTotalCount = res.data.orderTotalCount
