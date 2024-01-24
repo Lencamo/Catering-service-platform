@@ -8,7 +8,7 @@ exports.main = async (event, context) => {
 
   switch (event.url) {
     case '/bill/orderList':
-      return billController.uploadMenuList({ ...event.data, openId: OPENID })
+      return billController.uploadBillMenuList({ ...event.data, openId: OPENID })
     default:
       break
   }

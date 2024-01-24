@@ -5,7 +5,7 @@ import { wxCache } from '../utils/cache'
 const { userId, tablename: tableName } = wxCache.getCache(CODE_MSG)
 const dineNumber = wxCache.getCache(DINE_NUMB)
 
-export function uploadMenuListApi(singeMenu: IMenuList) {
+export function uploadBillMenuListApi(singeMenu: IMenuList) {
   return wx.cloud.callFunction({
     name: 'bill',
     data: {

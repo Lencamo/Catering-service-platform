@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { uploadMenuListApi } from '../service/bill'
+import { uploadBillMenuListApi } from '../service/bill'
 import { IMenuList } from '../types/bill'
 
 const useBillStore = defineStore('Bill', {
@@ -10,8 +10,8 @@ const useBillStore = defineStore('Bill', {
     //
   },
   actions: {
-    async uploadMenuListAction(singeMenu: IMenuList) {
-      const { result: res }: any = await uploadMenuListApi(singeMenu)
+    async uploadBillMenuListAction(singeMenu: IMenuList) {
+      const { result: res }: any = await uploadBillMenuListApi(singeMenu)
       // console.log(res)
 
       if (!res.data.code) {

@@ -53,7 +53,7 @@
       <view @click="showOrderComp" class="center"
         >共￥{{ Number(orderMoneyTotalSum).toFixed(1) }}</view
       >
-      <view class="rgiht" @click="orderOkBtn">选好了</view>
+      <view class="rgiht" @click="orderOkBtn">提交订单</view>
     </view>
   </view>
 </template>
@@ -208,7 +208,7 @@ const orderOkBtn = async () => {
   getOrderFoodList()
   // console.log(orderFoodList.value)
 
-  // 数据整理
+  // 整理订单数据
   const singeMenu: IMenuList = {
     orderMoneySum: orderMoneyTotalSum.value,
     orderTotalCount: orderFoodTotalCount.value,
@@ -217,8 +217,16 @@ const orderOkBtn = async () => {
     orderListArr: orderFoodList.value
   }
 
-  // 上传 点餐相关数据 通过云函数使用
-  await billStore.uploadMenuListAction(singeMenu)
+  // 上传订单数据
+  if (orderFoodList.value.length) {
+    await billStore.uploadBillMenuListAction(singeMenu)
+  } else {
+    uni.showToast({
+      icon: 'none',
+      title: '请先选择菜品！',
+      duration: 1000
+    })
+  }
 }
 </script>
 
@@ -367,11 +375,10 @@ const orderOkBtn = async () => {
       line-height: 80rpx;
 
       color: #e3e3e3;
-      background: #009688;
+      background-color: #009688;
 
       &:hover {
-        color: black;
-        background: red;
+        background-color: #a05939;
       }
     }
   }
