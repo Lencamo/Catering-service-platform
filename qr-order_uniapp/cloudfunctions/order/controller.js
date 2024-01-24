@@ -44,13 +44,3 @@ class orderController {
 }
 
 module.exports = new orderController()
-
-// module.exports = {
-// 	getCategoryList: ()=> {
-
-// 	  return {
-// 	    code: 0,
-// 	    message: '获取菜品类目菜品列表成功！'
-// 	  }
-// 	}
-// }

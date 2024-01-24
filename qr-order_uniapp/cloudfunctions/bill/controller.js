@@ -12,26 +12,21 @@ class billController {
 
     // 2、云数据交互
     // - 校验是否是新的订单
-    const bills = await billService.getCustomerOrderList(openId, userId)
-
-    let unFinishBill = null
-    if (bills.length) {
-      unFinishBill = bills.find((item) => {
-        return !item.orderStatus
-      })
-    }
+    const unFinishBills = await billService.getCustomerUnFinishBill(openId, userId)
+    // console.log(unFinishBills)
 
     // - 加菜还是新增订单
     let result = null
-    if (!bills.lenght && unFinishBill) {
-      // console.log('未结账订单进行加菜')
-      const billId = unFinishBill._id
-      const moneySum = unFinishBill.moneySum + singeMenu.orderMoneySum
-      const totalCount = unFinishBill.totalCount + singeMenu.orderTotalCount
+    if (unFinishBills.length) {
+      console.log('未结账订单进行加菜')
+
+      const billId = unFinishBills[0]._id
+      const moneySum = unFinishBills[0].moneySum + singeMenu.orderMoneySum
+      const totalCount = unFinishBills[0].totalCount + singeMenu.orderTotalCount
 
       result = await billService.uploadBillMenuList(billId, moneySum, totalCount, singeMenu)
     } else {
-      // console.log('初次点餐订单')
+      console.log('初次点餐订单')
 
       result = await billService.addBill(
         userId,
@@ -47,20 +42,26 @@ class billController {
     // 3、返回数据
     return {
       code: 0,
-      message: '获取菜品类目菜品列表数据成功！',
+      message: '当前订单已上传至数据库！',
+      data: result
+    }
+  }
+
+  async getCustomerUnFinishBill(data) {
+    // 1、数据准备
+    const { userId, openId } = data
+
+    // 2、云数据交互
+    const unFinishBills = await billService.getCustomerUnFinishBill(openId, userId)
+    const result = unFinishBills[0]
+
+    // 3、返回数据
+    return {
+      code: 0,
+      message: '获取当前消费者未结账订单数据成功！',
       data: result
     }
   }
 }
 
 module.exports = new billController()
-
-// module.exports = {
-// 	getCategoryList: ()=> {
-
-// 	  return {
-// 	    code: 0,
-// 	    message: '获取菜品类目菜品列表成功！'
-// 	  }
-// 	}
-// }

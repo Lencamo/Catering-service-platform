@@ -1,7 +1,7 @@
 import { IFoodList } from './order'
 
 // c_order集合
-export interface IOrder {
+export interface IBill {
   _id: string
   _openId: string
   dineNumber: number

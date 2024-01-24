@@ -7,8 +7,10 @@ exports.main = async (event, context) => {
   let { OPENID, APPID, UNIONID } = cloud.getWXContext()
 
   switch (event.url) {
-    case '/bill/orderList':
+    case '/bill/post/orderList':
       return billController.uploadBillMenuList({ ...event.data, openId: OPENID })
+    case '/bill/get/unFinishBill':
+      return billController.getCustomerUnFinishBill({ ...event.data, openId: OPENID })
     default:
       break
   }

@@ -1,5 +1,5 @@
 {
-  "url": "/bill/orderList",
+  "url": "/bill/post/orderList",
   "data": {
     "userId": "7027b65465903dce055011740e2671aa",
     "dineNumber": 6,

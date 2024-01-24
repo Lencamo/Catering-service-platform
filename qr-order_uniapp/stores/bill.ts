@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
-import { uploadBillMenuListApi } from '../service/bill'
-import { IMenuList } from '../types/bill'
+import { getCustomerUnFinishBillApi, uploadBillMenuListApi } from '../service/bill'
+import { IMenuList, IBill } from '../types/bill'
 
 const useBillStore = defineStore('Bill', {
   state: () => ({
-    //
+    unFinishBill: null as IBill
   }),
   getters: {
     //
@@ -12,7 +12,6 @@ const useBillStore = defineStore('Bill', {
   actions: {
     async uploadBillMenuListAction(singeMenu: IMenuList) {
       const { result: res }: any = await uploadBillMenuListApi(singeMenu)
-      // console.log(res)
 
       if (!res.data.code) {
         uni.redirectTo({
@@ -23,6 +22,19 @@ const useBillStore = defineStore('Bill', {
           icon: 'success',
           title: '下单成功！'
         })
+      } else {
+        uni.showToast({
+          icon: 'error',
+          title: res.data.message
+        })
+      }
+    },
+
+    async getCustomerUnFinishBillAction() {
+      const { result: res }: any = await getCustomerUnFinishBillApi()
+
+      if (!res.data.code) {
+        this.unFinishBill = res.data
       } else {
         uni.showToast({
           icon: 'error',

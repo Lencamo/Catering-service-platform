@@ -4,12 +4,14 @@ const db = cloud.database()
 const _ = db.command
 
 class billService {
-  async getCustomerOrderList(openId, userId) {
+  // 获取未结账订单数据
+  async getCustomerUnFinishBill(openId, userId) {
     const result = await db
       .collection('c_bill')
       .where({
         _openid: openId,
-        user_id: userId
+        user_id: userId,
+        orderStatus: false
       })
       .get()
     // console.log(result)
@@ -40,6 +42,7 @@ class billService {
     return result
   }
 
+  // 未结账订单进行加菜
   async uploadBillMenuList(billId, moneySum, totalCount, singeMenu) {
     const result = await db
       .collection('c_bill')

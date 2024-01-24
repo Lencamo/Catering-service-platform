@@ -9,13 +9,25 @@ export function uploadBillMenuListApi(singeMenu: IMenuList) {
   return wx.cloud.callFunction({
     name: 'bill',
     data: {
-      url: '/bill/orderList',
+      url: '/bill/post/orderList',
       data: {
         userId,
         dineNumber,
         tableName,
 
         singeMenu
+      }
+    }
+  })
+}
+
+export function getCustomerUnFinishBillApi() {
+  return wx.cloud.callFunction({
+    name: 'bill',
+    data: {
+      url: '/bill/get/unFinishBill',
+      data: {
+        userId
       }
     }
   })
