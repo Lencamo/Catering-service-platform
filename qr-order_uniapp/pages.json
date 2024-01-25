@@ -2,6 +2,14 @@
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
+      "path": "pages/bill/bill",
+      "style": {
+        "navigationBarTitleText": "点餐详情",
+				"navigationBarBackgroundColor": "#009688",
+        "enablePullDownRefresh": false
+      }
+    },
+		{
       "path": "pages/order/order",
       "style": {
         "navigationBarTitleText": "饭达人餐厅",
@@ -19,13 +27,6 @@
       "path": "pages/demo/demo",
       "style": {
         "navigationBarTitleText": "云开发测试页",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/bill/bill",
-      "style": {
-        "navigationBarTitleText": "",
         "enablePullDownRefresh": false
       }
     }

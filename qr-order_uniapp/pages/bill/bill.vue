@@ -1,6 +1,57 @@
 <template>
   <view class="bill">
-    <h2>bill</h2>
+		<view class="top-box">
+		  <view>
+		    <text style="color: #2c2c2c; font-weight: bold">{{ unFinishAllBill.tableName }}</text>
+		  </view>
+		  <view>
+		    <text style="color: #2c2c2c; font-weight: bold">【</text>
+		    <text style="color: aliceblue">{{ unFinishAllBill.dineNumber }}人</text>
+		    <text style="color: #2c2c2c; font-weight: bold">】就餐</text>
+		  </view>
+		</view>
+		<view class="content-box" style="margin-top: 70rpx;">
+			<view style="font-size: 33rpx; font-weight: bold;color: black;">点餐成功，请等待上菜</view>
+			<view>菜品正在制作中……</view>
+		</view>
+    <view class="bill-box">
+			<view class="summary-box">
+				<view>共 {{unFinishAllBill.totalCount}} 份</view>
+				<view class="rgiht">
+					<view>总计</view>
+					<view style="font-size: 33rpx;line-height: 50rpx;font-weight: bold;">￥{{unFinishAllBill.moneySum}}</view>
+				</view>
+			</view>
+      <block v-for="(bill, index) in unFinishAllBill?.menuList" :key="index">
+          <view class="order-box">
+            <view class="head-msg">
+              <view>第{{ unFinishAllBill?.menuList.length - index }}次下单</view>
+              <view>{{ bill.acceptStatus === true ? '已接单' : '未接单' }}</view>
+            </view>
+            <view class="menu-box">
+              <block v-for="(item, index) in bill.orderListArr" :key="index">
+                <view class="food" :class="{ 'is-gray': item.onSale === false }">
+                  <image class="left" :src="item.food.url" mode="aspectFill"></image>
+                  <view class="right">
+                    <view style="font-size: 30rpx">{{ item.foodname }}</view>
+                    <view class="buttom-row">
+                      <view class="food-msg">
+                        <text style="font-size: 25rpx"
+                          >￥{{ Number(item.foodMoneySum).toFixed(1) }}
+                        </text>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </block>
+            </view>
+          </view>
+      </block>
+		</view>
+		<view class="content-box">
+			<view>订单编号：{{unFinishAllBill.orderNumber}}</view>
+			<view>下单时间：{{unFinishAllBill.createTime}}</view>
+		</view>
   </view>
 </template>
 
@@ -21,13 +72,138 @@ const orderDataInit = async () => {
   const { unFinishBill } = storeToRefs(billStore)
   unFinishAllBill.value = unFinishBill.value
 
-  console.log(unFinishAllBill.value)
+  console.log(unFinishBill.value)
 }
 orderDataInit()
 </script>
 
 <style lang="scss" scoped>
 .bill {
-  //
+  background-color: #f5f7ff;
+	padding-bottom: 100rpx;
+
+  .top-box {
+    @include flex-init(space-between, center, row);
+
+    position: fixed; // 标记 B
+    top: 0rpx;
+    left: 0rpx;
+    z-index: 9;
+
+    height: 70rpx;
+    width: 100%;
+		box-sizing: border-box;
+    padding: 0rpx 20rpx;
+    background-color: #009688;
+  }
+
+
+  .content-box {
+    @include flex-init(space-around, flex-start, column);
+    height: 110rpx;
+		width: 92vw;
+		padding: 20rpx 4vw;
+		
+		// margin-top: 70rpx; // 标记 B
+		
+		// position: fixed;  // 标记 A
+		// top: 0rpx;
+		// left: 0rpx;
+		
+		background-color: #ffffff;
+		box-shadow: 0rpx 2rpx 1rpx 1rpx #f0f0f0;
+		
+		color: #9e9e9e;
+		font-size: 25rpx;
+  }
+
+  .bill-box {
+		@include flex-init(space-around, flex-start, column);
+		width: 92vw;
+    margin: 4vw;
+		// padding: 150rpx 0rpx; // 标记 A
+		
+		border-radius: 8rpx;
+		overflow: hidden;
+
+		.summary-box {
+		  @include flex-init(space-between, center, row);
+			
+			width: 90%;
+			height: 50rpx;
+			padding: 20rpx 5%; // 标记 A
+			
+			font-size: 25rpx;
+			background-color: #c5805f;
+			
+			.rgiht {
+				@include flex-init(space-between, center, row);
+			}
+		}
+
+    .order-box {
+			width: 100%;
+			
+      background-color: #ffffff;
+      box-shadow: 0rpx 2rpx 1rpx 1rpx #f0f0f0;
+
+      padding-bottom: 20rpx;
+			border-bottom: 5rpx solid #c5805f;
+
+      .head-msg {
+        @include flex-init(space-between, center, row);
+
+        height: 25rpx;
+
+        padding: 25rpx 0rpx;
+        margin: 0rpx 40rpx;
+        border-bottom: 2rpx solid #f5f5f5;
+
+        color: #9e9e9e;
+        font-size: 25rpx;
+      }
+
+      .menu-box {
+        display: flex;
+        flex-direction: column;
+        margin: 15rpx 0rpx;
+				
+				height: 100%;
+
+        .food {
+          display: flex;
+          padding: 15rpx 30rpx;
+          margin: 0rpx 20rpx 0rpx 10rpx;
+
+          .left {
+            width: 130rpx;
+            height: 130rpx;
+
+            border-radius: 16rpx;
+          }
+          .right {
+            @include flex-init(space-between, flex-start, column);
+            margin: 5rpx 0rpx 5rpx 20rpx;
+
+            flex: 1;
+
+            .buttom-row {
+              display: flex;
+              height: 50rpx;
+              line-height: 50rpx;
+
+              width: 100%;
+
+              .food-msg {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  
+	}
+
 }
 </style>
