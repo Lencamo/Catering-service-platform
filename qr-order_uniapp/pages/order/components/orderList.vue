@@ -27,7 +27,7 @@
                       <image
                         class="sub"
                         v-if="item.foodOrderCount"
-                        @click="foodCountHandle('sub', item, index)"
+                        @click="foodCountHandle('sub', item)"
                         src="/static/image/icons/sub.svg"
                         mode=""
                       ></image>
@@ -36,7 +36,7 @@
                       }}</text>
                       <image
                         class="add"
-                        @click="foodCountHandle('add', item, index)"
+                        @click="foodCountHandle('add', item)"
                         src="/static/image/icons/add.svg"
                         mode=""
                       ></image>
@@ -54,13 +54,15 @@
 </template>
 
 <script setup lang="ts">
-import { ICategoryList, IFoodList } from '../../../types/order'
+import { IFoodList } from '../../../types/order'
 import useOrderStore from '../../../stores/order'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+import { useClearOrder } from '../../../hooks/useClearOrder'
+import { useOrderCountUpdate } from '../../../hooks/useOrderCountUpdate'
 
 const orderStore = useOrderStore()
-const { categoryFoodList, orderTotalCount, orderMoneySum, orderFoodList } = storeToRefs(orderStore)
+const { orderFoodList } = storeToRefs(orderStore)
 
 const orderFoodListALl = ref<IFoodList[]>(orderFoodList.value)
 
@@ -85,67 +87,18 @@ orderStore.$subscribe((mutation, state) => {
 
 // 清空购物车
 const handleClearOrder = async () => {
-  // 方式1
-  // uni.redirectTo({
-  //   url: '/pages/order/order'
-  // })
-
-  // 方式2
-  // orderStore.$reset()
-  // await orderStore.getCategoryFoodListAction()
-
-  // 方式3
-  orderStore.orderTotalCount = 0
-  orderStore.orderMoneySum = 0
-
-  orderStore.categoryFoodList.forEach((item) => {
-    item.categoryOrderCount = 0
-
-    item.foodList.forEach((food) => {
-      food.foodOrderCount = 0
-      food.foodMoneySum = 0
-
-      food.isOrder = false
-    })
-  })
+  // 调用 hooks
+  const { clearOrderAction } = useClearOrder(orderStore)
+  clearOrderAction()
 }
 
 // ==============
 
 // 购物车数目更新
-const foodCountHandle = (action: string, food: IFoodList, index: number) => {
-  // foodOrderCount 数目更新
-  action === 'add' ? food.foodOrderCount++ : food.foodOrderCount--
-
-  // categoryOrderCount 数目更新
-  categoryFoodList.value.forEach((item: ICategoryList) => {
-    if (item.category === food.category) {
-      action === 'add' ? item.categoryOrderCount++ : item.categoryOrderCount--
-    }
-  })
-
-  // orderTotalCount 数目更新
-  action === 'add' ? orderTotalCount.value++ : orderTotalCount.value--
-
-  // foodMoneySum 消费更新
-  action === 'add'
-    ? (food.foodMoneySum += Number(food.foodPrice))
-    : (food.foodMoneySum -= Number(food.foodPrice))
-
-  // orderMoneySum 消费更新
-  action === 'add'
-    ? (orderMoneySum.value += Number(food.foodPrice))
-    : (orderMoneySum.value -= Number(food.foodPrice))
-
-  // console.log(categoryFoodList.value, orderTotalCount.value, orderMoneySum.value)
-
-  // isOrder 菜品是否order更新
-  // action === 'add' ? (food.isOrder = true) : (food.isOrder = false) // bug修复
-  if (action === 'sub' && food.foodOrderCount <= 0) {
-    food.isOrder = false
-  } else {
-    food.isOrder = true
-  }
+const foodCountHandle = (action: string, food: IFoodList) => {
+  // 调用 hooks
+  const { foodCountAction } = useOrderCountUpdate(action, food)
+  foodCountAction()
 }
 </script>
 

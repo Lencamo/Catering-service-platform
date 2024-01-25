@@ -81,6 +81,7 @@ import { storeToRefs } from 'pinia'
 import { ICategoryList } from '../../types/order'
 import userBillStore from '../../stores/bill'
 import { IBill, IMenuList } from '../../types/bill'
+import { useClearOrder } from '../../hooks/useClearOrder'
 
 const orderStore = useOrderStore()
 const { categoryFoodList, orderFoodList } = storeToRefs(orderStore)
@@ -243,29 +244,9 @@ const orderOkBtn = async () => {
 
 // 清空购物车
 const handleClearOrder = async () => {
-  // 方式1
-  // uni.redirectTo({
-  //   url: '/pages/order/order'
-  // })
-
-  // 方式2
-  // orderStore.$reset()
-  // await orderStore.getCategoryFoodListAction()
-
-  // 方式3
-  orderStore.orderTotalCount = 0
-  orderStore.orderMoneySum = 0
-
-  orderStore.categoryFoodList.forEach((item) => {
-    item.categoryOrderCount = 0
-
-    item.foodList.forEach((food) => {
-      food.foodOrderCount = 0
-      food.foodMoneySum = 0
-
-      food.isOrder = false
-    })
-  })
+  // 调用 hooks
+  const { clearOrderAction } = useClearOrder(orderStore)
+  clearOrderAction()
 }
 
 // 未结账订单详情
