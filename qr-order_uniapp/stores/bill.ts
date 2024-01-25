@@ -12,6 +12,7 @@ const useBillStore = defineStore('Bill', {
   actions: {
     async uploadBillMenuListAction(singeMenu: IMenuList) {
       const { result: res }: any = await uploadBillMenuListApi(singeMenu)
+      // console.log(res)
 
       if (!res.data.code) {
         uni.redirectTo({
@@ -32,8 +33,9 @@ const useBillStore = defineStore('Bill', {
 
     async getCustomerUnFinishBillAction() {
       const { result: res }: any = await getCustomerUnFinishBillApi()
+      // console.log(res)
 
-      if (!res.data.code) {
+      if (!res.code) {
         this.unFinishBill = res.data
       } else {
         uni.showToast({

@@ -1,57 +1,60 @@
 <template>
   <view class="bill">
-		<view class="top-box">
-		  <view>
-		    <text style="color: #2c2c2c; font-weight: bold">{{ unFinishAllBill.tableName }}</text>
-		  </view>
-		  <view>
-		    <text style="color: #2c2c2c; font-weight: bold">【</text>
-		    <text style="color: aliceblue">{{ unFinishAllBill.dineNumber }}人</text>
-		    <text style="color: #2c2c2c; font-weight: bold">】就餐</text>
-		  </view>
-		</view>
-		<view class="content-box" style="margin-top: 70rpx;">
-			<view style="font-size: 33rpx; font-weight: bold;color: black;">点餐成功，请等待上菜</view>
-			<view>菜品正在制作中……</view>
-		</view>
+    <view class="top-box">
+      <view>
+        <text style="color: #2c2c2c; font-weight: bold">{{ unFinishAllBill?.tableName }}</text>
+      </view>
+      <view>
+        <text style="color: #2c2c2c; font-weight: bold">【</text>
+        <text style="color: aliceblue">{{ unFinishAllBill?.dineNumber }}人</text>
+        <text style="color: #2c2c2c; font-weight: bold">】就餐</text>
+      </view>
+    </view>
+    <view class="content-box" style="margin-top: 70rpx">
+      <view style="font-size: 33rpx; font-weight: bold; color: black">点餐成功，请等待上菜</view>
+      <view>菜品正在制作中……</view>
+    </view>
     <view class="bill-box">
-			<view class="summary-box">
-				<view>共 {{unFinishAllBill.totalCount}} 份</view>
-				<view class="rgiht">
-					<view>总计</view>
-					<view style="font-size: 33rpx;line-height: 50rpx;font-weight: bold;">￥{{unFinishAllBill.moneySum}}</view>
-				</view>
-			</view>
+      <view class="summary-box">
+        <view>共 {{ unFinishAllBill?.totalCount }} 份</view>
+        <view class="rgiht">
+          <view>总计</view>
+          <view style="font-size: 33rpx; line-height: 50rpx; font-weight: bold"
+            >￥{{ unFinishAllBill?.moneySum }}</view
+          >
+        </view>
+      </view>
       <block v-for="(bill, index) in unFinishAllBill?.menuList" :key="index">
-          <view class="order-box">
-            <view class="head-msg">
-              <view>第{{ unFinishAllBill?.menuList.length - index }}次下单</view>
-              <view>{{ bill.acceptStatus === true ? '已接单' : '未接单' }}</view>
-            </view>
-            <view class="menu-box">
-              <block v-for="(item, index) in bill.orderListArr" :key="index">
-                <view class="food" :class="{ 'is-gray': item.onSale === false }">
-                  <image class="left" :src="item.food.url" mode="aspectFill"></image>
-                  <view class="right">
-                    <view style="font-size: 30rpx">{{ item.foodname }}</view>
-                    <view class="buttom-row">
-                      <view class="food-msg">
-                        <text style="font-size: 25rpx"
-                          >￥{{ Number(item.foodMoneySum).toFixed(1) }}
-                        </text>
-                      </view>
+        <view class="order-box">
+          <view class="head-msg">
+            <view>第{{ unFinishAllBill?.menuList.length - index }}次下单</view>
+            <view>{{ bill.acceptStatus === true ? '已接单' : '未接单' }}</view>
+          </view>
+          <view class="menu-box">
+            <block v-for="(item, index) in bill.orderListArr" :key="index">
+              <view class="food" :class="{ 'is-gray': item.onSale === false }">
+                <image class="left" :src="item.food.url" mode="aspectFill"></image>
+                <view class="right">
+                  <view style="font-size: 30rpx">{{ item.foodname }}</view>
+                  <view class="buttom-row">
+                    <view class="food-msg">
+                      <text style="font-size: 25rpx"
+                        >￥{{ Number(item.foodMoneySum).toFixed(1) }}
+                      </text>
                     </view>
                   </view>
                 </view>
-              </block>
-            </view>
+              </view>
+            </block>
           </view>
+        </view>
       </block>
-		</view>
-		<view class="content-box">
-			<view>订单编号：{{unFinishAllBill.orderNumber}}</view>
-			<view>下单时间：{{unFinishAllBill.createTime}}</view>
-		</view>
+    </view>
+    <view class="content-box">
+      <view>订单编号：{{ unFinishAllBill?.orderNumber }}</view>
+      <view>下单时间：{{ unFinishAllBill?.createTime }}</view>
+    </view>
+    <view class="order-food" @click="orderOkBtn">加菜</view>
   </view>
 </template>
 
@@ -72,15 +75,25 @@ const orderDataInit = async () => {
   const { unFinishBill } = storeToRefs(billStore)
   unFinishAllBill.value = unFinishBill.value
 
-  console.log(unFinishBill.value)
+  // console.log(unFinishBill.value)
 }
 orderDataInit()
+
+// =============
+
+// 继续点餐按钮
+const orderOkBtn = () => {
+  uni.redirectTo({
+    url: '/pages/order/order'
+  })
+}
 </script>
 
 <style lang="scss" scoped>
 .bill {
+  min-height: 80vh;
   background-color: #f5f7ff;
-	padding-bottom: 100rpx;
+  padding-bottom: 100rpx;
 
   .top-box {
     @include flex-init(space-between, center, row);
@@ -92,63 +105,62 @@ orderDataInit()
 
     height: 70rpx;
     width: 100%;
-		box-sizing: border-box;
+    box-sizing: border-box;
     padding: 0rpx 20rpx;
     background-color: #009688;
   }
 
-
   .content-box {
     @include flex-init(space-around, flex-start, column);
     height: 110rpx;
-		width: 92vw;
-		padding: 20rpx 4vw;
-		
-		// margin-top: 70rpx; // 标记 B
-		
-		// position: fixed;  // 标记 A
-		// top: 0rpx;
-		// left: 0rpx;
-		
-		background-color: #ffffff;
-		box-shadow: 0rpx 2rpx 1rpx 1rpx #f0f0f0;
-		
-		color: #9e9e9e;
-		font-size: 25rpx;
+    width: 92vw;
+    padding: 20rpx 4vw;
+
+    // margin-top: 70rpx; // 标记 B
+
+    // position: fixed;  // 标记 A
+    // top: 0rpx;
+    // left: 0rpx;
+
+    background-color: #ffffff;
+    box-shadow: 0rpx 2rpx 1rpx 1rpx #f0f0f0;
+
+    color: #9e9e9e;
+    font-size: 25rpx;
   }
 
   .bill-box {
-		@include flex-init(space-around, flex-start, column);
-		width: 92vw;
+    @include flex-init(space-around, flex-start, column);
+    width: 92vw;
     margin: 4vw;
-		// padding: 150rpx 0rpx; // 标记 A
-		
-		border-radius: 8rpx;
-		overflow: hidden;
+    // padding: 150rpx 0rpx; // 标记 A
 
-		.summary-box {
-		  @include flex-init(space-between, center, row);
-			
-			width: 90%;
-			height: 50rpx;
-			padding: 20rpx 5%; // 标记 A
-			
-			font-size: 25rpx;
-			background-color: #c5805f;
-			
-			.rgiht {
-				@include flex-init(space-between, center, row);
-			}
-		}
+    border-radius: 8rpx;
+    overflow: hidden;
+
+    .summary-box {
+      @include flex-init(space-between, center, row);
+
+      width: 90%;
+      height: 50rpx;
+      padding: 20rpx 5%; // 标记 A
+
+      font-size: 25rpx;
+      background-color: #c5805f;
+
+      .rgiht {
+        @include flex-init(space-between, center, row);
+      }
+    }
 
     .order-box {
-			width: 100%;
-			
+      width: 100%;
+
       background-color: #ffffff;
       box-shadow: 0rpx 2rpx 1rpx 1rpx #f0f0f0;
 
       padding-bottom: 20rpx;
-			border-bottom: 5rpx solid #c5805f;
+      border-bottom: 5rpx solid #c5805f;
 
       .head-msg {
         @include flex-init(space-between, center, row);
@@ -167,8 +179,8 @@ orderDataInit()
         display: flex;
         flex-direction: column;
         margin: 15rpx 0rpx;
-				
-				height: 100%;
+
+        height: 100%;
 
         .food {
           display: flex;
@@ -202,8 +214,25 @@ orderDataInit()
         }
       }
     }
-  
-	}
+  }
 
+  .order-food {
+    @include flex-init(center, center, row);
+
+    position: fixed;
+    right: 8%;
+    bottom: 8%;
+
+    height: 80rpx;
+    width: 160rpx;
+    border-radius: 40rpx;
+
+    color: #e3e3e3;
+    background-color: #009688;
+
+    &:hover {
+      background-color: #a05939;
+    }
+  }
 }
 </style>

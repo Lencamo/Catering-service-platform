@@ -7,8 +7,18 @@
         <text style="color: #2c2c2c; font-weight: bold">】就餐</text>
       </view>
       <view class="icon-box">
-        <image class="number" src="/static/image/icons/number.svg" mode="aspectFit"></image>
-        <image class="history" src="/static/image/icons/history.svg" mode="aspectFit"></image>
+        <image
+          @click="handleClearOrder"
+          class="reload"
+          src="/static/image/icons/reload.svg"
+          mode="aspectFit"
+        ></image>
+        <image
+          @click="handleCheckOrder"
+          class="history"
+          src="/static/image/icons/history.svg"
+          mode="aspectFit"
+        ></image>
       </view>
     </view>
     <view class="content-box">
@@ -70,7 +80,7 @@ import useOrderStore from '../../stores/order'
 import { storeToRefs } from 'pinia'
 import { ICategoryList } from '../../types/order'
 import userBillStore from '../../stores/bill'
-import { IMenuList } from '../../types/bill'
+import { IBill, IMenuList } from '../../types/bill'
 
 const orderStore = useOrderStore()
 const { categoryFoodList, orderFoodList } = storeToRefs(orderStore)
@@ -228,6 +238,53 @@ const orderOkBtn = async () => {
     })
   }
 }
+
+// =============
+
+// 清空购物车
+const handleClearOrder = async () => {
+  // 方式1
+  // uni.redirectTo({
+  //   url: '/pages/order/order'
+  // })
+
+  // 方式2
+  // orderStore.$reset()
+  // await orderStore.getCategoryFoodListAction()
+
+  // 方式3
+  orderStore.orderTotalCount = 0
+  orderStore.orderMoneySum = 0
+
+  orderStore.categoryFoodList.forEach((item) => {
+    item.categoryOrderCount = 0
+
+    item.foodList.forEach((food) => {
+      food.foodOrderCount = 0
+      food.foodMoneySum = 0
+
+      food.isOrder = false
+    })
+  })
+}
+
+// 未结账订单详情
+const handleCheckOrder = async () => {
+  await billStore.getCustomerUnFinishBillAction()
+  const { unFinishBill } = storeToRefs(billStore)
+
+  if (unFinishBill.value) {
+    uni.redirectTo({
+      url: '/pages/bill/bill'
+    })
+  } else {
+    uni.showToast({
+      icon: 'none',
+      title: '你没有未结账订单！',
+      duration: 1000
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -263,16 +320,16 @@ const orderOkBtn = async () => {
       @include flex-init(space-between, center, row);
       margin: 0rpx 20rpx;
 
-      .number {
-        width: 60rpx;
-        height: 60rpx;
+      .reload {
+        width: 45rpx;
+        height: 45rpx;
         margin: 5rpx 10rpx;
       }
 
       .history {
         width: 50rpx;
         height: 50rpx;
-        margin: 5rpx 10rpx;
+        margin: 5rpx 20rpx;
       }
     }
   }
