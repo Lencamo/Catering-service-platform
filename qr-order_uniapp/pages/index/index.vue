@@ -53,7 +53,7 @@ const selectBtnHandle = (index: number) => {
 const startBtnHandle = () => {
   wxCache.setCache(DINE_NUMB, tableNumber.value)
 
-  uni.redirectTo({
+  uni.switchTab({
     url: '/pages/order/order'
   })
 }

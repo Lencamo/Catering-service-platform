@@ -255,7 +255,7 @@ const handleCheckOrder = async () => {
   const { unFinishBill } = storeToRefs(billStore)
 
   if (unFinishBill.value) {
-    uni.redirectTo({
+    uni.navigateTo({
       url: '/pages/bill/bill'
     })
   } else {
@@ -375,7 +375,7 @@ const handleCheckOrder = async () => {
 
     width: 84%;
     height: 80rpx;
-    margin: 60rpx 8%;
+    margin: 20rpx 8%;
     border-radius: 40rpx;
 
     background-color: #e3e3e3;

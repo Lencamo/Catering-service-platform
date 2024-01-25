@@ -4,7 +4,7 @@ export function useClearOrder(orderStore: any) {
   // 清空购物车
   const clearOrderAction = async () => {
     // 方式1
-    // uni.redirectTo({
+    // uni.switchTab({
     //   url: '/pages/order/order'
     // })
 

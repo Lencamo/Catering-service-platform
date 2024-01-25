@@ -117,7 +117,7 @@ const foodCountHandle = (action: string, food: IFoodList) => {
     left: 0rpx;
 
     width: 100vw;
-    margin-bottom: 150rpx; // 标记 A
+    margin-bottom: 120rpx; // 标记 A
 
     background-color: white;
     border-radius: 18rpx 18rpx 0rpx 0rpx;
@@ -206,7 +206,7 @@ const foodCountHandle = (action: string, food: IFoodList) => {
     left: 0rpx;
 
     width: 100vw;
-    height: 150rpx; // 标记 A
+    height: 120rpx; // 标记 A
 
     background-color: white;
   }

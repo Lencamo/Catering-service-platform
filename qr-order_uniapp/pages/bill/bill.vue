@@ -139,7 +139,7 @@ orderDataInit()
 
 // 继续点餐按钮
 const orderOkBtn = () => {
-  uni.redirectTo({
+  uni.switchTab({
     url: '/pages/order/order'
   })
 }
