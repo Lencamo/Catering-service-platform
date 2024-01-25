@@ -32,3 +32,23 @@ export function getCustomerUnFinishBillApi() {
     }
   })
 }
+
+export function deleteBillOrderListApi(
+  billId: string,
+  moneySum: number,
+  totalCount: number,
+  bill: IMenuList
+) {
+  return wx.cloud.callFunction({
+    name: 'bill',
+    data: {
+      url: '/bill/delete/orderList',
+      data: {
+        billId,
+        moneySum,
+        totalCount,
+        bill
+      }
+    }
+  })
+}

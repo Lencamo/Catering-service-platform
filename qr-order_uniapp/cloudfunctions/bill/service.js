@@ -59,6 +59,24 @@ class billService {
 
     return result
   }
+
+  // 取消某次未接单的orderList
+  async deleteBillOrderList(billId, moneySum, totalCount, bill) {
+    const result = await db
+      .collection('c_bill')
+      .doc(billId)
+      .update({
+        data: {
+          moneySum,
+          totalCount,
+
+          menuList: _.pull(bill)
+        }
+      })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new billService()

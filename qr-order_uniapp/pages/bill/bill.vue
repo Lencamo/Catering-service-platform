@@ -28,7 +28,13 @@
         <view class="order-box">
           <view class="head-msg">
             <view>第{{ unFinishAllBill?.menuList.length - index }}次下单</view>
-            <view>{{ bill.acceptStatus === true ? '已接单' : '未接单' }}</view>
+            <view class="accept-btn" v-if="bill.acceptStatus">已接单</view>
+            <view
+              class="accept-btn is-active"
+              v-if="!bill.acceptStatus"
+              @click="handleCancleOrder(bill)"
+              >取消点餐</view
+            >
           </view>
           <view class="menu-box">
             <block
@@ -89,10 +95,25 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import userBillStore from '../../stores/bill'
-import { IBill } from '../../types/bill'
+import { IBill, IMenuList } from '../../types/bill'
 import { storeToRefs } from 'pinia'
 
 const billStore = userBillStore()
+
+// 监听 orderTotalCount 变化
+billStore.$subscribe((mutation, state) => {
+  // console.log(mutation,state)
+  unFinishAllBill.value = state.unFinishBill
+})
+
+// ===============
+
+// 是否取消当前bill中的某次Order
+const handleCancleOrder = async (bill: IMenuList) => {
+  const { _id: billId, moneySum, totalCount } = unFinishAllBill.value
+
+  await billStore.deleteBillOrderListAction(billId, moneySum, totalCount, bill)
+}
 
 // 是否要展示当前bill中的所有food
 const isShowAll = ref(false)
@@ -125,6 +146,11 @@ const orderOkBtn = () => {
 </script>
 
 <style lang="scss" scoped>
+.is-active {
+  color: black !important;
+  background-color: #f4dbc9 !important;
+}
+
 .bill {
   min-height: 80vh;
   background-color: #f5f7ff;
@@ -208,6 +234,14 @@ const orderOkBtn = () => {
 
         color: #9e9e9e;
         font-size: 25rpx;
+
+        .accept-btn {
+          color: #9e9e9e;
+          background-color: #e3e3e3;
+
+          border-radius: 12rpx;
+          padding: 5rpx 15rpx;
+        }
       }
 
       .menu-box {

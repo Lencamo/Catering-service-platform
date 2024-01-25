@@ -62,6 +62,24 @@ class billController {
       data: result
     }
   }
+
+  async deleteBillOrderList(data) {
+    // 1、数据准备
+    const { billId, moneySum, totalCount, bill } = data
+
+    // 2、云数据交互
+    const newMoneySum = moneySum - bill.orderMoneySum
+    const newTotalCount = totalCount + bill.orderTotalCount
+
+    const result = await billService.deleteBillOrderList(billId, newMoneySum, newTotalCount, bill)
+
+    // 3、返回数据
+    return {
+      code: 0,
+      message: '已取消本次点餐！',
+      data: result
+    }
+  }
 }
 
 module.exports = new billController()

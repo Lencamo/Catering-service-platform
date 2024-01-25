@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
-import { getCustomerUnFinishBillApi, uploadBillMenuListApi } from '../service/bill'
+import {
+  deleteBillOrderListApi,
+  getCustomerUnFinishBillApi,
+  uploadBillMenuListApi
+} from '../service/bill'
 import { IMenuList, IBill } from '../types/bill'
 
 const useBillStore = defineStore('Bill', {
@@ -37,6 +41,25 @@ const useBillStore = defineStore('Bill', {
 
       if (!res.code) {
         this.unFinishBill = res.data
+      } else {
+        uni.showToast({
+          icon: 'error',
+          title: res.data.message
+        })
+      }
+    },
+
+    async deleteBillOrderListAction(
+      billId: string,
+      moneySum: number,
+      totalCount: number,
+      bill: IMenuList
+    ) {
+      const { result: res }: any = await deleteBillOrderListApi(billId, moneySum, totalCount, bill)
+      // console.log(res)
+
+      if (!res.code) {
+        this.getCustomerUnFinishBillAction()
       } else {
         uni.showToast({
           icon: 'error',
