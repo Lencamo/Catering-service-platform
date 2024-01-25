@@ -31,21 +31,49 @@
             <view>{{ bill.acceptStatus === true ? '已接单' : '未接单' }}</view>
           </view>
           <view class="menu-box">
-            <block v-for="(item, index) in bill.orderListArr" :key="index">
+            <block
+              v-for="(item, index) in bill.orderListArr.length > 3 && isShowAll === false
+                ? bill.orderListArr.slice(0, 3)
+                : bill.orderListArr"
+              :key="index"
+            >
               <view class="food" :class="{ 'is-gray': item.onSale === false }">
                 <image class="left" :src="item.food.url" mode="aspectFill"></image>
                 <view class="right">
-                  <view style="font-size: 30rpx">{{ item.foodname }}</view>
-                  <view class="buttom-row">
-                    <view class="food-msg">
-                      <text style="font-size: 25rpx"
-                        >￥{{ Number(item.foodMoneySum).toFixed(1) }}
-                      </text>
-                    </view>
+                  <view class="title-box">
+                    <view>{{ item.foodname }}</view>
+                    <view>￥{{ Number(item.foodMoneySum).toFixed(1) }}</view>
                   </view>
+                  <view style="font-size: 26rpx; color: #9e9e9e"
+                    >{{ item.foodOrderCount }}{{ item.unitname }}</view
+                  >
                 </view>
               </view>
             </block>
+            <view
+              class="show-close"
+              v-if="bill.orderListArr.length > 3 && isShowAll === false"
+              @click="handleShowAllFood"
+            >
+              <text>展开全部</text>
+              <image
+                class="svg-icon"
+                src="/static/image/icons/show-more.svg"
+                mode="aspectFit"
+              ></image>
+            </view>
+            <view
+              class="show-close"
+              v-if="bill.orderListArr.length > 3 && isShowAll === true"
+              @click="handleShowAllFood"
+            >
+              <text>收起部分</text>
+              <image
+                class="svg-icon"
+                src="/static/image/icons/close-some.svg"
+                mode="aspectFit"
+              ></image>
+            </view>
           </view>
         </view>
       </block>
@@ -59,12 +87,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import userBillStore from '../../stores/bill'
 import { IBill } from '../../types/bill'
 import { storeToRefs } from 'pinia'
 
 const billStore = userBillStore()
+
+// 是否要展示当前bill中的所有food
+const isShowAll = ref(false)
+
+const handleShowAllFood = () => {
+  isShowAll.value = !isShowAll.value
+}
 
 // 未结账订单数据
 const unFinishAllBill = ref<IBill>()
@@ -145,7 +180,7 @@ const orderOkBtn = () => {
       height: 50rpx;
       padding: 20rpx 5%; // 标记 A
 
-      font-size: 25rpx;
+      font-size: 26rpx;
       background-color: #c5805f;
 
       .rgiht {
@@ -199,17 +234,26 @@ const orderOkBtn = () => {
 
             flex: 1;
 
-            .buttom-row {
-              display: flex;
-              height: 50rpx;
-              line-height: 50rpx;
-
+            .title-box {
+              @include flex-init(space-between, center, row);
               width: 100%;
 
-              .food-msg {
-                width: 100%;
-              }
+              font-size: 30rpx;
+              font-weight: bold;
             }
+          }
+        }
+
+        .show-close {
+          color: #9e9e9e;
+          font-size: 25rpx;
+
+          @include flex-init(center, center, row);
+
+          .svg-icon {
+            width: 45rpx;
+            height: 45rpx;
+            margin: 0rpx 10rpx;
           }
         }
       }
