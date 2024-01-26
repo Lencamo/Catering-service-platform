@@ -13,6 +13,8 @@ exports.main = async (event, context) => {
       return billController.getCustomerUnFinishBill({ ...event.data, openId: OPENID })
     case '/bill/delete/orderList':
       return billController.deleteBillOrderList({ ...event.data })
+    case '/bill/get/customerAllBill':
+      return billController.getCustomerAllBill({ ...event.data, openId: OPENID })
     default:
       break
   }

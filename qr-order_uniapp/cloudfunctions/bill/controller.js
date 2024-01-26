@@ -1,5 +1,5 @@
 const billService = require('./service.js')
-const { currentTime } = require('./current-time.js')
+const { currentTime } = require('./utils/current-time.js')
 
 class billController {
   async uploadBillMenuList(data) {
@@ -78,6 +78,26 @@ class billController {
       code: 0,
       message: '已取消本次点餐！',
       data: result
+    }
+  }
+
+  async getCustomerAllBill(data) {
+    // 1、数据准备
+    const { userId, openId } = data
+
+    // 2、云数据交互
+    const customerBills = await billService.getCustomerAllBill(openId, userId)
+
+    // 根据createTime 升序排列 ✍
+    customerBills.sort(function (a, b) {
+      return Date.parse(b.createTime) - Date.parse(a.createTime)
+    })
+
+    // 3、返回数据
+    return {
+      code: 0,
+      message: '获取当前消费者未结账订单数据成功！',
+      data: customerBills
     }
   }
 }

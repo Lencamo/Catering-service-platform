@@ -77,6 +77,20 @@ class billService {
 
     return result
   }
+
+  // 获取未结账订单数据
+  async getCustomerAllBill(openId, userId) {
+    const result = await db
+      .collection('c_bill')
+      .where({
+        _openid: openId,
+        user_id: userId
+      })
+      .get()
+    console.log(result)
+
+    return result.data
+  }
 }
 
 module.exports = new billService()

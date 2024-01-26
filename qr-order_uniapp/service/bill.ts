@@ -52,3 +52,15 @@ export function deleteBillOrderListApi(
     }
   })
 }
+
+export function getCustomerAllBillApi() {
+  return wx.cloud.callFunction({
+    name: 'bill',
+    data: {
+      url: '/bill/get/customerAllBill',
+      data: {
+        userId
+      }
+    }
+  })
+}

@@ -2,6 +2,13 @@
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
+      "path": "pages/list/list",
+      "style": {
+        "navigationBarTitleText": "我的订单",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
       "path": "pages/order/order",
       "style": {
         "navigationBarTitleText": "饭达人餐厅",
@@ -9,11 +16,11 @@
         "enablePullDownRefresh": false
       }
     },
-		{
+    {
       "path": "pages/bill/bill",
       "style": {
         "navigationBarTitleText": "点餐详情",
-				"navigationBarBackgroundColor": "#009688",
+        "navigationBarBackgroundColor": "#009688",
         "enablePullDownRefresh": false
       }
     },
@@ -29,32 +36,24 @@
         "navigationBarTitleText": "云开发测试页",
         "enablePullDownRefresh": false
       }
-    },
-    {
-    	"path" : "pages/list/list",
-    	"style" : 
-    	{
-    		"navigationBarTitleText" : "",
-    		"enablePullDownRefresh" : false
-    	}
     }
   ],
-	"tabBar": {
-		"list": [
-			{
-				"pagePath": "pages/order/order",
-				"text": "点餐",
-				"iconPath": "/static/image/tabBar/order.png",
-				"selectedIconPath": "/static/image/tabBar/order-active.png"
-			},
-			{
-				"pagePath": "pages/list/list",
-				"text": "订单",
-				"iconPath": "/static/image/tabBar/list.png",
-				"selectedIconPath": "/static/image/tabBar/list-active.png"
-			}
-		]
-	},
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/order/order",
+        "text": "点餐",
+        "iconPath": "/static/image/tabBar/order.png",
+        "selectedIconPath": "/static/image/tabBar/order-active.png"
+      },
+      {
+        "pagePath": "pages/list/list",
+        "text": "订单",
+        "iconPath": "/static/image/tabBar/list.png",
+        "selectedIconPath": "/static/image/tabBar/list-active.png"
+      }
+    ]
+  },
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
