@@ -128,6 +128,8 @@
   "moneySum": 48, // 👈
   "totalCount": 3, // 👈
 
+  "unAcceptOrderNum": 1, // 未接单个数  💖
+
   "menuList": [
     // 第二次点单
     {

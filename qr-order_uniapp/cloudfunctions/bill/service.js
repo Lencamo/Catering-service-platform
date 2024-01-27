@@ -5,12 +5,13 @@ const _ = db.command
 
 class billService {
   // 获取未结账订单数据
-  async getCustomerUnFinishBill(openId, userId) {
+  async getCustomerUnFinishBill(openId, userId, tableName) {
     const result = await db
       .collection('c_bill')
       .where({
         _openid: openId,
         user_id: userId,
+				tableName,
         orderStatus: false
       })
       .get()
@@ -32,6 +33,8 @@ class billService {
 
         moneySum: singeMenu.orderMoneySum,
         totalCount: singeMenu.orderTotalCount,
+				
+				unAcceptOrderNum: 1,
 
         menuList: [singeMenu],
         user_id: userId
@@ -43,7 +46,7 @@ class billService {
   }
 
   // 未结账订单进行加菜
-  async uploadBillMenuList(billId, moneySum, totalCount, singeMenu) {
+  async uploadBillMenuList(billId, moneySum, totalCount, unAcceptOrderNum,singeMenu) {
     const result = await db
       .collection('c_bill')
       .doc(billId)
@@ -51,6 +54,8 @@ class billService {
         data: {
           moneySum,
           totalCount,
+					
+					unAcceptOrderNum,
 
           menuList: _.unshift(singeMenu)
         }
@@ -61,7 +66,7 @@ class billService {
   }
 
   // 取消某次未接单的orderList
-  async deleteBillOrderList(billId, moneySum, totalCount, bill) {
+  async deleteBillOrderList(billId, moneySum, totalCount, unAcceptOrderNum, bill) {
     const result = await db
       .collection('c_bill')
       .doc(billId)
@@ -69,6 +74,8 @@ class billService {
         data: {
           moneySum,
           totalCount,
+					
+					unAcceptOrderNum,
 
           menuList: _.pull(bill)
         }
@@ -78,16 +85,17 @@ class billService {
     return result
   }
 
-  // 获取未结账订单数据
-  async getCustomerAllBill(openId, userId) {
+  // 获取当前消费者当前桌号的订单数据
+  async getCustomerAllBill(openId, userId, tableName) {
     const result = await db
       .collection('c_bill')
       .where({
         _openid: openId,
+				tableName,
         user_id: userId
       })
       .get()
-    console.log(result)
+    // console.log(result)
 
     return result.data
   }

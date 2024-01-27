@@ -12,6 +12,8 @@ export interface IBill {
 
   moneySum: number
   totalCount: number
+	
+	unAcceptOrderNum: number
 
   menuList: IMenuList[]
 

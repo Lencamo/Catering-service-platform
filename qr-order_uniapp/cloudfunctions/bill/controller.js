@@ -12,21 +12,29 @@ class billController {
 
     // 2、云数据交互
     // - 校验是否是新的订单
-    const unFinishBills = await billService.getCustomerUnFinishBill(openId, userId)
+    const unFinishBills = await billService.getCustomerUnFinishBill(openId, userId, tableName)
     // console.log(unFinishBills)
 
     // - 加菜还是新增订单
     let result = null
     if (unFinishBills.length) {
-      console.log('未结账订单进行加菜')
+      // console.log('未结账订单进行加菜')
 
       const billId = unFinishBills[0]._id
       const moneySum = unFinishBills[0].moneySum + singeMenu.orderMoneySum
       const totalCount = unFinishBills[0].totalCount + singeMenu.orderTotalCount
 
-      result = await billService.uploadBillMenuList(billId, moneySum, totalCount, singeMenu)
+			// 当前Bill订单中未接单的order个数（补充）
+			let unAcceptOrderNum = 1
+			unFinishBills[0].menuList.forEach(item => {
+				if(!item.acceptStatus) {
+					unAcceptOrderNum++
+				}
+			})
+
+      result = await billService.uploadBillMenuList(billId, moneySum, totalCount, unAcceptOrderNum,singeMenu)
     } else {
-      console.log('初次点餐订单')
+      // console.log('初次点餐订单')
 
       result = await billService.addBill(
         userId,
@@ -49,10 +57,10 @@ class billController {
 
   async getCustomerUnFinishBill(data) {
     // 1、数据准备
-    const { userId, openId } = data
+    const { userId,tableName, openId } = data
 
     // 2、云数据交互
-    const unFinishBills = await billService.getCustomerUnFinishBill(openId, userId)
+    const unFinishBills = await billService.getCustomerUnFinishBill(openId, userId, tableName)
     const result = unFinishBills[0]
 
     // 3、返回数据
@@ -65,13 +73,14 @@ class billController {
 
   async deleteBillOrderList(data) {
     // 1、数据准备
-    const { billId, moneySum, totalCount, bill } = data
+    const { billId, moneySum, totalCount, unAcceptOrderNum,bill } = data
 
     // 2、云数据交互
     const newMoneySum = moneySum - bill.orderMoneySum
     const newTotalCount = totalCount + bill.orderTotalCount
+		const newUnAcceptOrderNum = unAcceptOrderNum - 1
 
-    const result = await billService.deleteBillOrderList(billId, newMoneySum, newTotalCount, bill)
+    const result = await billService.deleteBillOrderList(billId, newMoneySum, newTotalCount, newUnAcceptOrderNum, bill)
 
     // 3、返回数据
     return {
@@ -83,10 +92,10 @@ class billController {
 
   async getCustomerAllBill(data) {
     // 1、数据准备
-    const { userId, openId } = data
+    const { userId, tableName, openId } = data
 
     // 2、云数据交互
-    const customerBills = await billService.getCustomerAllBill(openId, userId)
+    const customerBills = await billService.getCustomerAllBill(openId, userId, tableName)
 
     // 根据createTime 升序排列 ✍
     customerBills.sort(function (a, b) {
@@ -96,7 +105,7 @@ class billController {
     // 3、返回数据
     return {
       code: 0,
-      message: '获取当前消费者所有订单数据成功！',
+      message: '获取当前消费者当前桌号所有订单数据成功！',
       data: customerBills
     }
   }

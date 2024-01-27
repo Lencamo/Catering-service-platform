@@ -16,17 +16,28 @@
         </el-table-column>
         <el-table-column prop="createTime" label="下单时间" align="center" width="240" />
         <el-table-column prop="orderNumber" label="订单编号" align="center" width="240" />
-        <el-table-column fixed="right" label="订单操作" width="180" align="center">
+        <el-table-column
+          class="operator-box"
+          fixed="right"
+          label="订单操作"
+          width="200"
+          align="center"
+        >
           <template #default="scope">
-            <el-button
-              v-if="!scope.row.orderStatus"
-              type="warning"
-              size="small"
-              icon="Bell"
-              @click="handleEditBtn(scope.row)"
-            >
-              接单
-            </el-button>
+            <span class="accept-box" v-if="!scope.row.orderStatus">
+              <el-button
+                :type="!scope.row.unAcceptOrderNum ? 'info' : 'warning'"
+                :plain="!scope.row.unAcceptOrderNum"
+                size="small"
+                icon="Bell"
+                @click="handleEditBtn(scope.row)"
+              >
+                接单
+              </el-button>
+              <div v-if="scope.row.unAcceptOrderNum" class="circle-box">
+                {{ scope.row.unAcceptOrderNum }}
+              </div>
+            </span>
             <el-popconfirm
               title="你确定当前订单消费者已完成付款了吗？"
               @confirm="handleDelectBtn(scope.row._id)"
@@ -67,6 +78,7 @@
 import usebillStore from '@/stores/main/bill'
 import type { IBillData } from '@/types/main/bill'
 import { storeToRefs } from 'pinia'
+import { watchEffect } from 'vue'
 import { ref, computed } from 'vue'
 
 // 分页器数据
@@ -76,10 +88,30 @@ const { billTotalCount, billList } = storeToRefs(billStore)
 const currentPage = ref(1)
 const pageSize = ref(10)
 
-// 未结账订单bill下的每次order是否都已经接单
-// const isOrderAllAccept = computed(() => {
-//   billList.value
+// ============
+// const newBillList = ref()
+
+// // 监听 billList 变化
+// billStore.$subscribe((mutation, state) => {
+//   // console.log(mutation,state)
+//   newBillList.value = state.billList
 // })
+
+// // 未结账订单bill下的每次order是否都已经接单
+// const isOrderAllAccept = ref(true)
+
+// const unAcceptOrderNum = computed((menuList) => {})
+
+// // 监听变化
+// billStore.$onAction(({ name, after }) => {
+//   after((result: any) => {
+//     if (name === 'getBillListAction' && !result.code) {
+//       billList.
+//     }
+//   })
+// })
+
+// ============
 
 // 获取bill列表数据
 const getCurrentBillList = (payload: any = {}) => {
@@ -124,6 +156,20 @@ const handleEditBtn = (bill: IBillData) => {
 </script>
 
 <style lang="scss" scoped>
+// - 数字圆圈
+@mixin circleStyle($size, $color) {
+  font-size: $size * 0.63;
+  color: #ffffff;
+  font-weight: 500;
+  line-height: $size;
+  text-align: center;
+
+  width: $size;
+  height: $size;
+  border-radius: $size * 0.5;
+  background-color: $color;
+}
+
 .bill-body {
   background: #ffffff;
   padding: 18px;
@@ -138,6 +184,24 @@ const handleEditBtn = (bill: IBillData) => {
 
   .center-box {
     margin-top: 18px;
+
+    // - 数字圆圈显示
+    .el-table :deep(.cell) {
+      overflow: visible;
+    }
+
+    .accept-box {
+      position: relative;
+      margin-right: 12px;
+      height: 100%;
+
+      .circle-box {
+        position: absolute;
+        top: -7px;
+        right: -7px;
+        @include circleStyle(15px, red);
+      }
+    }
   }
 
   .foot-box {

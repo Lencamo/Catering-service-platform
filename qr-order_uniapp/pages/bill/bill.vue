@@ -110,9 +110,9 @@ billStore.$subscribe((mutation, state) => {
 
 // 是否取消当前bill中的某次Order
 const handleCancleOrder = async (bill: IMenuList) => {
-  const { _id: billId, moneySum, totalCount } = unFinishAllBill.value
+  const { _id: billId, moneySum, totalCount, unAcceptOrderNum } = unFinishAllBill.value
 
-  await billStore.deleteBillOrderListAction(billId, moneySum, totalCount, bill)
+  await billStore.deleteBillOrderListAction(billId, moneySum, totalCount, unAcceptOrderNum, bill)
 }
 
 // 是否要展示当前bill中的所有food
