@@ -12,4 +12,7 @@ billRouter.post('/list', verifyAuth, billController.billList)
 // 根据orderStatus查找bill
 billRouter.post('/status', verifyAuth, billController.check)
 
+// 获取为结账账单列表
+billRouter.post('/unfinish', verifyAuth, billController.unfinishBill)
+
 module.exports = billRouter

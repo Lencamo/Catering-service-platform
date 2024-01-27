@@ -13,3 +13,10 @@ export function getBillListApi(data: any) {
     data
   })
 }
+
+export function getUnfinishBillApi(data: any) {
+  return orderRequest.post({
+    url: `/bill/unfinish`,
+    data
+  })
+}

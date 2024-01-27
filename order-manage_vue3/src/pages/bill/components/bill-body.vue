@@ -67,14 +67,19 @@
 import usebillStore from '@/stores/main/bill'
 import type { IBillData } from '@/types/main/bill'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 // 分页器数据
 const billStore = usebillStore()
 const { billTotalCount, billList } = storeToRefs(billStore)
 
 const currentPage = ref(1)
-const pageSize = ref(5)
+const pageSize = ref(10)
+
+// 未结账订单bill下的每次order是否都已经接单
+// const isOrderAllAccept = computed(() => {
+//   billList.value
+// })
 
 // 获取bill列表数据
 const getCurrentBillList = (payload: any = {}) => {

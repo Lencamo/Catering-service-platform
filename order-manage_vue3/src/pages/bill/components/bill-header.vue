@@ -28,6 +28,11 @@ import type { FormInstance } from 'element-plus'
 
 const statusList = reactive([
   {
+    id: 0,
+    orderStatus: 'all',
+    labelName: '全部'
+  },
+  {
     id: 1,
     orderStatus: false,
     labelName: '待付款'

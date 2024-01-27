@@ -1,4 +1,8 @@
-import { getBillCheckListApi, getBillListApi } from '@/services/modules/main/bill'
+import {
+  getBillCheckListApi,
+  getUnfinishBillApi,
+  getBillListApi
+} from '@/services/modules/main/bill'
 import { defineStore } from 'pinia'
 import type { IBillData } from '@/types/main/bill'
 
@@ -13,9 +17,14 @@ const useBillStore = defineStore('Bill', {
   actions: {
     async getBillListAction(data: any) {
       if (Object.keys(data).includes('orderStatus')) {
-        var { data: res } = await getBillCheckListApi(data) // 条件查询结果列表
+        // 条件查询结果列表
+        if (data.orderStatus === 'all') {
+          var { data: res } = await getBillListApi(data)
+        } else {
+          var { data: res } = await getBillCheckListApi(data)
+        }
       } else {
-        var { data: res } = await getBillListApi(data) // 常规菜品列表
+        var { data: res } = await getUnfinishBillApi(data) // 默认显示未结账订单列表
       }
 
       if (!res.code) {
