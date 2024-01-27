@@ -9,8 +9,8 @@ export default [
     }
   },
   {
-    path: '/main/order',
-    component: () => import('@/pages/order/order.vue'),
+    path: '/main/bill',
+    component: () => import('@/pages/bill/bill.vue'),
     meta: {
       id: 2,
       title: '订单管理',

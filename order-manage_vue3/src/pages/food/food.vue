@@ -1,6 +1,6 @@
 <template>
   <div class="food">
-    <div class="search-box" v-permissions="{ route, action: 'query' }">
+    <div class="search-box">
       <foodHeader @query-list="handleQueryList" @reset-list="handleResetList"></foodHeader>
     </div>
     <div class="list-table">
@@ -21,12 +21,7 @@ import foodHeader from './components/food-header.vue'
 import foodBody from './components/food-body.vue'
 import foodDialog from './components/food-dialog.vue'
 
-// 权限操作控制
-import { useRoute } from 'vue-router'
-const route = useRoute()
-
 import { ref } from 'vue'
-// import type { IFoodList } from '@/types/main/system'
 
 const listTableRef = ref<InstanceType<typeof foodBody>>()
 const foodDialogRef = ref<InstanceType<typeof foodDialog>>()
