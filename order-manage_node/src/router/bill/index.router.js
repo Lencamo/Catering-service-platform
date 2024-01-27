@@ -7,6 +7,9 @@ const billRouter = new Router({
 })
 
 // 获取账单列表
-billRouter.post('/list', verifyAuth, billController.foodList)
+billRouter.post('/list', verifyAuth, billController.billList)
+
+// 根据orderStatus查找bill
+billRouter.post('/status', verifyAuth, billController.check)
 
 module.exports = billRouter
