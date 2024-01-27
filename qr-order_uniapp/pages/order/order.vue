@@ -74,7 +74,7 @@ import orderList from './components/orderList.vue'
 
 import { computed, nextTick, ref } from 'vue'
 import { wxCache } from '../../utils/cache'
-import { DINE_NUMB } from '../../config/constants'
+import { DINE_NUMB, STORE_INFO } from '../../config/constants'
 import { getSelectorAllTop } from '../../utils/selectorQuery'
 import useOrderStore from '../../stores/order'
 import { storeToRefs } from 'pinia'
@@ -82,6 +82,7 @@ import { ICategoryList } from '../../types/order'
 import userBillStore from '../../stores/bill'
 import { IBill, IMenuList } from '../../types/bill'
 import { useClearOrder } from '../../hooks/useClearOrder'
+import { onReady } from '@dcloudio/uni-app'
 
 const orderStore = useOrderStore()
 const { categoryFoodList, orderFoodList } = storeToRefs(orderStore)
@@ -92,6 +93,15 @@ orderStore.$subscribe((mutation, state) => {
   categoryFoodAllList.value = categoryFoodList.value
   orderFoodTotalCount.value = state.orderTotalCount
   orderMoneyTotalSum.value = state.orderMoneySum
+})
+
+// 当前页面动态标题设置
+onReady(() => {
+  const { storename } = wxCache.getCache(STORE_INFO)
+
+  uni.setNavigationBarTitle({
+    title: storename
+  })
 })
 
 // ============

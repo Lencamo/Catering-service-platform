@@ -7,7 +7,7 @@
         :class="{ 'is-finish': bill.orderStatus }"
       >
         <view class="head-box">
-          <view style="font-size: 30rpx; font-weight: bold">饭达人</view>
+          <view style="font-size: 30rpx; font-weight: bold">{{ storename }}</view>
           <view class="status-box" v-if="bill.orderStatus">已完成</view>
           <view class="status-box is-btn" v-if="!bill.orderStatus">待结账</view>
         </view>
@@ -31,8 +31,13 @@ import { ref } from 'vue'
 import userBillStore from '../../stores/bill'
 import { IBill } from '../../types/bill'
 import { storeToRefs } from 'pinia'
+import { wxCache } from '../../utils/cache'
+import { STORE_INFO } from '../../config/constants'
 
 const billStore = userBillStore()
+
+// 获取当前店铺信息
+const { storename } = wxCache.getCache(STORE_INFO)
 
 // 当前消费者所有的bill
 const customerBillList = ref<IBill[]>()

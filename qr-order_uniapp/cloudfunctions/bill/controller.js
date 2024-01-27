@@ -96,7 +96,7 @@ class billController {
     // 3、返回数据
     return {
       code: 0,
-      message: '获取当前消费者未结账订单数据成功！',
+      message: '获取当前消费者所有订单数据成功！',
       data: customerBills
     }
   }

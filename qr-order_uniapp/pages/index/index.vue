@@ -2,10 +2,7 @@
   <view class="index">
     <view class="store-box">
       <!-- <image src="../../static/image/index/饭达人.jpg" mode=""></image> -->
-      <image
-        src="https://project-file-hub.oss-cn-hangzhou.aliyuncs.com/catering-service-platform/applet-%E9%A5%AD%E8%BE%BE%E4%BA%BA.jpg"
-        mode=""
-      ></image>
+      <image :src="storeDetailsAll?.logo.url" mode=""></image>
     </view>
     <view class="select-box">
       <view class="table-msg">
@@ -33,14 +30,37 @@
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { wxCache } from '../../utils/cache'
-import { DINE_NUMB, CODE_MSG } from '../../config/constants'
+import { DINE_NUMB, CODE_MSG, STORE_INFO } from '../../config/constants'
+import userIndexStore from '../../stores/index'
+import { storeToRefs } from 'pinia'
+import { IStore } from '../../types'
+
+const indexStore = userIndexStore()
+
+// 当前店铺信息
+const storeDetailsAll = ref<IStore>()
+
+const orderDataInit = async (userId: string) => {
+  // - 菜品类目列表、菜品列表
+  await indexStore.getStoreDetailsAction(userId)
+  const { storeDetails } = storeToRefs(indexStore)
+  storeDetailsAll.value = storeDetails.value
+
+  // console.log(storeDetails.value)
+
+  wxCache.setCache(STORE_INFO, storeDetails.value)
+}
+
+// ============
 
 // 扫码获取的数据
 let tableName = ref('1号桌')
-onLoad((e) => {
+onLoad(async (e) => {
   // console.log(e)
   tableName.value = e?.tablename
   wxCache.setCache(CODE_MSG, e)
+
+  await orderDataInit(e?.userId)
 })
 
 // 选择人数按钮
