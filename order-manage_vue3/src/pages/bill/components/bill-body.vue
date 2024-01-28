@@ -90,12 +90,12 @@ const pageSize = ref(10)
 // ============
 
 // 获取bill列表数据
-const getCurrentBillList = (payload: any = {}) => {
+const getCurrentBillList = async (payload: any = {}) => {
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
   const queryInfo = { offset, size, ...payload }
 
-  billStore.getBillListAction(queryInfo)
+  await billStore.getBillListAction(queryInfo)
 }
 defineExpose({ getCurrentBillList })
 

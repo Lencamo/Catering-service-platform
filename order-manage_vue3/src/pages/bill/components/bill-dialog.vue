@@ -1,6 +1,14 @@
 <template>
   <div class="bill-dialog">
-    <el-dialog v-model="dialogVisible" title="订单详情" width="420px" align-center draggable center>
+    <el-dialog
+      @close="handleDialogClose"
+      v-model="dialogVisible"
+      title="订单详情"
+      width="420px"
+      align-center
+      draggable
+      center
+    >
       <div class="order-box" v-for="(item, index) in dialogData">
         <el-card class="box-card" shadow="never">
           <template #header>
@@ -44,6 +52,8 @@ const dialogVisible = ref(false)
 
 // 弹窗数据
 let dialogData = ref<IMenuList[]>()
+
+// 备用数据
 const billId = ref()
 const unAcceptOrderNum = ref()
 
@@ -61,11 +71,36 @@ defineExpose({ setBillDialogVisible })
 const billStore = usebillStore()
 
 const handleAcceptOrderBtn = async (orderIndex: number) => {
-  await billStore.updateBillAcceptStatusAction({
+  const result = await billStore.updateBillAcceptStatusAction({
     billId: billId.value,
     unAcceptOrderNum: unAcceptOrderNum.value,
     orderIndex
   })
+
+  if (!result.code) {
+    dialogData.value![orderIndex].acceptStatus = true // 显示同步
+  }
+}
+
+// dialog框消失后是否更新列表数据
+const isAcceptAction = ref(false)
+
+billStore.$onAction(({ name, after }) => {
+  after((result) => {
+    if (name === 'updateBillAcceptStatusAction' && !result.code) {
+      isAcceptAction.value = true
+    }
+  })
+})
+
+const handleDialogClose = async () => {
+  if (isAcceptAction.value) {
+    console.log(isAcceptAction.value)
+    await billStore.getBillListAction({
+      offset: 0,
+      size: 10
+    })
+  }
 }
 </script>
 

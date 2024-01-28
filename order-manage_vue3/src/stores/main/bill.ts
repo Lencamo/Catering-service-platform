@@ -45,7 +45,7 @@ const useBillStore = defineStore('Bill', {
 
     async updateBillAcceptStatusAction(data: any) {
       const { data: res } = await updateBillAcceptStatusApi(data) // 默认显示未结账订单列表
-      console.log(res)
+      // console.log(res)
 
       if (res.code) {
         ElMessage({
@@ -55,6 +55,7 @@ const useBillStore = defineStore('Bill', {
       }
 
       Promise.resolve(res)
+      return res
     }
   }
 })
