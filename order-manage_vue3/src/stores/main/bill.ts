@@ -1,7 +1,8 @@
 import {
   getBillCheckListApi,
   getUnfinishBillApi,
-  getBillListApi
+  getBillListApi,
+  updateBillAcceptStatusApi
 } from '@/services/modules/main/bill'
 import { defineStore } from 'pinia'
 import type { IBillData } from '@/types/main/bill'
@@ -33,6 +34,20 @@ const useBillStore = defineStore('Bill', {
         this.billList = list
         this.billTotalCount = totalCount
       } else {
+        ElMessage({
+          message: res.message,
+          type: 'error'
+        })
+      }
+
+      Promise.resolve(res)
+    },
+
+    async updateBillAcceptStatusAction(data: any) {
+      const { data: res } = await updateBillAcceptStatusApi(data) // 默认显示未结账订单列表
+      console.log(res)
+
+      if (res.code) {
         ElMessage({
           message: res.message,
           type: 'error'

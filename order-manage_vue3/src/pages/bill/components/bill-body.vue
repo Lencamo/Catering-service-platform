@@ -78,8 +78,7 @@
 import usebillStore from '@/stores/main/bill'
 import type { IBillData } from '@/types/main/bill'
 import { storeToRefs } from 'pinia'
-import { watchEffect } from 'vue'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 // 分页器数据
 const billStore = usebillStore()
@@ -87,29 +86,6 @@ const { billTotalCount, billList } = storeToRefs(billStore)
 
 const currentPage = ref(1)
 const pageSize = ref(10)
-
-// ============
-// const newBillList = ref()
-
-// // 监听 billList 变化
-// billStore.$subscribe((mutation, state) => {
-//   // console.log(mutation,state)
-//   newBillList.value = state.billList
-// })
-
-// // 未结账订单bill下的每次order是否都已经接单
-// const isOrderAllAccept = ref(true)
-
-// const unAcceptOrderNum = computed((menuList) => {})
-
-// // 监听变化
-// billStore.$onAction(({ name, after }) => {
-//   after((result: any) => {
-//     if (name === 'getBillListAction' && !result.code) {
-//       billList.
-//     }
-//   })
-// })
 
 // ============
 
@@ -137,18 +113,16 @@ const handleCurrentChange = (page: number) => {
   getCurrentBillList()
 }
 
+// ============
+
 // 菜品删除按钮
 const handleDelectBtn = (billId: string) => {
   // console.log(billId)
   // billStore.delectbillAction(billId)
 }
 
-const emit = defineEmits(['addClick', 'editClick'])
+const emit = defineEmits(['editClick'])
 
-// 新增菜品按钮
-const handleAddBtn = () => {
-  emit('addClick')
-}
 // 编辑菜品按钮
 const handleEditBtn = (bill: IBillData) => {
   emit('editClick', bill)

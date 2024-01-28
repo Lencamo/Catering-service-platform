@@ -15,4 +15,7 @@ billRouter.post('/status', verifyAuth, billController.check)
 // 获取为结账账单列表
 billRouter.post('/unfinish', verifyAuth, billController.unfinishBill)
 
+// 更新账单order的acceptStatus值
+billRouter.patch('/acceptStatus', verifyAuth, billController.updateAcceptStatus)
+
 module.exports = billRouter

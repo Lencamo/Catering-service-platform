@@ -33,6 +33,30 @@ class billService {
 
     return result
   }
+
+  async updateAcceptStatus(billId, unAcceptOrderNum, orderIndex) {
+    const statement = `db.collection("c_bill").doc('${billId}').update({
+      data: {
+        unAcceptOrderNum: ${unAcceptOrderNum},
+
+        menuList: {
+          ${orderIndex}: {
+            acceptStatus: true
+          }
+        }
+      }
+    })`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databaseupdate',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new billService()

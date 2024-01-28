@@ -1,0 +1,119 @@
+<template>
+  <div class="bill-dialog">
+    <el-dialog v-model="dialogVisible" title="订单详情" width="420px" align-center draggable center>
+      <div class="order-box" v-for="(item, index) in dialogData">
+        <el-card class="box-card" shadow="never">
+          <template #header>
+            <div class="card-header">
+              <span style="font-weight: bold">第{{ dialogData!.length - index }}次点餐</span>
+              <el-popconfirm
+                v-if="!item.acceptStatus"
+                title="请注意当前点餐菜品是否售罄？"
+                @confirm="handleAcceptOrderBtn(index)"
+                width="250px"
+              >
+                <template #reference>
+                  <el-button
+                    v-if="!item.acceptStatus"
+                    color="#626aef"
+                    size="small"
+                    :round="!item.acceptStatus"
+                  >
+                    接单
+                  </el-button>
+                </template>
+              </el-popconfirm>
+            </div>
+          </template>
+          <div class="card-content" v-for="order in item.orderListArr">
+            <span>{{ order.foodname }}</span>
+            <span>{{ order.foodOrderCount }}{{ order.unitname }}</span>
+          </div>
+        </el-card>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { IBillData, IMenuList } from '@/types/main/bill'
+import usebillStore from '@/stores/main/bill'
+
+const dialogVisible = ref(false)
+
+// 弹窗数据
+let dialogData = ref<IMenuList[]>()
+const billId = ref()
+const unAcceptOrderNum = ref()
+
+const setBillDialogVisible = (bill: IBillData) => {
+  dialogVisible.value = true
+
+  billId.value = bill._id
+  unAcceptOrderNum.value = bill.unAcceptOrderNum
+  dialogData.value = bill.menuList
+}
+
+defineExpose({ setBillDialogVisible })
+
+// 接单按钮
+const billStore = usebillStore()
+
+const handleAcceptOrderBtn = async (orderIndex: number) => {
+  await billStore.updateBillAcceptStatusAction({
+    billId: billId.value,
+    unAcceptOrderNum: unAcceptOrderNum.value,
+    orderIndex
+  })
+}
+</script>
+
+<style lang="scss" scoped>
+:deep(.el-dialog) {
+  max-height: 80%;
+  overflow-y: scroll;
+
+  // 滚动条样式
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+  }
+
+  .el-dialog__body {
+    padding: 0px calc(var(--el-dialog-padding-primary));
+
+    .el-card__header {
+      padding: 10px var(--el-card-padding);
+    }
+
+    .el-card__body {
+      padding: 10px var(--el-card-padding);
+    }
+  }
+}
+
+.bill-dialog {
+  .order-box {
+    margin: 20px 0px;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-content {
+    margin-bottom: 10px;
+    padding: 0px 30px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+</style>

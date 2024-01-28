@@ -64,6 +64,22 @@ class billController {
       }
     }
   }
+
+  async updateAcceptStatus(ctx, next) {
+    // 1、接收数据
+    const { billId, unAcceptOrderNum, orderIndex } = ctx.request.body
+
+    // 2、数据库交互
+    const newUnAcceptOrderNum = unAcceptOrderNum - 1
+    const result = await billService.updateAcceptStatus(billId, newUnAcceptOrderNum, orderIndex)
+
+    // 3、发送响应消息
+    ctx.body = {
+      code: 0,
+      message: '更新账单某个order的acceptStatus成功！',
+      data: result
+    }
+  }
 }
 
 module.exports = new billController()

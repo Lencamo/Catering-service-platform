@@ -20,3 +20,10 @@ export function getUnfinishBillApi(data: any) {
     data
   })
 }
+
+export function updateBillAcceptStatusApi(data: any) {
+  return orderRequest.patch({
+    url: `/bill/acceptStatus`,
+    data
+  })
+}
