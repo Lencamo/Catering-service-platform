@@ -57,14 +57,14 @@ const useBillStore = defineStore('Bill', {
       moneySum: number,
       totalCount: number,
       unAcceptOrderNum: number,
-      bill: IMenuList
+      order: IMenuList
     ) {
       const { result: res }: any = await deleteBillOrderListApi(
         billId,
         moneySum,
         totalCount,
         unAcceptOrderNum,
-        bill
+        order
       )
       // console.log(res)
 

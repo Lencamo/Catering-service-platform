@@ -61,7 +61,7 @@ const useBillStore = defineStore('Bill', {
 
     async deleteBillOrderListAction(data: any) {
       const { data: res } = await deleteBillOrderListApi(data) // 默认显示未结账订单列表
-      console.log(res)
+      // console.log(res)
 
       if (res.code) {
         ElMessage({

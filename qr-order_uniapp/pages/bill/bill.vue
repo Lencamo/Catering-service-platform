@@ -24,23 +24,23 @@
           >
         </view>
       </view>
-      <block v-for="(bill, index) in unFinishAllBill?.menuList" :key="index">
+      <block v-for="(order, index) in unFinishAllBill?.menuList" :key="index">
         <view class="order-box">
           <view class="head-msg">
             <view>第{{ unFinishAllBill?.menuList.length - index }}次下单</view>
-            <view class="accept-btn" v-if="bill.acceptStatus">已接单</view>
+            <view class="accept-btn" v-if="order.acceptStatus">已接单</view>
             <view
               class="accept-btn is-active"
-              v-if="!bill.acceptStatus"
-              @click="handleCancleOrder(bill)"
+              v-if="!order.acceptStatus"
+              @click="handleCancleOrder(order)"
               >取消点餐</view
             >
           </view>
           <view class="menu-box">
             <block
-              v-for="(item, index) in bill.orderListArr.length > 3 && isShowAll === false
-                ? bill.orderListArr.slice(0, 3)
-                : bill.orderListArr"
+              v-for="(item, index) in order.orderListArr.length > 3 && isShowAll === false
+                ? order.orderListArr.slice(0, 3)
+                : order.orderListArr"
               :key="index"
             >
               <view class="food" :class="{ 'is-gray': item.onSale === false }">
@@ -58,7 +58,7 @@
             </block>
             <view
               class="show-close"
-              v-if="bill.orderListArr.length > 3 && isShowAll === false"
+              v-if="order.orderListArr.length > 3 && isShowAll === false"
               @click="handleShowAllFood"
             >
               <text>展开全部</text>
@@ -70,7 +70,7 @@
             </view>
             <view
               class="show-close"
-              v-if="bill.orderListArr.length > 3 && isShowAll === true"
+              v-if="order.orderListArr.length > 3 && isShowAll === true"
               @click="handleShowAllFood"
             >
               <text>收起部分</text>
@@ -109,10 +109,10 @@ billStore.$subscribe((mutation, state) => {
 // ===============
 
 // 是否取消当前bill中的某次Order
-const handleCancleOrder = async (bill: IMenuList) => {
+const handleCancleOrder = async (order: IMenuList) => {
   const { _id: billId, moneySum, totalCount, unAcceptOrderNum } = unFinishAllBill.value
 
-  await billStore.deleteBillOrderListAction(billId, moneySum, totalCount, unAcceptOrderNum, bill)
+  await billStore.deleteBillOrderListAction(billId, moneySum, totalCount, unAcceptOrderNum, order)
 }
 
 // 是否要展示当前bill中的所有food

@@ -117,7 +117,6 @@ const handleCurrentChange = (page: number) => {
 
 // 订单结账按钮
 const handleDelectBtn = async (billId: string) => {
-  // console.log(billId)
   // async billStore.delectbillAction(billId)
 }
 

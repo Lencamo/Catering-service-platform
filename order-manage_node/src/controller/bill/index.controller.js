@@ -94,7 +94,7 @@ class billController {
     const newMenuList = bill.menuList
 
     const newMoneySum = moneySum - deleteOrder[0].orderMoneySum
-    const newTotalCount = totalCount + deleteOrder[0].orderTotalCount
+    const newTotalCount = totalCount - deleteOrder[0].orderTotalCount
     const newUnAcceptOrderNum = unAcceptOrderNum - 1
 
     const result = await billService.deleteBillOrderList(

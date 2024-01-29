@@ -28,7 +28,7 @@ export function getCustomerUnFinishBillApi() {
       url: '/bill/get/unFinishBill',
       data: {
         userId,
-				tableName
+        tableName
       }
     }
   })
@@ -38,8 +38,8 @@ export function deleteBillOrderListApi(
   billId: string,
   moneySum: number,
   totalCount: number,
-	unAcceptOrderNum: number,
-  bill: IMenuList
+  unAcceptOrderNum: number,
+  order: IMenuList
 ) {
   return wx.cloud.callFunction({
     name: 'bill',
@@ -49,8 +49,8 @@ export function deleteBillOrderListApi(
         billId,
         moneySum,
         totalCount,
-				unAcceptOrderNum,
-        bill
+        unAcceptOrderNum,
+        order
       }
     }
   })
@@ -63,7 +63,7 @@ export function getCustomerAllBillApi() {
       url: '/bill/get/customerAllBill',
       data: {
         userId,
-				tableName
+        tableName
       }
     }
   })

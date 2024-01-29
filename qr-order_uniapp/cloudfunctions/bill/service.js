@@ -11,7 +11,7 @@ class billService {
       .where({
         _openid: openId,
         user_id: userId,
-				tableName,
+        tableName,
         orderStatus: false
       })
       .get()
@@ -33,8 +33,8 @@ class billService {
 
         moneySum: singeMenu.orderMoneySum,
         totalCount: singeMenu.orderTotalCount,
-				
-				unAcceptOrderNum: 1,
+
+        unAcceptOrderNum: 1,
 
         menuList: [singeMenu],
         user_id: userId
@@ -46,7 +46,7 @@ class billService {
   }
 
   // 未结账订单进行加菜
-  async uploadBillMenuList(billId, moneySum, totalCount, unAcceptOrderNum,singeMenu) {
+  async uploadBillMenuList(billId, moneySum, totalCount, unAcceptOrderNum, singeMenu) {
     const result = await db
       .collection('c_bill')
       .doc(billId)
@@ -54,8 +54,8 @@ class billService {
         data: {
           moneySum,
           totalCount,
-					
-					unAcceptOrderNum,
+
+          unAcceptOrderNum,
 
           menuList: _.unshift(singeMenu)
         }
@@ -66,7 +66,7 @@ class billService {
   }
 
   // 取消某次未接单的orderList
-  async deleteBillOrderList(billId, moneySum, totalCount, unAcceptOrderNum, bill) {
+  async deleteBillOrderList(billId, moneySum, totalCount, unAcceptOrderNum, order) {
     const result = await db
       .collection('c_bill')
       .doc(billId)
@@ -74,10 +74,10 @@ class billService {
         data: {
           moneySum,
           totalCount,
-					
-					unAcceptOrderNum,
 
-          menuList: _.pull(bill)
+          unAcceptOrderNum,
+
+          menuList: _.pull(order)
         }
       })
     // console.log(result)
@@ -91,7 +91,7 @@ class billService {
       .collection('c_bill')
       .where({
         _openid: openId,
-				tableName,
+        tableName,
         user_id: userId
       })
       .get()

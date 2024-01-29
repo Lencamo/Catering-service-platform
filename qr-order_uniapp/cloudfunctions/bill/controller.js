@@ -24,15 +24,21 @@ class billController {
       const moneySum = unFinishBills[0].moneySum + singeMenu.orderMoneySum
       const totalCount = unFinishBills[0].totalCount + singeMenu.orderTotalCount
 
-			// 当前Bill订单中未接单的order个数（补充）
-			let unAcceptOrderNum = 1
-			unFinishBills[0].menuList.forEach(item => {
-				if(!item.acceptStatus) {
-					unAcceptOrderNum++
-				}
-			})
+      // 当前Bill订单中未接单的order个数（补充）
+      let unAcceptOrderNum = 1
+      unFinishBills[0].menuList.forEach((item) => {
+        if (!item.acceptStatus) {
+          unAcceptOrderNum++
+        }
+      })
 
-      result = await billService.uploadBillMenuList(billId, moneySum, totalCount, unAcceptOrderNum,singeMenu)
+      result = await billService.uploadBillMenuList(
+        billId,
+        moneySum,
+        totalCount,
+        unAcceptOrderNum,
+        singeMenu
+      )
     } else {
       // console.log('初次点餐订单')
 
@@ -57,7 +63,7 @@ class billController {
 
   async getCustomerUnFinishBill(data) {
     // 1、数据准备
-    const { userId,tableName, openId } = data
+    const { userId, tableName, openId } = data
 
     // 2、云数据交互
     const unFinishBills = await billService.getCustomerUnFinishBill(openId, userId, tableName)
@@ -73,14 +79,20 @@ class billController {
 
   async deleteBillOrderList(data) {
     // 1、数据准备
-    const { billId, moneySum, totalCount, unAcceptOrderNum,bill } = data
+    const { billId, moneySum, totalCount, unAcceptOrderNum, order } = data
 
     // 2、云数据交互
-    const newMoneySum = moneySum - bill.orderMoneySum
-    const newTotalCount = totalCount + bill.orderTotalCount
-		const newUnAcceptOrderNum = unAcceptOrderNum - 1
+    const newMoneySum = moneySum - order.orderMoneySum
+    const newTotalCount = totalCount - order.orderTotalCount
+    const newUnAcceptOrderNum = unAcceptOrderNum - 1
 
-    const result = await billService.deleteBillOrderList(billId, newMoneySum, newTotalCount, newUnAcceptOrderNum, bill)
+    const result = await billService.deleteBillOrderList(
+      billId,
+      newMoneySum,
+      newTotalCount,
+      newUnAcceptOrderNum,
+      order
+    )
 
     // 3、返回数据
     return {
