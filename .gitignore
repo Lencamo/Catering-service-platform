@@ -1,8 +1,7 @@
 .env
 node_modules
 uploads
-env.js
-
+lib-config.ts
 
 # Logs
 logs
