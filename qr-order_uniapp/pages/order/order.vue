@@ -74,7 +74,7 @@ import orderList from './components/orderList.vue'
 
 import { computed, nextTick, ref } from 'vue'
 import { wxCache } from '../../utils/cache'
-import { DINE_NUMB, STORE_INFO } from '../../config/constants'
+import { CODE_MSG, DINE_NUMB, STORE_INFO } from '../../config/constants'
 import { getSelectorAllTop } from '../../utils/selectorQuery'
 import useOrderStore from '../../stores/order'
 import { storeToRefs } from 'pinia'
@@ -83,6 +83,7 @@ import userBillStore from '../../stores/bill'
 import { IBill, IMenuList } from '../../types/bill'
 import { useClearOrder } from '../../hooks/useClearOrder'
 import { onReady } from '@dcloudio/uni-app'
+import { goeasyPublish } from '../../library/goEasy/index'
 
 const orderStore = useOrderStore()
 const { categoryFoodList, orderFoodList } = storeToRefs(orderStore)
@@ -216,13 +217,8 @@ const handleVisible = (value: boolean = false) => {
 const billStore = userBillStore()
 
 const orderOkBtn = async () => {
-  // 获取桌号、就餐人数
-  // 略（service中）
-
-  // 订单编号、下单时间
-  // 略（云函数中）
-
-  // 其他
+  // 获取桌号、就餐人数（service中）
+  // 订单编号、下单时间（云函数中）
   // ……
 
   // 获取 orderFoodList 数据
@@ -238,9 +234,13 @@ const orderOkBtn = async () => {
     orderListArr: orderFoodList.value
   }
 
-  // 上传订单数据
   if (orderFoodList.value.length) {
+    // 1、上传订单数据
     await billStore.uploadBillMenuListAction(singeMenu)
+
+    // 2、goeasy 发送消息（即时通讯）
+    const { tablename } = wxCache.getCache(CODE_MSG)
+    goeasyPublish(`${tablename}有新的点餐，请注意查收！`)
   } else {
     uni.showToast({
       icon: 'none',
