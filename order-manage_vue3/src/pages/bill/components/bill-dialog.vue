@@ -110,7 +110,7 @@ const handleRefuseOrderBtn = async (orderIndex: number) => {
     moneySum: billDetails.value?.moneySum,
     totalCount: billDetails.value?.totalCount,
     unAcceptOrderNum: billDetails.value?.unAcceptOrderNum,
-    order: billDetails.value?.menuList[orderIndex]
+    orderIndex
   })
 
   if (!result.code) {

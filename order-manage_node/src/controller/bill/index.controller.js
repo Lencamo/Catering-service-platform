@@ -83,12 +83,18 @@ class billController {
 
   async deleteBillOrderList(ctx, next) {
     // 1、接收数据
-    const { billId, moneySum, totalCount, unAcceptOrderNum, order } = ctx.request.body
-    console.log(ctx.request.body)
+    const { billId, moneySum, totalCount, unAcceptOrderNum, orderIndex } = ctx.request.body
 
     // 2、数据库交互
-    const newMoneySum = moneySum - order.orderMoneySum
-    const newTotalCount = totalCount + order.orderTotalCount
+    // - 获取要修改的bill订单
+    const bill = await billService.findBilById(billId)
+
+    // - 更新数据（去除指定的order）
+    const deleteOrder = bill.menuList.splice(orderIndex, 1)
+    const newMenuList = bill.menuList
+
+    const newMoneySum = moneySum - deleteOrder[0].orderMoneySum
+    const newTotalCount = totalCount + deleteOrder[0].orderTotalCount
     const newUnAcceptOrderNum = unAcceptOrderNum - 1
 
     const result = await billService.deleteBillOrderList(
@@ -96,7 +102,7 @@ class billController {
       newMoneySum,
       newTotalCount,
       newUnAcceptOrderNum,
-      order
+      newMenuList
     )
 
     // 3、发送响应消息

@@ -58,17 +58,61 @@ class billService {
     return result
   }
 
-  async deleteBillOrderList(billId, moneySum, totalCount, unAcceptOrderNum, order) {
+  // ===========
+
+  // async deleteBillOrderList(billId, moneySum, totalCount, unAcceptOrderNum, order) {
+  //   // 报错：RuntimeError: cannot read property 'pull' 💔
+  //   const statement = `db.collection('c_bill')
+  //   .doc('${billId}')
+  //   .update({
+  //     data: {
+  //       moneySum: ${moneySum},
+  //       totalCount: ${totalCount},
+
+  //       unAcceptOrderNum: ${unAcceptOrderNum},
+
+  //       menuList: _.pull(${JSON.stringify(order)})
+  //     }
+  //   })`
+
+  //   const { data: result } = await cloudRequest.post({
+  //     url: '/databaseupdate',
+  //     data: {
+  //       query: statement
+  //     }
+  //   })
+  //   // console.log(result)
+
+  //   return result
+  // }
+
+  async findBilById(billId) {
+    const statement = `db.collection("c_bill").where({
+      _id: "${billId}",
+    }).get()`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databasequery',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return JSON.parse(result.data)
+  }
+
+  async deleteBillOrderList(billId, newMoneySum, newTotalCount, newUnAcceptOrderNum, newMenuList) {
     const statement = `db.collection('c_bill')
     .doc('${billId}')
     .update({
       data: {
-        moneySum: ${moneySum},
-        totalCount: ${totalCount},
+        moneySum: ${newMoneySum},
+        totalCount: ${newTotalCount},
         
-        unAcceptOrderNum: ${unAcceptOrderNum},
+        unAcceptOrderNum: ${newUnAcceptOrderNum},
 
-        menuList: _.pull(${JSON.stringify(order)})
+        menuList: ${JSON.stringify(newMenuList)}
       }
     })`
 
