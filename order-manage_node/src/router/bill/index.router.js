@@ -21,4 +21,7 @@ billRouter.patch('/acceptStatus', verifyAuth, billController.updateAcceptStatus)
 // 取消某次点餐
 billRouter.patch('/orderList', verifyAuth, billController.deleteBillOrderList)
 
+// 结束某次订单（结账）
+billRouter.patch('/:billId', verifyAuth, billController.finishBill)
+
 module.exports = billRouter

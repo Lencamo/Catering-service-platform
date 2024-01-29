@@ -126,6 +126,27 @@ class billService {
 
     return result
   }
+
+  // ===========
+  async finishBill(bill_id) {
+    const statement = `db.collection('c_bill')
+    .doc('${bill_id}')
+    .update({
+      data: {
+        orderStatus: true
+      }
+    })`
+
+    const { data: result } = await cloudRequest.post({
+      url: '/databaseupdate',
+      data: {
+        query: statement
+      }
+    })
+    // console.log(result)
+
+    return result
+  }
 }
 
 module.exports = new billService()

@@ -40,7 +40,7 @@
             </span>
             <el-popconfirm
               title="你确定当前订单消费者已完成付款了吗？"
-              @confirm="handleDelectBtn(scope.row._id)"
+              @confirm="handleDelectBtn(scope.row)"
               width="200px"
             >
               <template #reference>
@@ -116,13 +116,22 @@ const handleCurrentChange = (page: number) => {
 // ============
 
 // 订单结账按钮
-const handleDelectBtn = async (billId: string) => {
-  // async billStore.delectbillAction(billId)
+const handleDelectBtn = async (bill: IBillData) => {
+  const { _id: billId, unAcceptOrderNum } = bill
+
+  if (unAcceptOrderNum) {
+    ElMessage({
+      message: '当前订单内的某次点餐并未处理，请先处理！',
+      type: 'error'
+    })
+  } else {
+    await billStore.finishBillAction(billId)
+  }
 }
 
 const emit = defineEmits(['editClick'])
 
-// 编辑菜品按钮
+// 编辑订单按钮
 const handleEditBtn = (bill: IBillData) => {
   emit('editClick', bill)
 }

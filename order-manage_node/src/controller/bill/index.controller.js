@@ -112,6 +112,21 @@ class billController {
       data: result
     }
   }
+
+  async finishBill(ctx, next) {
+    // 1、接收数据
+    const { billId: bill_id } = ctx.params
+
+    // 2、数据库交互
+    const result = await billService.finishBill(bill_id)
+
+    // 3、发送响应消息
+    ctx.body = {
+      code: 0,
+      message: '当前订单已完成',
+      data: result
+    }
+  }
 }
 
 module.exports = new billController()

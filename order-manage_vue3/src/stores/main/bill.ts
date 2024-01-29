@@ -3,7 +3,8 @@ import {
   getUnfinishBillApi,
   getBillListApi,
   updateBillAcceptStatusApi,
-  deleteBillOrderListApi
+  deleteBillOrderListApi,
+  finishBillApi
 } from '@/services/modules/main/bill'
 import { defineStore } from 'pinia'
 import type { IBillData } from '@/types/main/bill'
@@ -72,6 +73,20 @@ const useBillStore = defineStore('Bill', {
 
       Promise.resolve(res)
       return res
+    },
+
+    async finishBillAction(billId: string) {
+      const { data: res } = await finishBillApi(billId) // 默认显示未结账订单列表
+      // console.log(res)
+
+      if (!res.code) {
+        await this.getBillListAction({ offset: 0, size: 10 })
+      } else {
+        ElMessage({
+          message: res.message,
+          type: 'error'
+        })
+      }
     }
   }
 })

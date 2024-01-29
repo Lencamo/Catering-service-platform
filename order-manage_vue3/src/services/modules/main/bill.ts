@@ -34,3 +34,9 @@ export function deleteBillOrderListApi(data: any) {
     data
   })
 }
+
+export function finishBillApi(billId: string) {
+  return orderRequest.patch({
+    url: `/bill/${billId}`
+  })
+}
