@@ -16,6 +16,23 @@
               <span style="font-weight: bold">第{{ dialogData!.length - index }}次点餐</span>
               <el-popconfirm
                 v-if="!item.acceptStatus"
+                title="是否帮助消费者取消当前点餐？"
+                @confirm="handleRefuseOrderBtn(index)"
+                width="250px"
+              >
+                <template #reference>
+                  <el-button
+                    v-if="!item.acceptStatus"
+                    type="danger"
+                    size="small"
+                    :plain="!item.acceptStatus"
+                  >
+                    拒接
+                  </el-button>
+                </template>
+              </el-popconfirm>
+              <el-popconfirm
+                v-if="!item.acceptStatus"
                 title="请注意当前点餐菜品是否售罄？"
                 @confirm="handleAcceptOrderBtn(index)"
                 width="250px"
@@ -37,6 +54,10 @@
             <span>{{ order.foodname }}</span>
             <span>{{ order.foodOrderCount }}{{ order.unitname }}</span>
           </div>
+          <div class="food-content">
+            <span>共计：￥{{ item.orderMoneySum }}</span>
+          </div>
+          <template #footer>Footer content</template>
         </el-card>
       </div>
     </el-dialog>
@@ -53,27 +74,27 @@ const dialogVisible = ref(false)
 // 弹窗数据
 let dialogData = ref<IMenuList[]>()
 
-// 备用数据
-const billId = ref()
-const unAcceptOrderNum = ref()
+// 完整的订单数据
+const billDetails = ref<IBillData>()
 
 const setBillDialogVisible = (bill: IBillData) => {
   dialogVisible.value = true
 
-  billId.value = bill._id
-  unAcceptOrderNum.value = bill.unAcceptOrderNum
+  billDetails.value = bill
   dialogData.value = bill.menuList
 }
 
 defineExpose({ setBillDialogVisible })
 
-// 接单按钮
+// =====================
+
 const billStore = usebillStore()
 
+// 接单按钮
 const handleAcceptOrderBtn = async (orderIndex: number) => {
   const result = await billStore.updateBillAcceptStatusAction({
-    billId: billId.value,
-    unAcceptOrderNum: unAcceptOrderNum.value,
+    billId: billDetails.value?._id,
+    unAcceptOrderNum: billDetails.value?.unAcceptOrderNum,
     orderIndex
   })
 
@@ -82,12 +103,32 @@ const handleAcceptOrderBtn = async (orderIndex: number) => {
   }
 }
 
+// 取消订单
+const handleRefuseOrderBtn = async (orderIndex: number) => {
+  const result = await billStore.deleteBillOrderListAction({
+    billId: billDetails.value?._id,
+    moneySum: billDetails.value?.moneySum,
+    totalCount: billDetails.value?.totalCount,
+    unAcceptOrderNum: billDetails.value?.unAcceptOrderNum,
+    order: billDetails.value?.menuList[orderIndex]
+  })
+
+  if (!result.code) {
+    dialogData.value?.splice(orderIndex, 1) // 显示同步
+  }
+}
+
+// =====================
+
 // dialog框消失后是否更新列表数据
 const isAcceptAction = ref(false)
 
 billStore.$onAction(({ name, after }) => {
   after((result) => {
-    if (name === 'updateBillAcceptStatusAction' && !result.code) {
+    if (
+      (name === 'updateBillAcceptStatusAction' || name === 'deleteBillOrderListAction') &&
+      !result.code
+    ) {
       isAcceptAction.value = true
     }
   })
@@ -95,7 +136,6 @@ billStore.$onAction(({ name, after }) => {
 
 const handleDialogClose = async () => {
   if (isAcceptAction.value) {
-    console.log(isAcceptAction.value)
     await billStore.getBillListAction({
       offset: 0,
       size: 10
@@ -149,6 +189,12 @@ const handleDialogClose = async () => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .food-content {
+    border-top: 1px solid #e4e7ed;
+    padding-top: 10px;
+    text-align: right;
   }
 }
 </style>

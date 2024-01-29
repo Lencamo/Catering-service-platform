@@ -18,4 +18,7 @@ billRouter.post('/unfinish', verifyAuth, billController.unfinishBill)
 // 更新账单order的acceptStatus值
 billRouter.patch('/acceptStatus', verifyAuth, billController.updateAcceptStatus)
 
+// 取消某次点餐
+billRouter.patch('/orderList', verifyAuth, billController.deleteBillOrderList)
+
 module.exports = billRouter

@@ -115,10 +115,10 @@ const handleCurrentChange = (page: number) => {
 
 // ============
 
-// 菜品删除按钮
-const handleDelectBtn = (billId: string) => {
+// 订单结账按钮
+const handleDelectBtn = async (billId: string) => {
   // console.log(billId)
-  // billStore.delectbillAction(billId)
+  // async billStore.delectbillAction(billId)
 }
 
 const emit = defineEmits(['editClick'])

@@ -27,3 +27,10 @@ export function updateBillAcceptStatusApi(data: any) {
     data
   })
 }
+
+export function deleteBillOrderListApi(data: any) {
+  return orderRequest.patch({
+    url: `/bill/orderList`,
+    data
+  })
+}

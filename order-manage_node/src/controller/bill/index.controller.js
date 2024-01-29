@@ -80,6 +80,32 @@ class billController {
       data: result
     }
   }
+
+  async deleteBillOrderList(ctx, next) {
+    // 1、接收数据
+    const { billId, moneySum, totalCount, unAcceptOrderNum, order } = ctx.request.body
+    console.log(ctx.request.body)
+
+    // 2、数据库交互
+    const newMoneySum = moneySum - order.orderMoneySum
+    const newTotalCount = totalCount + order.orderTotalCount
+    const newUnAcceptOrderNum = unAcceptOrderNum - 1
+
+    const result = await billService.deleteBillOrderList(
+      billId,
+      newMoneySum,
+      newTotalCount,
+      newUnAcceptOrderNum,
+      order
+    )
+
+    // 3、发送响应消息
+    ctx.body = {
+      code: 0,
+      message: '已取消消费者账单的某次点餐！',
+      data: result
+    }
+  }
 }
 
 module.exports = new billController()
