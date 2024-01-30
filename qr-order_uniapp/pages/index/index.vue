@@ -34,6 +34,7 @@ import { DINE_NUMB, CODE_MSG, STORE_INFO } from '../../config/constants'
 import userIndexStore from '../../stores/index'
 import { storeToRefs } from 'pinia'
 import { IStore } from '../../types'
+import userBillStore from '../../stores/bill'
 
 const indexStore = userIndexStore()
 
@@ -60,7 +61,17 @@ onLoad(async (e) => {
   tableName.value = e?.tablename
   wxCache.setCache(CODE_MSG, e)
 
-  await orderDataInit(e?.userId)
+  const billStore = userBillStore()
+  const res = await billStore.getCustomerUnFinishBillAction()
+
+  // 当前用户是否有未结账订单
+  if (res.data.length) {
+    uni.switchTab({
+      url: '/pages/order/order'
+    })
+  } else {
+    await orderDataInit(e?.userId)
+  }
 })
 
 // 选择人数按钮

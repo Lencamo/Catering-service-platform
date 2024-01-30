@@ -67,7 +67,7 @@ class billController {
 
     // 2、云数据交互
     const unFinishBills = await billService.getCustomerUnFinishBill(openId, userId, tableName)
-    const result = unFinishBills[0]
+    const result = unFinishBills
 
     // 3、返回数据
     return {

@@ -42,14 +42,16 @@ const useBillStore = defineStore('Bill', {
       const { result: res }: any = await getCustomerUnFinishBillApi()
       // console.log(res)
 
-      if (!res.code) {
-        this.unFinishBill = res.data
+      if (!res.code && res.data.length) {
+        this.unFinishBill = res.data[0]
       } else {
         uni.showToast({
           icon: 'error',
           title: res.data.message
         })
       }
+
+      return res
     },
 
     async deleteBillOrderListAction(
