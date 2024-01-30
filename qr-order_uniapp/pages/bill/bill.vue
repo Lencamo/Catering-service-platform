@@ -1,9 +1,11 @@
 <template>
   <view class="bill">
     <view class="top-box">
-      <view>
-        <text style="color: #2c2c2c; font-weight: bold">{{ unFinishAllBill?.tableName }}</text>
-      </view>
+			<view>
+			  <text style="color: #2c2c2c; font-weight: bold">【</text>
+			  <text style="color: aliceblue">{{ unFinishAllBill?.tableName.substring(0, 1) }}号</text>
+			  <text style="color: #2c2c2c; font-weight: bold">】桌</text>
+			</view>
       <view>
         <text style="color: #2c2c2c; font-weight: bold">【</text>
         <text style="color: aliceblue">{{ unFinishAllBill?.dineNumber }}人</text>

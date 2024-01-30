@@ -3,8 +3,8 @@
     <view class="top-box">
       <view>
         <text style="color: #2c2c2c; font-weight: bold">【</text>
-        <text style="color: aliceblue">{{ dineNumber }}人</text>
-        <text style="color: #2c2c2c; font-weight: bold">】就餐</text>
+        <text style="color: aliceblue">{{ tablename.substring(0, 1) }}号</text>
+        <text style="color: #2c2c2c; font-weight: bold">】桌</text>
       </view>
       <view class="icon-box">
         <image
@@ -107,8 +107,8 @@ onReady(() => {
 
 // ============
 
-// 就餐人数
-const dineNumber = wxCache.getCache(DINE_NUMB)
+// 获取桌号
+const { tablename } = wxCache.getCache(CODE_MSG)
 
 // 菜品类目列表、菜品列表数据、添加的菜品统计、总共的消费统计
 const categoryFoodAllList = ref<ICategoryList[]>()

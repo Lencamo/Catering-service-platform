@@ -1,6 +1,13 @@
 <template>
   <view>
-    <view v-if="customerBillList.length" class="list">
+		<view class="top-box">
+		  <view>
+		    <text style="color: #2c2c2c; font-weight: bold">【</text>
+		    <text style="color: aliceblue">{{ tablename.substring(0, 1) }}号</text>
+		    <text style="color: #2c2c2c; font-weight: bold">】桌</text>
+		  </view>
+		</view>
+    <view v-if="customerBillList?.length" class="list">
       <block v-for="(bill, index) in customerBillList" :key="index">
         <view
           class="bill-item"
@@ -25,7 +32,7 @@
         </view>
       </block>
     </view>
-    <view v-if="!customerBillList.length" class="empty-box">
+    <view v-if="!customerBillList?.length" class="empty-box">
       <image src="/static/image/list/bill-empty.png" mode="aspectFit"></image>
     </view>
   </view>
@@ -37,12 +44,15 @@ import userBillStore from '../../stores/bill'
 import { IBill } from '../../types/bill'
 import { storeToRefs } from 'pinia'
 import { wxCache } from '../../utils/cache'
-import { STORE_INFO } from '../../config/constants'
+import { CODE_MSG, DINE_NUMB, STORE_INFO } from '../../config/constants'
 
 const billStore = userBillStore()
 
 // 获取当前店铺信息
 const { storename } = wxCache.getCache(STORE_INFO)
+
+// 获取头部基础信息
+const { tablename } = wxCache.getCache(CODE_MSG)
 
 // 当前消费者所有的bill
 const customerBillList = ref<IBill[]>()
@@ -83,16 +93,36 @@ const handleBillDetails = (bill: IBill) => {
   border: none !important;
 }
 
+// ==============
+
+.top-box {
+  @include flex-init(space-between, center, row);
+  position: fixed; // 标记 B
+  top: 0rpx;
+  left: 0rpx;
+  z-index: 9;
+  height: 70rpx;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0rpx 20rpx;
+  background-color: #009688;
+}
+
 .list {
-  min-height: 100vh;
+	position: fixed; // 标记 B
+	top: 70rpx;
+	left: 0rpx;
+	
+  min-height: 93vh;
   background-color: #f5f7ff;
-  padding-bottom: 35rpx;
+	padding: 3vh 0rpx 4vh 0rpx;
 
   .bill-item {
     // @include flex-init(space-around, flex-start, column);
     height: 260rpx; // 标记 A
     width: 87vw;
     margin: 35rpx 3vw;
+		margin-top: 0rpx;
     padding: 0rpx 25rpx;
 
     background-color: #ffffff;

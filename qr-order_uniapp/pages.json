@@ -27,6 +27,7 @@
       "path": "pages/list/list",
       "style": {
         "navigationBarTitleText": "我的订单",
+				"navigationBarBackgroundColor": "#009688",
         "enablePullDownRefresh": false
       }
     },
