@@ -1,28 +1,33 @@
 <template>
-  <view class="list">
-    <block v-for="(bill, index) in customerBillList" :key="index">
-      <view
-        class="bill-item"
-        @click="handleBillDetails(bill)"
-        :class="{ 'is-finish': bill.orderStatus }"
-      >
-        <view class="head-box">
-          <view style="font-size: 30rpx; font-weight: bold">{{ storename }}</view>
-          <view class="status-box" v-if="bill.orderStatus">已完成</view>
-          <view class="status-box is-btn" v-if="!bill.orderStatus">待结账</view>
-        </view>
-        <view class="body-box">
-          <view class="left">
-            <view>餐桌：{{ bill.tableName }}</view>
-            <view>下单时间：{{ bill.createTime }}</view>
-            <view>订单编号：{{ bill.orderNumber }}</view>
+  <view>
+    <view v-if="customerBillList.length" class="list">
+      <block v-for="(bill, index) in customerBillList" :key="index">
+        <view
+          class="bill-item"
+          @click="handleBillDetails(bill)"
+          :class="{ 'is-finish': bill.orderStatus }"
+        >
+          <view class="head-box">
+            <view style="font-size: 30rpx; font-weight: bold">{{ storename }}</view>
+            <view class="status-box" v-if="bill.orderStatus">已完成</view>
+            <view class="status-box is-btn" v-if="!bill.orderStatus">待结账</view>
           </view>
-          <view class="right">
-            <view style="font-size: 33rpx; font-weight: bold">￥{{ bill.moneySum }}</view>
+          <view class="body-box">
+            <view class="left">
+              <view>餐桌：{{ bill.tableName }}</view>
+              <view>下单时间：{{ bill.createTime }}</view>
+              <view>订单编号：{{ bill.orderNumber }}</view>
+            </view>
+            <view class="right">
+              <view style="font-size: 33rpx; font-weight: bold">￥{{ bill.moneySum }}</view>
+            </view>
           </view>
         </view>
-      </view>
-    </block>
+      </block>
+    </view>
+    <view v-if="!customerBillList.length" class="empty-box">
+      <image src="/static/image/list/bill-empty.png" mode="aspectFit"></image>
+    </view>
   </view>
 </template>
 
@@ -136,5 +141,12 @@ const handleBillDetails = (bill: IBill) => {
       }
     }
   }
+}
+
+.empty-box {
+  @include flex-init(center, center, row);
+
+  height: 100vh;
+  width: 100vw;
 }
 </style>
