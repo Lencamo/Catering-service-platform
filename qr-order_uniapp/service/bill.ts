@@ -2,7 +2,7 @@ import { CODE_MSG, DINE_NUMB } from '../config/constants'
 import { IMenuList } from '../types/bill'
 import { wxCache } from '../utils/cache'
 
-const { userId, tablename: tableName } = wxCache.getCache(CODE_MSG)
+let { userId, tablename: tableName } = wxCache.getCache(CODE_MSG) || { userId: '', tableName: '' }
 const dineNumber = wxCache.getCache(DINE_NUMB)
 
 export function uploadBillMenuListApi(singeMenu: IMenuList) {
@@ -21,14 +21,14 @@ export function uploadBillMenuListApi(singeMenu: IMenuList) {
   })
 }
 
-export function getCustomerUnFinishBillApi() {
+export function getCustomerUnFinishBillApi(data: any) {
   return wx.cloud.callFunction({
     name: 'bill',
     data: {
       url: '/bill/get/unFinishBill',
       data: {
-        userId,
-        tableName
+        userId: data.userId,
+        tableName: data.tablename
       }
     }
   })
@@ -56,14 +56,14 @@ export function deleteBillOrderListApi(
   })
 }
 
-export function getCustomerAllBillApi() {
+export function getCustomerAllBillApi(data: any) {
   return wx.cloud.callFunction({
     name: 'bill',
     data: {
       url: '/bill/get/customerAllBill',
       data: {
-        userId,
-        tableName
+        userId: data.userId,
+        tableName: data.tablename
       }
     }
   })

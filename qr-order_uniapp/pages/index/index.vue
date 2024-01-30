@@ -61,16 +61,16 @@ onLoad(async (e) => {
   tableName.value = e?.tablename
   wxCache.setCache(CODE_MSG, e)
 
-  const billStore = userBillStore()
-  const res = await billStore.getCustomerUnFinishBillAction()
+  await orderDataInit(e?.userId)
 
   // 当前用户是否有未结账订单
+  const billStore = userBillStore()
+  const res = await billStore.getCustomerUnFinishBillAction({ ...e })
+
   if (res.data.length) {
     uni.switchTab({
       url: '/pages/order/order'
     })
-  } else {
-    await orderDataInit(e?.userId)
   }
 })
 

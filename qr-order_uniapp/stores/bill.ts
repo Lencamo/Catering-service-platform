@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { CODE_MSG } from '../config/constants'
 import {
   deleteBillOrderListApi,
   getCustomerAllBillApi,
@@ -6,6 +7,7 @@ import {
   uploadBillMenuListApi
 } from '../service/bill'
 import { IMenuList, IBill } from '../types/bill'
+import { wxCache } from '../utils/cache'
 
 const useBillStore = defineStore('Bill', {
   state: () => ({
@@ -38,17 +40,21 @@ const useBillStore = defineStore('Bill', {
       }
     },
 
-    async getCustomerUnFinishBillAction() {
-      const { result: res }: any = await getCustomerUnFinishBillApi()
+    async getCustomerUnFinishBillAction(data?: any) {
+      if (!data) {
+        data = wxCache.getCache(CODE_MSG)
+      }
+
+      const { result: res }: any = await getCustomerUnFinishBillApi(data)
       // console.log(res)
 
       if (!res.code && res.data.length) {
         this.unFinishBill = res.data[0]
-      } else {
-        uni.showToast({
-          icon: 'error',
-          title: res.data.message
-        })
+
+        // uni.showToast({
+        //   icon: 'error',
+        //   title: '你有未结账订单！'
+        // })
       }
 
       return res
@@ -81,8 +87,10 @@ const useBillStore = defineStore('Bill', {
     },
 
     async getCustomerAllBillAction() {
-      const { result: res }: any = await getCustomerAllBillApi()
-      // console.log(res)
+      const data = wxCache.getCache(CODE_MSG)
+
+      const { result: res }: any = await getCustomerAllBillApi(data)
+      console.log(res)
 
       if (!res.code) {
         this.customerAllBill = res.data
