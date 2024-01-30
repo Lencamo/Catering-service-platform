@@ -97,6 +97,9 @@ import { computed, ref } from 'vue'
 import userBillStore from '../../stores/bill'
 import { IBill, IMenuList } from '../../types/bill'
 import { storeToRefs } from 'pinia'
+import { goeasyPublish } from '../../library/goEasy/index'
+import { wxCache } from '../../utils/cache'
+import { CODE_MSG } from '../../config/constants'
 
 const billStore = userBillStore()
 
@@ -112,7 +115,15 @@ billStore.$subscribe((mutation, state) => {
 const handleCancleOrder = async (order: IMenuList) => {
   const { _id: billId, moneySum, totalCount, unAcceptOrderNum } = unFinishAllBill.value
 
+	// 1、取消订单
   await billStore.deleteBillOrderListAction(billId, moneySum, totalCount, unAcceptOrderNum, order)
+	
+	// 2、goeasy 发送消息（即时通讯）
+	const { tablename } = wxCache.getCache(CODE_MSG)
+	goeasyPublish(JSON.stringify({
+		type: 'cancelOrder',
+		value: `${tablename}有新的点餐，请注意查收！`
+	}))
 }
 
 // 是否要展示当前bill中的所有food

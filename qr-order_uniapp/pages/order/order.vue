@@ -240,7 +240,10 @@ const orderOkBtn = async () => {
 
     // 2、goeasy 发送消息（即时通讯）
     const { tablename } = wxCache.getCache(CODE_MSG)
-    goeasyPublish(`${tablename}有新的点餐，请注意查收！`)
+    goeasyPublish(JSON.stringify({
+			type: 'addOrder',
+			value: `${tablename}有新的点餐，请注意查收！`
+		}))
   } else {
     uni.showToast({
       icon: 'none',

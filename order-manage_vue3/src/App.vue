@@ -23,20 +23,21 @@ goeasyConnect()
 
 // 接收订阅消息
 goeasySubscribe(async (channel: string, content: string) => {
-  // 消息提示
-  ElNotification({
-    title: '提示',
-    message: content,
-    type: 'warning'
-  })
+  const msg = JSON.parse(content)
 
-  // 更新数据
+  // 消息提示（用户点餐时）
+  if (msg.type === 'addOrder') {
+    ElNotification({
+      title: '提示',
+      message: `${msg.value}`,
+      type: 'warning'
+    })
+  }
+
+  // 更新数据（用户点餐、用户取消点餐时）
   if (route.path === '/main/bill') {
     await await billStore.getBillListAction({ offset: 0, size: 10 })
   }
-
-  // 语音提示
-  //
 })
 </script>
 
