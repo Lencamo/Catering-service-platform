@@ -30,6 +30,10 @@ pm2 start ecosystem.config.js
 
 &emsp;&emsp;商家后台管理系统
 
+## 说明
+
+&emsp;&emsp;在第三方库文件 library 文件夹中的，我没有上传私密性信息（GoEasy）的完整 `lib-config.ts` 文件，而是`lib-config.template.ts` 文件。大家可以根据自己的小程序、云开发信息完善 `lib-config.template.ts` 并将其改名为 lib-config.ts 文件即可。
+
 ## 项目启动
 
 ```sh
@@ -52,4 +56,4 @@ npm run build
 
 ## 说明
 
-&emsp;&emsp;同 order-manage_node 项目一样，我没有上传私密性信息的完整 `env.js` 文件，而是`env.template.js` 文件。大家可以根据自己的小程序、云开发信息完善 `env.template.js` 并将其改名为 env.js 文件即可。
+&emsp;&emsp;在第三方库文件 library 文件夹中的，我没有上传私密性信息（云开发、GoEasy）的完整 `lib-config.ts` 文件，而是`lib-config.template.ts` 文件。大家可以根据自己的小程序、云开发信息完善 `lib-config.template.ts` 并将其改名为 lib-config.ts 文件即可。

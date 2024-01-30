@@ -12,17 +12,31 @@ import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { goeasyConnect, goeasySubscribe } from './library/goEasy/index'
 import { ElNotification } from 'element-plus'
+import { useRoute } from 'vue-router'
+import usebillStore from '@/stores/main/bill'
+
+const route = useRoute()
+const billStore = usebillStore()
 
 // 建立 goeasy 连接
 goeasyConnect()
 
 // 接收订阅消息
-goeasySubscribe((channel, content) => {
+goeasySubscribe(async (channel: string, content: string) => {
+  // 消息提示
   ElNotification({
-    title: 'Warning',
+    title: '提示',
     message: content,
     type: 'warning'
   })
+
+  // 更新数据
+  if (route.path === '/main/bill') {
+    await await billStore.getBillListAction({ offset: 0, size: 10 })
+  }
+
+  // 语音提示
+  //
 })
 </script>
 
