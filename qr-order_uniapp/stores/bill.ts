@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { CODE_MSG } from '../config/constants'
+import { CODE_MSG, DINE_NUMB } from '../config/constants'
 import {
   deleteBillOrderListApi,
   getCustomerAllBillApi,
@@ -16,11 +16,24 @@ const useBillStore = defineStore('Bill', {
     customerAllBill: null as IBill[]
   }),
   getters: {
-    //
+    USER_ID() {
+      return wxCache.getCache(CODE_MSG).userId
+    },
+    TABLE_NAME() {
+      return wxCache.getCache(CODE_MSG).tablename
+    },
+    DINE_NUMB() {
+      return wxCache.getCache(DINE_NUMB)
+    }
   },
   actions: {
     async uploadBillMenuListAction(singeMenu: IMenuList) {
-      const { result: res }: any = await uploadBillMenuListApi(singeMenu)
+      const { result: res }: any = await uploadBillMenuListApi(
+        singeMenu,
+        this.USER_ID,
+        this.TABLE_NAME,
+        this.DINE_NUMB
+      )
       // console.log(res)
 
       if (!res.data.code) {
@@ -40,12 +53,8 @@ const useBillStore = defineStore('Bill', {
       }
     },
 
-    async getCustomerUnFinishBillAction(data?: any) {
-      if (!data) {
-        data = wxCache.getCache(CODE_MSG)
-      }
-
-      const { result: res }: any = await getCustomerUnFinishBillApi(data)
+    async getCustomerUnFinishBillAction() {
+      const { result: res }: any = await getCustomerUnFinishBillApi(this.USER_ID, this.TABLE_NAME)
       // console.log(res)
 
       if (!res.code && res.data.length) {
@@ -89,8 +98,8 @@ const useBillStore = defineStore('Bill', {
     async getCustomerAllBillAction() {
       const data = wxCache.getCache(CODE_MSG)
 
-      const { result: res }: any = await getCustomerAllBillApi(data)
-      console.log(res)
+      const { result: res }: any = await getCustomerAllBillApi(this.USER_ID, this.TABLE_NAME)
+      // console.log(res)
 
       if (!res.code) {
         this.customerAllBill = res.data

@@ -65,7 +65,7 @@ onLoad(async (e) => {
 
   // 当前用户是否有未结账订单
   const billStore = userBillStore()
-  const res = await billStore.getCustomerUnFinishBillAction({ ...e })
+  const res = await billStore.getCustomerUnFinishBillAction()
 
   if (res.data.length) {
     uni.switchTab({
