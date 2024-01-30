@@ -14,6 +14,7 @@ import { goeasyConnect, goeasySubscribe } from './library/goEasy/index'
 import { ElNotification } from 'element-plus'
 import { useRoute } from 'vue-router'
 import usebillStore from '@/stores/main/bill'
+import { speakInit, speakSay } from './library/speak-tts/index'
 
 const route = useRoute()
 const billStore = usebillStore()
@@ -21,12 +22,19 @@ const billStore = usebillStore()
 // 建立 goeasy 连接
 goeasyConnect()
 
+// 初始化 speak-tts
+speakInit()
+
 // 接收订阅消息
 goeasySubscribe(async (channel: string, content: string) => {
   const msg = JSON.parse(content)
 
-  // 消息提示（用户点餐时）
+  // 更新提示（用户点餐时）
   if (msg.type === 'addOrder') {
+    // - 语音播报
+    speakSay(msg.value)
+
+    // - 通知提示
     ElNotification({
       title: '提示',
       message: `${msg.value}`,
