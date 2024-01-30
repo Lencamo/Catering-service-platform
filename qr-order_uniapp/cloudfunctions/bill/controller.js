@@ -79,11 +79,18 @@ class billController {
 
   async deleteBillOrderList(data) {
     // 1、数据准备
-    const { billId, moneySum, totalCount, unAcceptOrderNum, order } = data
+    const { billId, moneySum, totalCount, unAcceptOrderNum, orderIndex } = data
 
     // 2、云数据交互
-    const newMoneySum = moneySum - order.orderMoneySum
-    const newTotalCount = totalCount - order.orderTotalCount
+    // - 获取要修改的bill订单
+    const bill = await billService.findBilById(billId)
+
+    // - 更新数据（去除指定的order）
+    const deleteOrder = bill.menuList.splice(orderIndex, 1)
+    const newMenuList = bill.menuList
+
+    const newMoneySum = moneySum - deleteOrder[0].orderMoneySum
+    const newTotalCount = totalCount - deleteOrder[0].orderTotalCount
     const newUnAcceptOrderNum = unAcceptOrderNum - 1
 
     const result = await billService.deleteBillOrderList(
@@ -91,7 +98,7 @@ class billController {
       newMoneySum,
       newTotalCount,
       newUnAcceptOrderNum,
-      order
+      newMenuList
     )
 
     // 3、返回数据

@@ -65,25 +65,33 @@ class billService {
     return result
   }
 
+  // =============
+
+  async findBilById(billId) {
+    const result = await db.collection('c_bill').doc(billId).get()
+    // console.log(result)
+
+    return result.data
+  }
+
   // 取消某次未接单的orderList
-  async deleteBillOrderList(billId, moneySum, totalCount, unAcceptOrderNum, order) {
-    const result = await db
-      .collection('c_bill')
-      .doc(billId)
-      .update({
-        data: {
-          moneySum,
-          totalCount,
+  async deleteBillOrderList(billId, moneySum, totalCount, unAcceptOrderNum, menuList) {
+    const result = await db.collection('c_bill').doc(billId).update({
+      data: {
+        moneySum,
+        totalCount,
 
-          unAcceptOrderNum,
+        unAcceptOrderNum,
 
-          menuList: _.pull(order)
-        }
-      })
+        menuList
+      }
+    })
     // console.log(result)
 
     return result
   }
+
+  // =============
 
   // 获取当前消费者当前桌号的订单数据
   async getCustomerAllBill(openId, userId, tableName) {

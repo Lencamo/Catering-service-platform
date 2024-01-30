@@ -39,7 +39,7 @@ export function deleteBillOrderListApi(
   moneySum: number,
   totalCount: number,
   unAcceptOrderNum: number,
-  order: IMenuList
+  orderIndex: number
 ) {
   return wx.cloud.callFunction({
     name: 'bill',
@@ -50,7 +50,7 @@ export function deleteBillOrderListApi(
         moneySum,
         totalCount,
         unAcceptOrderNum,
-        order
+        orderIndex
       }
     }
   })

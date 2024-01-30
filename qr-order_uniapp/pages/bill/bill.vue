@@ -32,7 +32,7 @@
             <view
               class="accept-btn is-active"
               v-if="!order.acceptStatus"
-              @click="handleCancleOrder(order)"
+              @click="handleCancleOrder(index)"
               >取消点餐</view
             >
           </view>
@@ -100,7 +100,7 @@ import { storeToRefs } from 'pinia'
 import { goeasyPublish } from '../../library/goEasy/index'
 import { wxCache } from '../../utils/cache'
 import { CODE_MSG } from '../../config/constants'
-import {goeasySubscribe } from '../../library/goEasy/index'
+import { goeasySubscribe } from '../../library/goEasy/index'
 
 const billStore = userBillStore()
 
@@ -114,20 +114,26 @@ billStore.$subscribe((mutation, state) => {
 goeasySubscribe(async (channel: string, content: string) => {
   const msg = JSON.parse(content)
 
-	// 更新数据
+  // 更新数据
   if (msg.type === 'acceptOrder') {
-		await orderDataInit()
+    await orderDataInit()
   }
 })
 
 // ===============
 
 // 是否取消当前bill中的某次Order
-const handleCancleOrder = async (order: IMenuList) => {
+const handleCancleOrder = async (orderIndex: number) => {
   const { _id: billId, moneySum, totalCount, unAcceptOrderNum } = unFinishAllBill.value
 
   // 1、取消订单
-  await billStore.deleteBillOrderListAction(billId, moneySum, totalCount, unAcceptOrderNum, order)
+  await billStore.deleteBillOrderListAction(
+    billId,
+    moneySum,
+    totalCount,
+    unAcceptOrderNum,
+    orderIndex
+  )
 
   // 2、goeasy 发送消息（即时通讯）
   const { tablename } = wxCache.getCache(CODE_MSG)
