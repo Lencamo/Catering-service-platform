@@ -100,6 +100,7 @@ import { storeToRefs } from 'pinia'
 import { goeasyPublish } from '../../library/goEasy/index'
 import { wxCache } from '../../utils/cache'
 import { CODE_MSG } from '../../config/constants'
+import {goeasySubscribe } from '../../library/goEasy/index'
 
 const billStore = userBillStore()
 
@@ -109,21 +110,33 @@ billStore.$subscribe((mutation, state) => {
   unFinishAllBill.value = state.unFinishBill
 })
 
+// 接收GoEasy订阅消息
+goeasySubscribe(async (channel: string, content: string) => {
+  const msg = JSON.parse(content)
+
+	// 更新数据
+  if (msg.type === 'acceptOrder') {
+		await orderDataInit()
+  }
+})
+
 // ===============
 
 // 是否取消当前bill中的某次Order
 const handleCancleOrder = async (order: IMenuList) => {
   const { _id: billId, moneySum, totalCount, unAcceptOrderNum } = unFinishAllBill.value
 
-	// 1、取消订单
+  // 1、取消订单
   await billStore.deleteBillOrderListAction(billId, moneySum, totalCount, unAcceptOrderNum, order)
-	
-	// 2、goeasy 发送消息（即时通讯）
-	const { tablename } = wxCache.getCache(CODE_MSG)
-	goeasyPublish(JSON.stringify({
-		type: 'cancelOrder',
-		value: `${tablename}有新的点餐，请注意查收！`
-	}))
+
+  // 2、goeasy 发送消息（即时通讯）
+  const { tablename } = wxCache.getCache(CODE_MSG)
+  goeasyPublish(
+    JSON.stringify({
+      type: 'cancelOrder',
+      value: `${tablename}有新的点餐，请注意查收！`
+    })
+  )
 }
 
 // 是否要展示当前bill中的所有food

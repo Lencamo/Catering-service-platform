@@ -25,7 +25,7 @@ goeasyConnect()
 // 初始化 speak-tts
 speakInit()
 
-// 接收订阅消息
+// 接收GoEasy订阅消息
 goeasySubscribe(async (channel: string, content: string) => {
   const msg = JSON.parse(content)
 

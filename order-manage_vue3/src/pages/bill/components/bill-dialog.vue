@@ -68,6 +68,7 @@
 import { ref } from 'vue'
 import type { IBillData, IMenuList } from '@/types/main/bill'
 import usebillStore from '@/stores/main/bill'
+import { goeasyPublish } from '@/library/goEasy/index'
 
 const dialogVisible = ref(false)
 
@@ -100,6 +101,14 @@ const handleAcceptOrderBtn = async (orderIndex: number) => {
 
   if (!result.code) {
     dialogData.value![orderIndex].acceptStatus = true // 显示同步
+
+    // goeasy 发送消息（即时通讯）
+    goeasyPublish(
+      JSON.stringify({
+        type: 'acceptOrder',
+        value: '点餐以接收！'
+      })
+    )
   }
 }
 
