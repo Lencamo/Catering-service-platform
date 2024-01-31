@@ -54,7 +54,7 @@ goeasySubscribe(async (channel: string, content: string) => {
   width: 100vw;
   height: 100vh;
   background-color: #e8eaed;
-  /* background: url(./assets/imgs/background.jpg) no-repeat;
-  background-size: cover; */
+  background: url(./assets/imgs/background2.jpg) no-repeat;
+  background-size: cover;
 }
 </style>

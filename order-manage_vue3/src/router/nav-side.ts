@@ -1,13 +1,13 @@
 export default [
-  {
-    path: '/main/analysis',
-    component: () => import('@/pages/analysis/analysis.vue'),
-    meta: {
-      id: 1,
-      title: '数据分析',
-      icon: 'Histogram'
-    }
-  },
+  // {
+  //   path: '/main/analysis',
+  //   component: () => import('@/pages/analysis/analysis.vue'),
+  //   meta: {
+  //     id: 1,
+  //     title: '数据分析',
+  //     icon: 'Histogram'
+  //   }
+  // },
   {
     path: '/main/bill',
     component: () => import('@/pages/bill/bill.vue'),
