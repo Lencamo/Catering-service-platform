@@ -78,10 +78,14 @@ let dialogData = ref<IMenuList[]>()
 // 完整的订单数据
 const billDetails = ref<IBillData>()
 
+// 修复在一个订单详情中同时接收多个点餐时 unAcceptOrderNum 更新异常的bug🎉
+let unAcceptOrderNumTemp = 0
+
 const setBillDialogVisible = (bill: IBillData) => {
   dialogVisible.value = true
 
   billDetails.value = bill
+  unAcceptOrderNumTemp = bill.unAcceptOrderNum
   dialogData.value = bill.menuList
 }
 
@@ -95,12 +99,13 @@ const billStore = usebillStore()
 const handleAcceptOrderBtn = async (orderIndex: number) => {
   const result = await billStore.updateBillAcceptStatusAction({
     billId: billDetails.value?._id,
-    unAcceptOrderNum: billDetails.value?.unAcceptOrderNum,
+    unAcceptOrderNum: unAcceptOrderNumTemp,
     orderIndex
   })
 
   if (!result.code) {
-    dialogData.value![orderIndex].acceptStatus = true // 显示同步
+    dialogData.value![orderIndex].acceptStatus = true // 订单详情 显示同步
+    unAcceptOrderNumTemp-- // 更新 unAcceptOrderNumTemp
 
     // goeasy 发送消息（即时通讯）
     goeasyPublish(
