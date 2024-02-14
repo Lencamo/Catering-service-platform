@@ -1,6 +1,10 @@
 ## API 文档
 
-> https://apifox.com/apidoc/shared-8802cb6d-1a4a-4035-843c-de1e1c6ae864
+&emsp;&emsp;[【lencamo】- 餐饮服务平台 Api 文档](https://apifox.com/apidoc/shared-8802cb6d-1a4a-4035-843c-de1e1c6ae864)
+
+## 视频解读
+
+&emsp;&emsp;[【lencamo】- 餐饮服务平台项目简介](https://www.bilibili.com/video/BV1pm411Q7m5/)
 
 ## 项目后期规划
 
